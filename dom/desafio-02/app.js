@@ -7,7 +7,7 @@ new Vue({
         alerta(){
             alert("Estou te alertando!")
         },
-        keydown(event){
+        alterarValor(event){
             this.valor = event.target.value
         }
     }
