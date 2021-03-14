@@ -1,0 +1,19 @@
+.barra-progresso{
+	height: 30px;
+	width: 500px;
+	border: 1px solid rgb(0, 0, 0);
+}
+
+.progresso {
+	background-color: rgb(0, 255, 85);
+	height: 100%;
+	max-width: 500px;
+	min-width: 0px;
+}
+
+.progresso_critical {
+	background-color: rgb(230, 54, 30);
+	height: 100%;
+	max-width: 500px;
+	min-width: 0px;
+}

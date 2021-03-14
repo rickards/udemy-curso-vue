@@ -1,0 +1,45 @@
+<meta charset="UTF-8">
+<script src="https://unpkg.com/vue"></script>
+<link rel="stylesheet" href="styles.css">
+
+<div id="game">
+    <div>
+        Jogador
+        <div class="barra-progresso">
+            <div :class="[{progresso: progressJogador>100, progresso_critical:progressJogador<100}]" :style="{width: progressJogador}"></div>
+        </div>
+        {{ Math.round(progressJogador) }}
+        <hr>
+        Monstro
+        <div class="barra-progresso">
+            <div :class="[{progresso: progressMonstro>100, progresso_critical: progressMonstro<100}]" :style="{width: progressMonstro}"></div>
+        </div>
+        {{ Math.round(progressMonstro) }}
+    </div>
+    <hr>
+    <div v-show="!playning">
+        <span v-if="progressMonstro==0"> Você Ganhou!!</span>
+        <span v-if="progressJogador==0"> Você Perdeu!!</span>
+    </div>
+    <div>
+        <button v-if="!playning" @click="iniciarGame">Iniciar Novo Jogo</button>
+        <template v-if="playning">
+            <button @click="actionGame(50, 80, 0)">Ataque</button>
+            <button @click="actionGame(70, 40, 0)">Ataque Especial</button>
+            <button @click="actionGame(0, 80, 70)">Curar</button>
+        </template>
+        <button @click="playning=!playning" v-if="playning">Desistir</button>
+    </div>
+    <div>
+        <ul>
+            <li v-for="action in log">
+                <span v-for="(valor) in action">
+                    {{ valor }} 
+                </span>
+                pts .
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="app.js"></script>
