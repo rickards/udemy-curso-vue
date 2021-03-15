@@ -1,45 +1,66 @@
-<meta charset="UTF-8">
-<script src="https://unpkg.com/vue"></script>
-<link rel="stylesheet" href="styles.css">
+<!DOCTYPE html>
 
-<div id="game">
-    <div>
-        Jogador
-        <div class="barra-progresso">
-            <div :class="[{progresso: progressJogador>100, progresso_critical:progressJogador<100}]" :style="{width: progressJogador}"></div>
+<head>
+    <title>Matador de Monstros</title>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="game">
+        <div class="panel">
+
+            <div class="score">
+                <h1>Jogador</h1>
+                <div class="barra-progresso">
+                    <div :class="[{progresso: progressJogador>100, progresso_critical:progressJogador<100}]"
+                        :style="{width: progressJogador + 'px'}"></div>
+                </div>
+                <h1>{{ progressJogador }}</h1>
+            </div>
+
+            <div class="score">
+                <h1>Monstro</h1>
+                <div class="barra-progresso">
+                    <div :class="[{progresso: progressMonstro>100, progresso_critical: progressMonstro<100}]"
+                        :style="{width: progressMonstro + 'px'}"></div>
+                </div>
+                <h1>{{ progressMonstro }}</h1>
+            </div>
+
         </div>
-        {{ Math.round(progressJogador) }}
-        <hr>
-        Monstro
-        <div class="barra-progresso">
-            <div :class="[{progresso: progressMonstro>100, progresso_critical: progressMonstro<100}]" :style="{width: progressMonstro}"></div>
+
+        <div class="panel" v-show="!playning && log.length!=0">
+            <span v-if="progressMonstro==0 & progressJogador==0"> Empatou!!</span>
+            <template v-else>
+                <span v-if="progressMonstro==0"> Você Ganhou!!</span>
+                <span v-if="progressJogador==0"> Você Perdeu!!</span>
+            </template>
         </div>
-        {{ Math.round(progressMonstro) }}
+
+        <div class="panel">
+            <button v-if="!playning" @click="iniciarGame">Iniciar Novo Jogo</button>
+            <template v-if="playning">
+                <button @click="actionGame(50, 80, 0)">Ataque</button>
+                <button @click="actionGame(70, 40, 0)">Ataque Especial</button>
+                <button @click="actionGame(0, 80, 70)">Curar</button>
+            </template>
+            <button @click="playning=!playning" v-if="playning">Desistir</button>
+        </div>
+        <div class="panel">
+            <ul>
+                <li v-for="action in log">
+                    <span v-for="(valor) in action">
+                        {{ valor }}
+                    </span>
+                    pts .
+                </li>
+            </ul>
+        </div>
     </div>
-    <hr>
-    <div v-show="!playning">
-        <span v-if="progressMonstro==0"> Você Ganhou!!</span>
-        <span v-if="progressJogador==0"> Você Perdeu!!</span>
-    </div>
-    <div>
-        <button v-if="!playning" @click="iniciarGame">Iniciar Novo Jogo</button>
-        <template v-if="playning">
-            <button @click="actionGame(50, 80, 0)">Ataque</button>
-            <button @click="actionGame(70, 40, 0)">Ataque Especial</button>
-            <button @click="actionGame(0, 80, 70)">Curar</button>
-        </template>
-        <button @click="playning=!playning" v-if="playning">Desistir</button>
-    </div>
-    <div>
-        <ul>
-            <li v-for="action in log">
-                <span v-for="(valor) in action">
-                    {{ valor }} 
-                </span>
-                pts .
-            </li>
-        </ul>
-    </div>
-</div>
+</body>
+
+
 
 <script src="app.js"></script>

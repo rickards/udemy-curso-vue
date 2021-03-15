@@ -2,15 +2,15 @@ new Vue({
 	el: '#game',
 	data: {
         playning: false,
-		progressJogador: "500",
-        progressMonstro: "500",
+		progressJogador: 500,
+        progressMonstro: 500,
         log : [],
 	},
     methods: {
         actionGame(x, y, c) {
-            let atkJogador = Math.random()*x
-            let atkMonstro = Math.random()*y
-            let cura = Math.random()*c
+            let atkJogador = this.getRandom(0, x)
+            let atkMonstro = this.getRandom(0, y)
+            let cura = this.getRandom(0, c)
             this.progressJogador = this.progressJogador - atkMonstro
             this.progressMonstro = this.progressMonstro - atkJogador
             this.progressJogador = this.progressJogador + cura
@@ -21,22 +21,23 @@ new Vue({
                 recebedor: c > 0 ? "JOGADOR" : "MONSTRO",
                 pts: c > 0 ? cura : atkJogador,
             }
-            this.log.push(actionJogador)
-
+            
             actionMonstro = {
                 atacante: "MONSTRO",
                 acao: "ATINGIU",
                 recebedor: "JOGADOR",
                 pts:atkMonstro,
             }
-            this.log.push(actionMonstro)
+            
+            this.log.unshift(actionJogador)
+            this.log.unshift(actionMonstro)
             this.isgameover()
         },
         iniciarGame(){
-            this.playning =! this.playning
+            this.playning = !this.playning
             this.log = []
-            this.progressJogador = "500"
-            this.progressMonstro = "500"
+            this.progressJogador = 500
+            this.progressMonstro = 500
         },
         isgameover(){
             if (this.progressJogador<=0){
@@ -47,6 +48,10 @@ new Vue({
                 this.progressMonstro = 0
                 this.playning = false
             }
+        },
+        getRandom(min, max){
+            const value = Math.random() * (max-min)+min
+            return Math.round(value)
         }
     }
 })

@@ -1,3 +1,8 @@
+/* #game{
+	display: flex;
+	flex-direction: column;
+} */
+
 .barra-progresso{
 	height: 30px;
 	width: 500px;
@@ -7,13 +12,24 @@
 .progresso {
 	background-color: rgb(0, 255, 85);
 	height: 100%;
-	max-width: 500px;
-	min-width: 0px;
 }
 
 .progresso_critical {
 	background-color: rgb(230, 54, 30);
 	height: 100%;
-	max-width: 500px;
-	min-width: 0px;
+}
+
+.panel {
+	display: flex;
+	justify-content: center;
+	margin: 10px;
+	padding: 20px;
+	box-shadow: 0 2px 10px rgb(0, 0, 0, 0.15);
+}
+
+.score {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex: 1;
 }
