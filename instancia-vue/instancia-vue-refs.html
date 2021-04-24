@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <h1 ref="aulaRef">{{ aula }}</h1>
+    <h2>{{ modulo }}</h2>
+    <button @click="alterarAula">Alterar Aula</button>
+    <button @click="alterarModulo">Alterar Modulo</button>
+</div>
+
+<script>
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            aula: 'Aula: Usando refs',
+            modulo: 'Módulo: Instância vue'
+        },
+        methods: {
+            alterarAula() {
+                this.aula += "#"
+                console.log(this.aula)
+            },
+            alterarModulo() {
+                this.modulo += '#'
+            }
+        }
+    })
+
+    vm.$refs.aulaRef.innerText = 'Alterado diretamente :('
+</script>
