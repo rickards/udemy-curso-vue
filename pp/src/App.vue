@@ -1,20 +1,24 @@
 <template>
   <div>
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <LineChart/>
+    <!-- <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <component :is="page"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import LineChart from './components/LineChart.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import PP from './pages/PP.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    LineChart
+    PP
+  },
+  data() {
+    return {
+      page: 'PP'
+    }
   }
 }
 </script>
