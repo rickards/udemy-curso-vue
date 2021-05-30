@@ -3,6 +3,11 @@
         class="bill" :class="stateClass">
         <span @click.stop="$emit('billDeleted', bill)" class="close">x</span>
         <p>{{ bill.name }}</p>
+        <div class="center">
+            <p class="center-item">{{ bill.value }}</p>
+            <p class="center-item">{{ bill.percent }}%</p>
+        </div>
+        <p>Min: Max:</p>
     </div>
 </template>
 
@@ -26,17 +31,28 @@ export default {
     .bill {
         position: relative;
         box-sizing: border-box;
-        width: 350px;
-        height: 150px;
-        padding: 10px;
+        width: 250px;
+        height: 100%;
         border-radius: 8px;
-        font-size: 2rem;
-        font-weight: 300;
+        font-size: min(1.2rem, 5vw);
+        /* font-weight: 300; */
         cursor: pointer;
-        user-select: none;
+        /* user-select: none; */
+        /* display: absolute; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        
+    }
+
+    .center {
         display: flex;
-        justify-content: center;
-        align-items: center;
+    }
+
+    .center-item{
+        width: 48%;
+        font-size: min(1.8rem, 5vw);
+        border-style: solid;
+        border-color: rgb(185, 181, 181);
     }
 
     .pending {
@@ -45,10 +61,10 @@ export default {
     }
 
     .done {
-        color: #DDD;
-        border-left: 12px solid #0A8F08;
-        background-color: #4CAF50;
-        text-decoration: line-through;
+        color: rgb(17, 17, 17);
+        border-left: 12px solid #f0f5f0;
+        background-color: #f0f5f0;
+        /* text-decoration: line-through; */
     }
 
     .pending .close {
@@ -56,7 +72,7 @@ export default {
     }
 
     .done .close {
-        background-color: #0A8F08;
+        background-color: #b2b4bb;
     }
 
     .close {
@@ -70,5 +86,33 @@ export default {
         border-radius: 10px;
         display: flex;
         justify-content: center;
+    }
+
+    .value {
+        position: absolute;
+        right: 152px;
+        top: 25px;
+        border-radius: 5px;
+        border-style: solid;
+        border-color: rgb(185, 181, 181);
+        width: 120px;
+        height: 40px;
+    }
+
+    .percent {
+        position: absolute;
+        left: 152px;
+        top: 25px;
+        border-radius: 5px;
+        border-style: solid;
+        border-color: rgb(185, 181, 181);
+        width: 120px;
+        height: 40px;
+    }
+
+    .title {
+        position: absolute;
+        padding-left: 30px;
+        font-size: 1.2rem;
     }
 </style>

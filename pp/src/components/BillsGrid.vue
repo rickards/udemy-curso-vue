@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h5 v-if="title">{{title}}</h5>
+    <div class="modal">
+        <h2 v-if="title">{{title}}</h2>
         <div class="bill-grid">
             <template v-if="bills.length">
                 <Bill v-for="(bill, i) in bills" :key="bill.name"
