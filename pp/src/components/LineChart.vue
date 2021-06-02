@@ -457,3 +457,12 @@ export default {
   },
 };
 </script>
+
+<style>
+  button{
+    outline: none;
+    border: 1px solid rgb(3, 3, 3);
+    background-color: #2195f3bb;
+    font-size: 1rem;
+  }
+</style>

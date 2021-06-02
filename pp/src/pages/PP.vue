@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import db from '@/helpers/db'
 import Translations from '@/helpers/translations'
 import BillsGrid from '../components/BillsGrid.vue'
 import LineChart from '../components/LineChart.vue'
@@ -48,6 +49,10 @@ export default {
             }
           ]
       }
+  },
+  created(){
+    let listResult = db.runAndroidMethod("getExpenses")
+    console.log(listResult)
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div @click="$emit('billStateChanged', bill)"
-        class="bill" :class="stateClass">
+        class="column bill" :class="stateClass">
         <span @click.stop="$emit('billDeleted', bill)" class="close">x</span>
         <p>{{ bill.name }}</p>
         <div class="center">
@@ -31,17 +31,35 @@ export default {
     .bill {
         position: relative;
         box-sizing: border-box;
-        width: 250px;
-        height: 100%;
         border-radius: 8px;
         font-size: min(1.2rem, 5vw);
         /* font-weight: 300; */
         cursor: pointer;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         /* user-select: none; */
         /* display: absolute; */
         /* justify-content: center; */
         /* align-items: center; */
         
+    }
+
+    /* Float four columns side by side */
+    .column {
+        width: 25%;
+    }
+
+    /* Responsive columns - one column layout (vertical) on small screens */
+    @media screen and (min-width: 1201px) and  (max-width: 1600px){
+        .column {
+            width: 40%;
+        }
+    }
+
+    /* Responsive columns - one column layout (vertical) on small screens */
+    @media screen and (max-width: 1200px) {
+        .column {
+            width: 100%;
+        }
     }
 
     .center {

@@ -8,16 +8,18 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import PP from './pages/PP.vue'
+import PP from './pages/PP'
+import Despesas from './pages/Despesas'
 
 export default {
   name: 'App',
   components: {
-    PP
+    PP,
+    Despesas
   },
   data() {
     return {
-      page: 'PP'
+      page: 'Despesas'
     }
   }
 }
