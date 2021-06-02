@@ -1,7 +1,9 @@
 <template>
   <div>
-      <h1>Explorador de Despesas</h1>
-      <new-bill/>
+      <div class="input-new-bill">
+        <h1>Explorador de Despesas</h1>
+        <new-bill/>
+      </div>
       <div>
         <line-chart v-if="lineChartShow" />
         <StockGrid :stockCards="assetsBills"/>
@@ -69,4 +71,8 @@ export default {
 </script>
 
 <style>
+  .input-new-bill {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 0.5%;
+  }
 </style>

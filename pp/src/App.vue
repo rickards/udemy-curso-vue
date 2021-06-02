@@ -3,6 +3,10 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <component :is="page"/>
+    <div>
+      <Button @click="page = 'Despesas'">Despesas</Button>
+      <Button @click="page = 'PP'">PP</Button>
+    </div>
   </div>
 </template>
 
@@ -19,7 +23,7 @@ export default {
   },
   data() {
     return {
-      page: 'Despesas'
+      page: 'PP'
     }
   }
 }
@@ -32,6 +36,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 2%;
 }
 </style>
