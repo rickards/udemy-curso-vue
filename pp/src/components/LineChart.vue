@@ -4,7 +4,7 @@
       <button
         id="one_month"
         @click="updateData('one_month')"
-        :class="{ active: selection === 'one_month' }"
+        :class="{ active: selection === 'one_month', 'chart-button': true }"
       >
         1M
       </button>
@@ -12,7 +12,7 @@
       <button
         id="six_months"
         @click="updateData('six_months')"
-        :class="{ active: selection === 'six_months' }"
+        :class="{ active: selection === 'six_months', 'chart-button': true }"
       >
         6M
       </button>
@@ -20,7 +20,7 @@
       <button
         id="one_year"
         @click="updateData('one_year')"
-        :class="{ active: selection === 'one_year' }"
+        :class="{ active: selection === 'one_year', 'chart-button': true }"
       >
         1Y
       </button>
@@ -28,7 +28,7 @@
       <button
         id="ytd"
         @click="updateData('ytd')"
-        :class="{ active: selection === 'ytd' }"
+        :class="{ active: selection === 'ytd', 'chart-button': true }"
       >
         YTD
       </button>
@@ -36,7 +36,7 @@
       <button
         id="all"
         @click="updateData('all')"
-        :class="{ active: selection === 'all' }"
+        :class="{ active: selection === 'all', 'chart-button': true }"
       >
         ALL
       </button>
@@ -459,7 +459,7 @@ export default {
 </script>
 
 <style>
-  button{
+  .chart-button{
     outline: none;
     border: 1px solid rgb(3, 3, 3);
     background-color: #2195f3bb;

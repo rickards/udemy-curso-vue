@@ -4,8 +4,9 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <component :is="page"/>
     <div>
-      <Button @click="page = 'Despesas'">Despesas</Button>
-      <Button @click="page = 'PP'">PP</Button>
+      <button @click="page = 'AccountRecord'">RegistroContábil</button>
+      <button @click="page = 'ExpenseExplorer'">Explorador de Despesas</button>
+      <button @click="page = 'PP'">PP</button>
     </div>
   </div>
 </template>
@@ -13,13 +14,15 @@
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import PP from './pages/PP'
-import Despesas from './pages/Despesas'
+import ExpenseExplorer from './pages/ExpenseExplorer'
+import AccountRecord from './pages/AccountRecord'
 
 export default {
   name: 'App',
   components: {
     PP,
-    Despesas
+    ExpenseExplorer,
+    AccountRecord
   },
   data() {
     return {

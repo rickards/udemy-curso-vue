@@ -19,7 +19,7 @@ import NewBill from '../components/NewBill'
 import LineChart from '../components/LineChart.vue'
 
 export default {
-  name: "PP",
+  name: "ExpenseExplore",
   components: {
     StockGrid,
     NewBill,
