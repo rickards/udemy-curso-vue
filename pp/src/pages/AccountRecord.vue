@@ -1,18 +1,18 @@
 <template>
     <div class="account-record">
         <h1>Registro Contábil</h1>
-        <select name="tipo" v-model="label">
+        <select name="tipo" v-model="natureCombobox">
             <option value="gasto" selected>Gasto</option>
             <option value="ganho">Ganho</option>
             <option value="investimento">Investimentos</option>
         </select>
         <input type="date" :value="date">
-        <input type="text" placeholder="nome descritor" v-model="name">
-        <input type="number" placeholder="valor">
+        <input type="text" placeholder="nome descritor" v-model="billname">
+        <input type="number" placeholder="valor" v-model="value">
         <div>
             <input v-model="isAsset" type="checkbox"> <label>Bem</label>
         </div>
-        <div v-show="label=='investimento'">
+        <div v-show="natureCombobox=='investimento'">
             <label>Quantidade de cotas:</label>
             <input type="number" placeholder="5" style="width:50px;" v-model="numberQuotes">
         </div>
@@ -28,102 +28,107 @@ export default {
     name: 'AccountRecord',
     data() {
         return {
-            date: '',
-            label: 'gasto',
+            natureCombobox: 'gasto',
+            date: undefined,
             info: false,
-            value: 0,
-            id: undefined,
             isAsset: false,
-            name: undefined,
-            numberQuotes: undefined
+            value: undefined,
+            id: undefined,
+            billname: undefined,
+            numberQuotes: undefined,
+            type: undefined
         }
     },
     created(){
-        this.preload()
+        this.preloadSetup()
     },
     watch: {
-        label(n){
-            console.log(n)
+        natureCombobox(){
+            this.typeFromSetup()
         }
     },
     methods: {
-        capitalize(value){
-            return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        preloadSetup(){
+            this.loadParamsURL()
+            this.mappingSetupFromLabel() 
         },
-        preload(){
+        loadParamsURL(){
             var url = new URL(window.location.href);
             this.id = url.searchParams.get("id");
-            this.name = url.searchParams.get("name");
+            this.billname = url.searchParams.get("label");
             this.date = url.searchParams.get("date") || new Date().toISOString().slice(0,10);
             const price = url.searchParams.get("value") || this.value;
             this.value = parseFloat(price)
-            const type = url.searchParams.get("type");
-
-            switch (type) {
+            this.type = url.searchParams.get("type");
+        },
+        mappingSetupFromLabel(){
+            switch (this.type) {
                 case 'Bem_ganho':
                     this.isAsset = true
-                    this.label = 'ganho'
+                    this.natureCombobox = 'ganho'
                     break
                 case 'Bem_gasto':
                     this.isAsset = true
-                    this.label = 'gasto'
+                    this.natureCombobox = 'gasto'
                     break
                 case 'Receita':
                     this.isAsset = false
-                    this.label = 'ganho'
+                    this.natureCombobox = 'ganho'
                     break
                 case 'Despesa':
                     this.isAsset = false
-                    this.label = 'gasto'
+                    this.natureCombobox = 'gasto'
                     break
                 case 'Investimento':
                     this.isAsset = false
-                    this.label = 'investimento'
+                    this.natureCombobox = 'investimento'
                     break
                 default:
             }
         },
         sendRecord(){
-            // Adiciona ao banco de dados os atributos de registro
-            let type = undefined;
-            switch (this.label) {
-                case 'ganho':
-                    type = this.isAsset ? 'Bem_ganho' : 'Receita'
-                    break
-                case 'gasto':
-                    type = this.isAsset ? 'Bem_gasto' : 'Despesa'
-                    break
-                default:
-                    type = this.label
-                    break
-            }
-
-            // Gatilho para função em android para adicionar um objeto expense
-            var expense = {}
-            expense.name = this.capitalize(this.name)
-            expense.value = this.value
-            expense.date = this.date
-            expense.type = type
-            if (type == "Investimento") {
-                expense.qtde = this.numberQuotes
-                expense.name = expense.name.toUpperCase()
-            }
-
-            if (!this.name || !this.value || !this.date || !type) {
-                console.log(this.name, this.value, this.date, type)
-                this.info = true
-            } else {
-                this.name = ''
-                this.value = ''
-                this.isAsset = false
-                this.info = false
+            if (this.validData()){
+                var expense = {
+                    billname: this.natureCombobox == "Investimento"? this.billname.toUpperCase() : this.capitalize(this.billname),
+                    value: this.value,
+                    date: this.date,
+                    type: this.type,
+                    qtde: this.numberQuotes
+                }
                 if (this.id) {
                     expense.id = this.id
                     db.runAndroidMethod("updateExpense", JSON.stringify(expense))
                 } else {
                     db.runAndroidMethod("addExpense", JSON.stringify(expense))
                 }
-                window.history.back()
+                this.clearForm()
+            } else {
+                this.info = true
+            }
+        },
+        validData(){
+            return this.billname && this.value && this.date && this.type
+        },
+        capitalize(string){
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+        },
+        clearForm(){
+            this.billname = ''
+            this.value = ''
+            this.isAsset = false
+            this.info = false
+        },
+        typeFromSetup(){
+            switch (this.natureCombobox) {
+                case 'ganho':
+                    this.type = this.isAsset ? 'Bem_ganho' : 'Receita'
+                    break
+                case 'gasto':
+                    this.type = this.isAsset ? 'Bem_gasto' : 'Despesa'
+                    break
+                default:
+                    this.type = this.natureCombobox
+                    break
             }
         }
     }
