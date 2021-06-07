@@ -1,6 +1,6 @@
 <template>
     <div class="new-bill">
-        <input v-model="name" @keydown.enter="add" type="text"
+        <input v-model="regex" @keydown.enter="add" type="text"
             class="form-element" placeholder="<conta> = <sua regex>">
         <button class="form-element" @click="add">+</button>
     </div>
@@ -10,13 +10,13 @@
 export default {
     data() {
         return {
-            name: ''
+            regex: ''
         }
     },
     methods: {
         add() {
-            this.$emit('billAdded', { name: this.name })
-            this.name = ''
+            this.$emit('billAdded', { regex: this.regex })
+            this.regex = ''
         }
     }
 }

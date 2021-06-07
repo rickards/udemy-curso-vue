@@ -52,7 +52,27 @@ export default {
   },
   created(){
     let listResult = db.runAndroidMethod("getExpenses")
-    console.log(listResult)
+    let map = this.splitForLabels(listResult)
+    console.log(map)
+
+  },
+  methods: {
+    splitForLabels(array){
+      var types = new Map();
+
+      var len = array.length, i;
+      for (i = 0; i < len; i++) {
+        var item = array[i]
+        item.value = item.value / 100
+        var type = item.type
+        if (types.has(type)) {
+          types.get(type).push(item)
+        } else {
+          types.set(type, [item])
+        }
+      }
+      return types
+    }
   }
 }
 </script>

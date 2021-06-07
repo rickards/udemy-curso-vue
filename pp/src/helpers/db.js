@@ -1,6 +1,7 @@
 let Android = undefined
 let today = new Date();
 let date = today.toISOString().slice(0, 10)
+
 let db = [
     { "date": date, "id": "-MD2caLsdasd1CSiDDN", "name": "Farmácia", "type": "Despesa", "value": 8400 },
     { "date": date, "id": "-MDsssds3asd1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 3400 },
@@ -19,6 +20,14 @@ let db = [
     { "date": "2020-01-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Mercado", "type": "Despesa", "value": 51600 }
 ];
 
+let stocks = [
+  { "regex": "Lanche" },
+  { "regex": "Farmácia" },
+  { "regex": ".*?" },
+  { "regex": "Aluguel" },
+  { "regex": "" }
+]
+
 function runAndroidMethod(nameMethod, jsonParams) {
   if (typeof Android !== "undefined" && Android !== null) {
     let javaReturn = Android.callFromDBJava(nameMethod, jsonParams);
@@ -31,9 +40,10 @@ function runAndroidMethod(nameMethod, jsonParams) {
 }
 
 function callDBLocal(nameMethod, jsonParams) {
-  if ((nameMethod == "getExpenses", jsonParams == undefined))
-    return getExpenses();
+  if ((nameMethod == "getExpenses" && jsonParams == undefined)) return getExpenses();
   if (nameMethod == "addExpense") return addExpenses(jsonParams);
+  if ((nameMethod == "getExpenseStocks"&& jsonParams == undefined)) return expensesStocks();
+  if (nameMethod == "addExpenseStock") return addExpenseStock(jsonParams);
 }
 
 function getExpenses() {
@@ -41,9 +51,18 @@ function getExpenses() {
   // [{"date":"2020-06-10","id":"-MD2caLZCZSqN1CSiDDN","name":"Mercado","type":"Despesa","value":20000},{...}]
 }
 
+function expensesStocks() {
+  return stocks;
+}
+
 function addExpenses(expense) {
   db.push(JSON.parse(expense));
   console.log(JSON.stringify(db));
+}
+
+function addExpenseStock(expense) {
+  stocks.push(JSON.parse(expense));
+  console.log(JSON.stringify(stocks));
 }
 
 export default {

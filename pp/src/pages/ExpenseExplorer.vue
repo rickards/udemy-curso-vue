@@ -2,7 +2,7 @@
   <div>
       <div class="input-new-bill">
         <h1>Explorador de Despesas</h1>
-        <new-bill/>
+        <new-bill @billAdded="addExpense"/>
       </div>
       <div>
         <line-chart v-if="lineChartShow" />
@@ -64,8 +64,26 @@ export default {
       }
   },
   created(){
-    let listResult = db.runAndroidMethod("getExpenses")
-    console.log(listResult)
+    const listResult = db.runAndroidMethod("getExpenses")
+    const expenses = this.filter(listResult, (i) => i.type==='Despesa')
+    console.log(expenses)
+  },
+  methods: {
+    filter(array, lambda){
+      let result = []
+      for (let i = 0; i < array.length; i++){
+        let item = array[i]
+        if (lambda(item)){
+          item.value = item.value / 100
+          result.push(item)
+        }
+      }
+      return result
+    },
+    addExpense(el){
+      console.log(el)
+      this.assetsBills.push(el)
+    }
   }
 }
 </script>
