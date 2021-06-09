@@ -17,7 +17,10 @@ let db = [
     { "date": "2020-05-29", "id": "-aygdyas", "name": "RBRP11", "type": "Investimento", "value": 15392, "qtde": 2 },
     { "date": "2020-08-13", "id": "-sdedsde", "name": "ITUB4", "type": "Investimento", "value": 25280, "qtde": 10 },
     { "date": "2020-08-13", "id": "-frgsdfs", "name": "VRTA11", "type": "Investimento", "value": 31197, "qtde": 3 },
-    { "date": "2020-01-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Mercado", "type": "Despesa", "value": 51600 }
+    { "date": "2021-01-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Mercado", "type": "Despesa", "value": 51600 },
+    { "date": "2021-05-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 51600 },
+    { "date": "2021-05-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 51600 },
+    { "date": "2021-06-01", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 51600 }
 ];
 
 let stocks = [

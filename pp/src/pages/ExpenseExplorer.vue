@@ -29,44 +29,18 @@ export default {
       return {
           translator: Translations.pp,
           lineChartShow: false,
-          assetsBills: [
-            {
-              name: 'Bens',
-              value: 3000,
-              percent: 8,
-            },
-            {
-              name: 'Caixa',
-              value: 500000,
-              percent: -10,
-            },
-            {
-              name: 'Caixa',
-              value: 500000,
-              percent: -10,
-            },
-            {
-              name: 'Caixa',
-              value: 500000,
-              percent: -10,
-            },
-            {
-              name: 'Caixa',
-              value: 500000,
-              percent: -10,
-            },
-            {
-              name: 'Caixa',
-              value: 500000,
-              percent: -10,
-            }
-          ]
+          stocks: undefined,
+          expenses: undefined,
+          assetsBills: []
       }
   },
   created(){
     const listResult = db.runAndroidMethod("getExpenses")
-    const expenses = this.filter(listResult, (i) => i.type==='Despesa')
-    console.log(expenses)
+    this.expenses = this.filter(listResult, (i) => i.type==='Despesa')
+    this.stocks = db.runAndroidMethod("getExpenseStocks")
+    this.stocks.forEach(element => {
+      this.createAssetBill(element)
+    });
   },
   methods: {
     filter(array, lambda){
@@ -80,9 +54,37 @@ export default {
       }
       return result
     },
+    createAssetBill(element){
+      const splited = element.regex.split("=")
+      const regex = splited[1] ? splited.slice(1).join('') : splited[0]
+      const valueLastMonth = this.getValueExpensesLastMonth(regex)
+
+      const bill = {
+        name: splited[0],
+        value: valueLastMonth,
+        percent: valueLastMonth / this.getValueExpensesCurrentMonth(regex) || 0
+      }
+
+      this.assetsBills.push(bill)
+    },
     addExpense(el){
-      console.log(el)
-      this.assetsBills.push(el)
+      db.runAndroidMethod("addExpenseStock", JSON.stringify(el))
+    },
+    getValueExpensesLastMonth(regex){
+      const re = new RegExp(`${regex}`);
+      let today = new Date();
+      today.setMonth(today.getMonth()-1)
+      const month = today.toISOString().slice(0, 7)
+      const expensesSelected = this.filter(this.expenses, (i) => i.date.includes(month) && re.test(i.name))
+      return expensesSelected.reduce((sum, i) => sum + i.value, 0)
+    },
+    getValueExpensesCurrentMonth(regex){
+      const re = new RegExp(`${regex}`);
+      const today = new Date();
+      const month = today.toISOString().slice(0, 7)
+      const expensesSelected = this.filter(this.expenses, (i) => i.date.includes(month) && re.test(i.name))
+      console.log("current", expensesSelected, month)
+      return expensesSelected.reduce((sum, i) => sum + i.value, 0)
     }
   }
 }
