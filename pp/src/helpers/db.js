@@ -4,7 +4,6 @@ let date = today.toISOString().slice(0, 10)
 
 let db = [
     { "date": date, "id": "-MD2caLsdasd1CSiDDN", "name": "Farmácia", "type": "Despesa", "value": 8400 },
-    { "date": date, "id": "-MDsssds3asd1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 3400 },
     { "date": date, "id": "-MD2sde23asd1CSiDDN", "name": "Energia", "type": "Despesa", "value": 10500 },
     { "date": "2020-05-16", "id": "-MD2caLZCZSqN1CSiDDN", "name": "Mercado", "type": "Despesa", "value": 35495 },
     { "date": "2020-06-10", "id": "-MD2caasdasdddN", "name": "Lanche", "type": "Despesa", "value": 7600 },
@@ -17,10 +16,16 @@ let db = [
     { "date": "2020-05-29", "id": "-aygdyas", "name": "RBRP11", "type": "Investimento", "value": 15392, "qtde": 2 },
     { "date": "2020-08-13", "id": "-sdedsde", "name": "ITUB4", "type": "Investimento", "value": 25280, "qtde": 10 },
     { "date": "2020-08-13", "id": "-frgsdfs", "name": "VRTA11", "type": "Investimento", "value": 31197, "qtde": 3 },
-    { "date": "2021-01-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Mercado", "type": "Despesa", "value": 51600 },
-    { "date": "2021-05-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 51600 },
-    { "date": "2021-05-30", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 51600 },
-    { "date": "2021-06-01", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 51600 }
+    { "date": "2021-04-31", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Mercado", "type": "Despesa", "value": 500 },
+    { "date": "2021-05-01", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 500 },
+    { "date": "2021-05-05", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 3600 },
+    { "date": "2021-05-05", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 5600 },
+    { "date": "2021-05-10", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 1800 },
+    { "date": "2021-06-03", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 500 },
+    { "date": "2021-06-08", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 1200 },
+    { "date": date, "id": "-MDsssds3asd1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 3400 },
+    { "date": "2021-06-10", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 3000 },
+    { "date": "2021-06-25", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 500 }
 ];
 
 let stocks = [
@@ -47,6 +52,7 @@ function callDBLocal(nameMethod, jsonParams) {
   if (nameMethod == "addExpense") return addExpenses(jsonParams);
   if ((nameMethod == "getExpenseStocks"&& jsonParams == undefined)) return expensesStocks();
   if (nameMethod == "addExpenseStock") return addExpenseStock(jsonParams);
+  if (nameMethod == "rmExpenseStock") return rmExpenseStock(jsonParams);
 }
 
 function getExpenses() {
@@ -66,6 +72,18 @@ function addExpenses(expense) {
 function addExpenseStock(expense) {
   stocks.push(JSON.parse(expense));
   console.log(JSON.stringify(stocks));
+}
+
+function rmExpenseStock(expense) {
+  const el = JSON.parse(expense)
+  for( var i = 0; i < stocks.length; i++){ 
+    
+    if ( stocks[i].regex.split("=")[0] === el.id) { 
+
+      stocks.splice(i, 1); 
+    }
+
+  }
 }
 
 export default {

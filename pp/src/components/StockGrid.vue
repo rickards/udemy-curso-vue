@@ -4,7 +4,7 @@
         <div class="stock-grid">
             <template v-if="stockCards.length">
                 <stock-card v-for="bill in stockCards" :key="bill.name"
-                    :bill="bill"></stock-card>
+                    :bill="bill" @stockDeleted="$emit('deleted', bill)"></stock-card>
             </template>
             <p v-else class="no-bill">Não há contas cadastradas</p>
         </div>
