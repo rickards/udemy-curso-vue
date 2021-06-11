@@ -76,13 +76,10 @@ function addExpenseStock(expense) {
 
 function rmExpenseStock(expense) {
   const el = JSON.parse(expense)
-  for( var i = 0; i < stocks.length; i++){ 
-    
-    if ( stocks[i].regex.split("=")[0] === el.id) { 
-
-      stocks.splice(i, 1); 
+  for( var i = 0; i < stocks.length; i++){
+    if ( stocks[i].regex === el.id) {
+      stocks.splice(i, 1);
     }
-
   }
 }
 
