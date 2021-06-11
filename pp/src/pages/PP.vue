@@ -1,11 +1,19 @@
 <template>
   <div>
     <h1>{{ translator.title["EN"] }}</h1>
-    <line-chart />
-    <p>Bens: {{ price.format(totalPhysicalGoods) }}</p>
-    <p>Despesas: {{ price.format(totalExpenses) }}</p>
-    <p>Receitas: {{ price.format(totalRevenue) }}</p>
-    <p>Investimentos: {{ price.format(totalInvestiments) }}</p>
+    <line-chart :series="series" />
+    <div class="grid-column">
+      <div class="column">
+        <Line label="Receitas" :value="totalRevenue" />
+        <Line label="Bens" :value="totalPhysicalGoods" />
+        <Line label="Investimentos" :value="totalInvestiments" />
+      </div>
+      <div class="column">
+        <Line label="Despesas" :value="totalExpenses" />
+        <Line label="Depreciação" value="0" />
+        <Line label="Patrimônio Líquido" :value="totalPL" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,11 +21,13 @@
 import db from "@/helpers/db";
 import Translations from "@/helpers/translations";
 import LineChart from "../components/LineChart.vue";
+import Line from "../components/Line.vue";
 
 export default {
   name: "PP",
   components: {
     LineChart,
+    Line,
   },
   data() {
     return {
@@ -26,6 +36,7 @@ export default {
       physicalGoods: undefined,
       investiments: undefined,
       revenue: undefined,
+      pls: [],
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -41,13 +52,41 @@ export default {
       listResult,
       (i) => i.type === "Bem_gasto" || i.type === "Bem_ganho"
     );
-    this.investiments = this.filter(
-      listResult,
-      (i) => i.type === "Investimento"
-    );
+    this.investiments = this.filter(listResult, (i) => {
+      i.value *= i.qtde || 1;
+      i.qtde = undefined;
+      return i.type === "Investimento";
+    });
     this.revenue = this.filter(listResult, (i) => i.type === "Receita");
+
+    const groupByDate = this.groupBy(listResult, (i) => i.date);
+    const weights = {
+      Bem_gasto: 1,
+      Bem_ganho: 1,
+      Receita: 1,
+      Investimento: 1,
+      Despesa: -1,
+    };
+    Object.keys(groupByDate)
+      .sort()
+      .reduce((sum, i) => {
+        const pl = groupByDate[i].reduce(
+          (amount, j) => amount + j.value * weights[j.type],
+          0
+        );
+        this.pls.push([new Date(i).getTime(), sum + pl]);
+        return sum + pl;
+      }, 0);
   },
   computed: {
+    series() {
+      return [
+        {
+          name: "PL",
+          data: this.pls,
+        },
+      ];
+    },
     totalExpenses() {
       return this.expenses.reduce((sum, i) => sum + i.value, 0);
     },
@@ -59,6 +98,14 @@ export default {
     },
     totalInvestiments() {
       return this.investiments.reduce((sum, i) => sum + i.value, 0);
+    },
+    totalPL() {
+      return (
+        this.totalPhysicalGoods +
+        this.totalRevenue +
+        this.totalInvestiments -
+        this.totalExpenses
+      );
     },
   },
   methods: {
@@ -78,6 +125,12 @@ export default {
         }
       }
       return types;
+    },
+    groupBy(array, keys) {
+      return array.reduce(function(rv, i) {
+        (rv[keys(i)] = rv[keys(i)] || []).push(i);
+        return rv;
+      }, {});
     },
     filter(array, lambda) {
       let result = [];
@@ -102,8 +155,15 @@ export default {
 </script>
 
 <style>
-.grid {
-  display: flex;
+.grid-column {
+  display: inline-flex;
+  padding: 2%;
+  width: 98%;
+}
+
+.column {
+  margin: 2%;
+  width: 45%;
 }
 
 .modal {
