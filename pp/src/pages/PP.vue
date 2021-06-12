@@ -5,6 +5,7 @@
     <div class="grid-column">
       <div class="column">
         <Line label="Receitas" :value="totalRevenue" />
+        <Line label="Caixa" :value="totalCash" />
         <Line label="Bens" :value="totalPhysicalGoods" />
         <Line label="Investimentos" :value="totalInvestiments" />
       </div>
@@ -89,6 +90,9 @@ export default {
     },
     totalExpenses() {
       return this.expenses.reduce((sum, i) => sum + i.value, 0);
+    },
+    totalCash() {
+      return this.totalRevenue - this.totalPhysicalGoods - this.totalExpenses;
     },
     totalPhysicalGoods() {
       return this.physicalGoods.reduce((sum, i) => sum + i.value, 0);

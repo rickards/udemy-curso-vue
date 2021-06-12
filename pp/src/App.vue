@@ -2,7 +2,9 @@
   <div>
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <component :is="page"/>
+    <keep-alive>
+      <component :is="page" />
+    </keep-alive>
     <div>
       <button @click="page = 'AccountRecord'">RegistroContábil</button>
       <button @click="page = 'ExpenseExplorer'">Explorador de Despesas</button>
@@ -13,23 +15,23 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import PP from './pages/PP'
-import ExpenseExplorer from './pages/ExpenseExplorer'
-import AccountRecord from './pages/AccountRecord'
+import PP from "./pages/PP";
+import ExpenseExplorer from "./pages/ExpenseExplorer";
+import AccountRecord from "./pages/AccountRecord";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     PP,
     ExpenseExplorer,
-    AccountRecord
+    AccountRecord,
   },
   data() {
     return {
-      page: 'PP'
-    }
-  }
-}
+      page: "PP",
+    };
+  },
+};
 </script>
 
 <style>
