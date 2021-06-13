@@ -1,4 +1,3 @@
-let Android = undefined
 let today = new Date();
 let date = today.toISOString().slice(0, 10)
 
@@ -37,8 +36,8 @@ let stocks = [
 ]
 
 function runAndroidMethod(nameMethod, jsonParams) {
-  if (typeof Android !== "undefined" && Android !== null) {
-    let javaReturn = Android.callFromDBJava(nameMethod, jsonParams);
+  if (typeof window.Android !== "undefined" && window.Android !== null) {
+    let javaReturn = window.Android.callFromDBJava(nameMethod, jsonParams);
     return JSON.parse(javaReturn);
   } else {
     //https://www.chartjs.org/samples/latest/charts/bar/horizontal.html
