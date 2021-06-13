@@ -72,7 +72,7 @@ export default {
       .sort()
       .reduce((sum, i) => {
         const pl = groupByDate[i].reduce(
-          (amount, j) => amount + j.value * weights[j.type],
+          (amount, j) => Math.round(amount + j.value * weights[j.type], 2),
           0
         );
         this.pls.push([new Date(i).getTime(), sum + pl]);

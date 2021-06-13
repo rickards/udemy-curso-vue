@@ -117,7 +117,12 @@ export default {
     },
     inputRegexValidateData(el) {
       const re = el.regex;
-      const regex = re.includes("=") ? re.split("=").slice(1).join("") : re;
+      const regex = re.includes("=")
+        ? re
+            .split("=")
+            .slice(1)
+            .join("")
+        : re;
       try {
         new RegExp(`${regex}`);
         return true;
