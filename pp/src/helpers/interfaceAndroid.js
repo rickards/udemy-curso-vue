@@ -28,9 +28,9 @@ const updateExpenseDatabase = (expense) => {
 
 export default {
   getExpensesDatabase,
+  addExpenseDatabase,
+  updateExpenseDatabase,
   getExpenseStocksDatabase,
   addExpenseStockDatabase,
-  rmExpenseStockDatabase,
-  addExpenseDatabase,
-  updateExpenseDatabase
+  rmExpenseStockDatabase
 };

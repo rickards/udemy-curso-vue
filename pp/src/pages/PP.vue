@@ -54,8 +54,6 @@ export default {
       (i) => i.type === "Bem_gasto" || i.type === "Bem_ganho"
     );
     this.investiments = this.filter(listResult, (i) => {
-      i.value *= i.qtde || 1;
-      i.qtde = undefined;
       return i.type === "Investimento";
     });
     this.revenue = this.filter(listResult, (i) => i.type === "Receita");
