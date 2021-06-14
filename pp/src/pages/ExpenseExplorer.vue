@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import db from "@/helpers/db";
+import database from "@/helpers/interfaceAndroid";
 import Translations from "@/helpers/translations";
 import StockGrid from "../components/StockGrid";
 import NewBill from "../components/NewBill";
@@ -43,9 +43,11 @@ export default {
     updateStocks() {
       this.assetsBills = [];
       this.invalidInput = undefined;
-      const listResult = db.runAndroidMethod("getExpenses");
-      this.expenses = this.filter(listResult, (i) => i.type === "Despesa");
-      this.stocks = db.runAndroidMethod("getExpenseStocks");
+      this.expenses = this.filter(
+        database.getExpensesDatabase(),
+        (i) => i.type === "Despesa"
+      );
+      this.stocks = database.getExpenseStocksDatabase();
       this.stocks.forEach((element) => {
         this.createAssetBill(element);
       });
@@ -109,7 +111,7 @@ export default {
     },
     addExpense(el) {
       if (this.inputRegexValidateData(el)) {
-        db.runAndroidMethod("addExpenseStock", JSON.stringify(el));
+        database.addExpenseStockDatabase(el);
         this.updateStocks();
       } else {
         this.invalidInput = "Regex inválida:\n" + el.regex;
@@ -132,7 +134,7 @@ export default {
     },
     rmExpense(el) {
       console.log(el);
-      db.runAndroidMethod("rmExpenseStock", JSON.stringify(el));
+      database.rmExpenseStockDatabase(el);
       this.updateStocks();
     },
   },

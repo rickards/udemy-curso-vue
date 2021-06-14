@@ -1,144 +1,153 @@
 <template>
-    <div class="account-record">
-        <h1>Registro Contábil</h1>
-        <select name="tipo" v-model="natureCombobox">
-            <option value="gasto" selected>Gasto</option>
-            <option value="ganho">Ganho</option>
-            <option value="investimento">Investimentos</option>
-        </select>
-        <input type="date" :value="date">
-        <input type="text" placeholder="nome descritor" v-model="billname">
-        <input type="number" placeholder="valor" v-model="value">
-        <div>
-            <input v-model="isAsset" type="checkbox"> <label>Bem</label>
-        </div>
-        <div v-show="natureCombobox=='investimento'">
-            <label>Quantidade de cotas:</label>
-            <input type="number" placeholder="5" style="width:50px;" v-model="numberQuotes">
-        </div>
-        <label v-show="info" style="color: red;">Há campos obrigatórios vazios!</label>
-        <button @click="sendRecord">Registrar</button>
+  <div class="account-record">
+    <h1>Registro Contábil</h1>
+    <select name="tipo" v-model="natureCombobox">
+      <option value="gasto" selected>Gasto</option>
+      <option value="ganho">Ganho</option>
+      <option value="investimento">Investimentos</option>
+    </select>
+    <input type="date" :value="date" />
+    <input type="text" placeholder="nome descritor" v-model="billname" />
+    <input type="number" placeholder="valor" v-model="value" />
+    <div><input v-model="isAsset" type="checkbox" /> <label>Bem</label></div>
+    <div v-show="natureCombobox == 'investimento'">
+      <label>Quantidade de cotas:</label>
+      <input
+        type="number"
+        placeholder="5"
+        style="width:50px;"
+        v-model="numberQuotes"
+      />
     </div>
+    <label v-show="info" style="color: red;"
+      >Há campos obrigatórios vazios!</label
+    >
+    <button @click="sendRecord">Registrar</button>
+  </div>
 </template>
 
 <script>
-import db from '@/helpers/db'
+import database from "@/helpers/interfaceAndroid";
 
 export default {
-    name: 'AccountRecord',
-    data() {
-        return {
-            natureCombobox: 'gasto',
-            date: undefined,
-            info: false,
-            isAsset: false,
-            value: undefined,
-            id: undefined,
-            billname: undefined,
-            numberQuotes: undefined,
-            type: undefined
-        }
+  name: "AccountRecord",
+  data() {
+    return {
+      natureCombobox: "gasto",
+      date: undefined,
+      info: false,
+      isAsset: false,
+      value: undefined,
+      id: undefined,
+      billname: undefined,
+      numberQuotes: undefined,
+      type: undefined,
+    };
+  },
+  created() {
+    this.preloadSetup();
+  },
+  watch: {
+    natureCombobox() {
+      this.typeFromSetup();
     },
-    created(){
-        this.preloadSetup()
+  },
+  methods: {
+    preloadSetup() {
+      this.loadParamsURL();
+      this.mappingSetupFromLabel();
     },
-    watch: {
-        natureCombobox(){
-            this.typeFromSetup()
-        }
+    loadParamsURL() {
+      var url = new URL(window.location.href);
+      this.id = url.searchParams.get("id");
+      this.billname = url.searchParams.get("label");
+      this.date =
+        url.searchParams.get("date") || new Date().toISOString().slice(0, 10);
+      const price = url.searchParams.get("value") || this.value;
+      this.value = parseFloat(price);
+      this.type = url.searchParams.get("type");
     },
-    methods: {
-        preloadSetup(){
-            this.loadParamsURL()
-            this.mappingSetupFromLabel() 
-        },
-        loadParamsURL(){
-            var url = new URL(window.location.href);
-            this.id = url.searchParams.get("id");
-            this.billname = url.searchParams.get("label");
-            this.date = url.searchParams.get("date") || new Date().toISOString().slice(0,10);
-            const price = url.searchParams.get("value") || this.value;
-            this.value = parseFloat(price)
-            this.type = url.searchParams.get("type");
-        },
-        mappingSetupFromLabel(){
-            switch (this.type) {
-                case 'Bem_ganho':
-                    this.isAsset = true
-                    this.natureCombobox = 'ganho'
-                    break
-                case 'Bem_gasto':
-                    this.isAsset = true
-                    this.natureCombobox = 'gasto'
-                    break
-                case 'Receita':
-                    this.isAsset = false
-                    this.natureCombobox = 'ganho'
-                    break
-                case 'Despesa':
-                    this.isAsset = false
-                    this.natureCombobox = 'gasto'
-                    break
-                case 'Investimento':
-                    this.isAsset = false
-                    this.natureCombobox = 'investimento'
-                    break
-                default:
-            }
-        },
-        sendRecord(){
-            if (this.validData()){
-                var expense = {
-                    billname: this.natureCombobox == "Investimento"? this.billname.toUpperCase() : this.capitalize(this.billname),
-                    value: this.value,
-                    date: this.date,
-                    type: this.type,
-                    qtde: this.numberQuotes
-                }
-                if (this.id) {
-                    expense.id = this.id
-                    db.runAndroidMethod("updateExpense", JSON.stringify(expense))
-                } else {
-                    db.runAndroidMethod("addExpense", JSON.stringify(expense))
-                }
-                this.clearForm()
-            } else {
-                this.info = true
-            }
-        },
-        validData(){
-            return this.billname && this.value && this.date && this.type
-        },
-        capitalize(string){
-            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
-        },
-        clearForm(){
-            this.billname = ''
-            this.value = ''
-            this.isAsset = false
-            this.info = false
-        },
-        typeFromSetup(){
-            switch (this.natureCombobox) {
-                case 'ganho':
-                    this.type = this.isAsset ? 'Bem_ganho' : 'Receita'
-                    break
-                case 'gasto':
-                    this.type = this.isAsset ? 'Bem_gasto' : 'Despesa'
-                    break
-                default:
-                    this.type = this.natureCombobox
-                    break
-            }
+    mappingSetupFromLabel() {
+      switch (this.type) {
+        case "Bem_ganho":
+          this.isAsset = true;
+          this.natureCombobox = "ganho";
+          break;
+        case "Bem_gasto":
+          this.isAsset = true;
+          this.natureCombobox = "gasto";
+          break;
+        case "Receita":
+          this.isAsset = false;
+          this.natureCombobox = "ganho";
+          break;
+        case "Despesa":
+          this.isAsset = false;
+          this.natureCombobox = "gasto";
+          break;
+        case "Investimento":
+          this.isAsset = false;
+          this.natureCombobox = "investimento";
+          break;
+        default:
+      }
+    },
+    sendRecord() {
+      if (this.validData()) {
+        var expense = {
+          billname:
+            this.natureCombobox == "Investimento"
+              ? this.billname.toUpperCase()
+              : this.capitalize(this.billname),
+          value: this.value,
+          date: this.date,
+          type: this.type,
+          qtde: this.numberQuotes,
+        };
+        if (this.id) {
+          expense.id = this.id;
+          database.updateExpenseDatabase(expense);
+        } else {
+          database.addExpenseDatabase(expense);
         }
-    }
-}
+        this.clearForm();
+      } else {
+        this.info = true;
+      }
+    },
+    validData() {
+      return this.billname && this.value && this.date && this.type;
+    },
+    capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    },
+    clearForm() {
+      this.billname = "";
+      this.value = "";
+      this.isAsset = false;
+      this.info = false;
+    },
+    typeFromSetup() {
+      switch (this.natureCombobox) {
+        case "ganho":
+          this.type = this.isAsset ? "Bem_ganho" : "Receita";
+          break;
+        case "gasto":
+          this.type = this.isAsset ? "Bem_gasto" : "Despesa";
+          break;
+        default:
+          this.type = this.natureCombobox;
+          break;
+      }
+    },
+  },
+};
 </script>
 
 <style>
-    .account-record {
-        display: inline-grid;
-        padding: 1%;
-        row-gap: 1em;
-    }
+.account-record {
+  display: inline-grid;
+  padding: 1%;
+  row-gap: 1em;
+}
 </style>

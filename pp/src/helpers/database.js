@@ -55,9 +55,6 @@ function callDBLocal(nameMethod, jsonParams) {
 }
 
 function getExpenses() {
-  for (let i=0; i<db.length; i++){
-    db[i].value = db[i].value/100
-  }
   return db;
   // [{"date":"2020-06-10","id":"-MD2caLZCZSqN1CSiDDN","name":"Mercado","type":"Despesa","value":20000},{...}]
 }

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import db from "@/helpers/db";
+import database from "@/helpers/interfaceAndroid";
 import Translations from "@/helpers/translations";
 import LineChart from "../components/LineChart.vue";
 import Line from "../components/Line.vue";
@@ -47,7 +47,7 @@ export default {
     };
   },
   created() {
-    let listResult = db.runAndroidMethod("getExpenses");
+    const listResult = database.getExpensesDatabase();
     this.expenses = this.filter(listResult, (i) => i.type === "Despesa");
     this.physicalGoods = this.filter(
       listResult,
