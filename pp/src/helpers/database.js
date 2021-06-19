@@ -37,8 +37,9 @@ let stocks = [
 
 function runAndroidMethod(nameMethod, jsonParams) {
   if (typeof window.Android !== "undefined" && window.Android !== null) {
-    let javaReturn = window.Android.callFromDBJava(nameMethod, jsonParams);
-    return JSON.parse(javaReturn);
+    const javaReturn = window.Android.callFromDBJava(nameMethod, jsonParams)
+    console.log("REBIDO PELO JS:", javaReturn)
+    return JSON.parse(javaReturn)
   } else {
     //https://www.chartjs.org/samples/latest/charts/bar/horizontal.html
     return callDBLocal(nameMethod, jsonParams);

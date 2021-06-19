@@ -6,6 +6,14 @@ const getExpensesDatabase = () => {
   });
 };
 
+const addExpenseDatabase = (expense) => {
+  db.runAndroidMethod("addExpense", JSON.stringify(expense));
+}
+
+const updateExpenseDatabase = (expense) => {
+  db.runAndroidMethod("updateExpense", JSON.stringify(expense));
+}
+
 const getExpenseStocksDatabase = () => {
   return db.runAndroidMethod("getExpenseStocks");
 }
@@ -16,14 +24,6 @@ const addExpenseStockDatabase = (el) => {
 
 const rmExpenseStockDatabase = (el) => {
   return db.runAndroidMethod("rmExpenseStock", JSON.stringify(el));
-}
-
-const addExpenseDatabase = (expense) => {
-  db.runAndroidMethod("addExpense", JSON.stringify(expense));
-}
-
-const updateExpenseDatabase = (expense) => {
-  db.runAndroidMethod("updateExpense", JSON.stringify(expense));
 }
 
 export default {
