@@ -37,9 +37,9 @@ export default {
   },
   computed: {
     spread() {
-      return bill.percent >= 0
-        ? bill.value * bill.percent
-        : (bill.value * bill.percent) / (1 - bill.percent);
+      return this.bill.percent >= 0
+        ? this.bill.value * this.bill.percent
+        : (this.bill.value * this.bill.percent) / (1 + this.bill.percent);
     },
   },
 };
