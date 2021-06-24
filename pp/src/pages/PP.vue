@@ -156,14 +156,14 @@ export default {
 
 <style>
 .grid-column {
-  display: inline-flex;
+  display: grid;
   padding: 2%;
   width: 98%;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .column {
   margin: 2%;
-  width: 45%;
 }
 
 .modal {
