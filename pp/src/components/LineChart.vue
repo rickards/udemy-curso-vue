@@ -1,44 +1,14 @@
 <template>
   <div id="chart">
     <div class="toolbar">
-      <button
-        id="one_month"
-        @click="updateData('one_month')"
-        :class="{ active: selection === 'one_month', 'chart-button': true }"
+      <button 
+        v-for="item in buttons" 
+        :key="item"
+        :id="item"
+        @click="updateData(item)"
+        :class="{ active: selection === item, 'chart-button': true }"
       >
-        1M
-      </button>
-
-      <button
-        id="six_months"
-        @click="updateData('six_months')"
-        :class="{ active: selection === 'six_months', 'chart-button': true }"
-      >
-        6M
-      </button>
-
-      <button
-        id="one_year"
-        @click="updateData('one_year')"
-        :class="{ active: selection === 'one_year', 'chart-button': true }"
-      >
-        1Y
-      </button>
-
-      <button
-        id="ytd"
-        @click="updateData('ytd')"
-        :class="{ active: selection === 'ytd', 'chart-button': true }"
-      >
-        YTD
-      </button>
-
-      <button
-        id="all"
-        @click="updateData('all')"
-        :class="{ active: selection === 'all', 'chart-button': true }"
-      >
-        ALL
+        {{item}}
       </button>
     </div>
 
@@ -67,6 +37,7 @@ export default {
   },
   data() {
     return {
+      buttons: ['1M', '6M', '1Y', 'YTD', 'ALL'],
       chartOptions: {
         chart: {
           id: "area-datetime",
@@ -146,34 +117,34 @@ export default {
       let startingPoint = new Date(endPoint);
 
       switch (timeline) {
-        case "one_month":
+        case "1M":
           startingPoint.setMonth(startingPoint.getMonth() - 1);
           this.$refs.chart.zoomX(
             startingPoint.getTime(),
             endPoint.getTime()
           );
           break;
-        case "six_months":
+        case "6M":
           startingPoint.setMonth(startingPoint.getMonth() - 6);
           this.$refs.chart.zoomX(
             startingPoint.getTime(),
             endPoint.getTime()
           );
           break;
-        case "one_year":
+        case "1Y":
           startingPoint.setMonth(startingPoint.getMonth() - 12);
           this.$refs.chart.zoomX(
             startingPoint.getTime(),
             endPoint.getTime()
           );
           break;
-        case "ytd":
+        case "YTD":
           this.$refs.chart.zoomX(
             new Date("01 Jan 2013").setYear(endPoint.getFullYear()),
             endPoint.getTime()
           );
           break;
-        case "all":
+        case "ALL":
           this.$refs.chart.zoomX();
           break;
         default:
