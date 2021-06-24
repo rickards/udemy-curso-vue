@@ -174,7 +174,7 @@ export default {
           );
           break;
         case "all":
-          this.$refs.chart.zoomX(null, null);
+          this.$refs.chart.zoomX();
           break;
         default:
       }
