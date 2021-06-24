@@ -4,7 +4,6 @@
     <line-chart :series="series" />
     <div class="grid-column">
       <div class="column">
-        <Line label="Receitas" :value="totalRevenue" />
         <Line label="Caixa" :value="totalCash" />
         <Line label="Bens" :value="totalPhysicalGoods" />
         <Line label="Investimentos" :value="totalInvestiments" />
@@ -90,7 +89,8 @@ export default {
       return this.expenses.reduce((sum, i) => sum + i.value, 0);
     },
     totalCash() {
-      return this.totalRevenue - this.totalPhysicalGoods - this.totalExpenses;
+      return this.totalRevenue - this.totalExpenses - this.totalInvestiments - 
+             this.physicalGoods.reduce((sum, i) => i.type == "Bem_gasto" ? sum + i.value : 0, 0);
     },
     totalPhysicalGoods() {
       return this.physicalGoods.reduce((sum, i) => sum + i.value, 0);
