@@ -142,36 +142,39 @@ export default {
     updateData: function(timeline) {
       this.selection = timeline;
 
+      const endPoint = new Date();
+      let startingPoint = new Date(endPoint);
+
       switch (timeline) {
         case "one_month":
+          startingPoint.setMonth(startingPoint.getMonth() - 1);
           this.$refs.chart.zoomX(
-            new Date("28 Jan 2013").getTime(),
-            new Date("27 Feb 2013").getTime()
+            startingPoint.getTime(),
+            endPoint.getTime()
           );
           break;
         case "six_months":
+          startingPoint.setMonth(startingPoint.getMonth() - 6);
           this.$refs.chart.zoomX(
-            new Date("27 Sep 2012").getTime(),
-            new Date("27 Feb 2013").getTime()
+            startingPoint.getTime(),
+            endPoint.getTime()
           );
           break;
         case "one_year":
+          startingPoint.setMonth(startingPoint.getMonth() - 12);
           this.$refs.chart.zoomX(
-            new Date("27 Feb 2012").getTime(),
-            new Date("27 Feb 2013").getTime()
+            startingPoint.getTime(),
+            endPoint.getTime()
           );
           break;
         case "ytd":
           this.$refs.chart.zoomX(
-            new Date("01 Jan 2013").getTime(),
-            new Date("27 Feb 2013").getTime()
+            new Date("01 Jan 2013").setYear(endPoint.getFullYear()),
+            endPoint.getTime()
           );
           break;
         case "all":
-          this.$refs.chart.zoomX(
-            new Date("23 Jan 2012").getTime(),
-            new Date("27 Feb 2013").getTime()
-          );
+          this.$refs.chart.zoomX(null, null);
           break;
         default:
       }
