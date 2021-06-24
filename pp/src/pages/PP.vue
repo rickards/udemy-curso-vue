@@ -11,7 +11,7 @@
       </div>
       <div class="column">
         <Line label="Despesas" :value="totalExpenses" />
-        <Line label="Depreciação" value="0" />
+        <Line label="Depreciação" :value="0" />
         <Line label="Patrimônio Líquido" :value="totalPL" />
       </div>
     </div>
@@ -59,18 +59,18 @@ export default {
     this.revenue = this.filter(listResult, (i) => i.type === "Receita");
 
     const groupByDate = this.groupBy(listResult, (i) => i.date);
-    const weights = {
-      Bem_gasto: 1,
+    const weightsPl = {
+      Bem_gasto: 0,
       Bem_ganho: 1,
       Receita: 1,
-      Investimento: 1,
+      Investimento: 0,
       Despesa: -1,
     };
     Object.keys(groupByDate)
       .sort()
       .reduce((sum, i) => {
         const pl = groupByDate[i].reduce(
-          (amount, j) => Math.round(amount + j.value * weights[j.type], 2),
+          (amount, j) => Math.round(amount + j.value * weightsPl[j.type], 2),
           0
         );
         this.pls.push([new Date(i).getTime(), sum + pl]);
@@ -103,10 +103,8 @@ export default {
     },
     totalPL() {
       return (
-        this.totalPhysicalGoods +
-        this.totalRevenue +
-        this.totalInvestiments -
-        this.totalExpenses
+        this.physicalGoods.reduce((sum, i) => i.type == "Bem_ganho" ? sum + i.value : 0, 0) +
+        this.totalRevenue - this.totalExpenses
       );
     },
   },
