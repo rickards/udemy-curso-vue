@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ translator.title["EN"] }}</h1>
-    <line-chart :series="series" />
+    <line-chart :series="getSeries" />
     <div class="grid-column">
       <div class="column">
         <Line label="Caixa" :value="totalCash" />
@@ -36,7 +36,11 @@ export default {
       physicalGoods: undefined,
       investiments: undefined,
       revenue: undefined,
-      pls: [],
+      series: {
+        pls:[],
+        expenses: [],
+        cash: []
+      },
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -58,6 +62,7 @@ export default {
     this.revenue = this.filter(listResult, (i) => i.type === "Receita");
 
     const groupByDate = this.groupBy(listResult, (i) => i.date);
+
     const weightsPl = {
       Bem_gasto: 0,
       Bem_ganho: 1,
@@ -65,24 +70,59 @@ export default {
       Investimento: 0,
       Despesa: -1,
     };
+    const weightsCash = {
+      Bem_gasto: -1,
+      Bem_ganho: 0,
+      Receita: 1,
+      Investimento: -1,
+      Despesa: -1,
+    };
+    const weightsExpenses = {
+      Bem_gasto: 0,
+      Bem_ganho: 0,
+      Receita: 0,
+      Investimento: 0,
+      Despesa: 1,
+    }
+
     Object.keys(groupByDate)
       .sort()
       .reduce((sum, i) => {
         const pl = groupByDate[i].reduce(
-          (amount, j) => Math.round(amount + j.value * weightsPl[j.type], 2),
+          (amount, j) => amount + j.value * weightsPl[j.type],
           0
         );
-        this.pls.push([new Date(i).getTime(), sum + pl]);
-        return sum + pl;
-      }, 0);
+        const cash = groupByDate[i].reduce(
+          (amount, j) => amount + j.value * weightsCash[j.type],
+          0
+        );
+        const expenses = groupByDate[i].reduce(
+          (amount, j) => amount + j.value * weightsExpenses[j.type],
+          0
+        );
+        this.series.pls.push([new Date(i).getTime(), Math.round(sum['pls'] += pl, 2)]);
+        this.series.cash.push([new Date(i).getTime(), Math.round(sum['cash'] += cash, 2)]);
+        this.series.expenses.push([new Date(i).getTime(), Math.round(sum['expenses'] += expenses, 2)]);
+        return sum;
+      }, {pls: 0, cash: 0, expenses: 0});
   },
   computed: {
-    series() {
+    getSeries() {
       return [
         {
           name: "PL",
-          data: this.pls,
+          data: this.series.pls,
         },
+        {
+          name: "Caixa",
+          data: this.series.cash,
+          show: false,
+        },
+        {
+          name: "Despesas",
+          data: this.series.expenses,
+          show: false,
+        }
       ];
     },
     totalExpenses() {
