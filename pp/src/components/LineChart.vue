@@ -25,6 +25,7 @@
 </template>
 
 <script>
+// https://apexcharts.com/docs/chart-types/area-chart/
 import VueApexCharts from "vue3-apexcharts";
 
 export default {
@@ -35,6 +36,12 @@ export default {
   props: {
     series: { type: Array, required: true },
   },
+  mounted() {
+    // https://qastack.com.br/programming/47634258/what-is-nexttick-or-what-does-it-do-in-vuejs
+    this.$nextTick(()=>{
+      this.hideSeries()
+    });
+  },
   data() {
     return {
       buttons: ['1M', '6M', '1Y', 'YTD', 'ALL'],
@@ -44,8 +51,12 @@ export default {
           type: "area",
           height: 350,
           zoom: {
-            autoScaleYaxis: true,
+            autoScaleYaxis: false,
           },
+        },
+        stroke: {
+          width: 3,
+          curve: 'smooth',
         },
         // annotations: {
         //   yaxis: [
@@ -99,14 +110,22 @@ export default {
           type: "gradient",
           gradient: {
             shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
+            opacityFrom: 0.1,
+            opacityTo: 0.7,
             stops: [0, 100],
+          },
+        },
+        legend: {
+          show: true,
+          markers: {
+            onClick: function(chart, seriesIndex, opts) {
+              console.log("series- " + seriesIndex + "'s marker was clicked", chart, opts)
+            }
           },
         },
       },
 
-      selection: "one_year",
+      selection: "1Y",
     };
   },
   methods: {
@@ -148,6 +167,11 @@ export default {
           this.$refs.chart.zoomX();
           break;
         default:
+      }
+    },
+    hideSeries: function() {
+      for (const serie of this.series){
+        serie.show == false ? this.$refs.chart.hideSeries(serie.name) : console.log(serie.name)
       }
     },
   },
