@@ -61,7 +61,7 @@ export default {
     });
     this.revenue = this.filter(listResult, (i) => i.type === "Receita");
 
-    const groupByDate = this.groupBy(listResult, (i) => i.date);
+    const groupByDate = this.groupBy(listResult, (i) => i.date.slice(0, 7));
 
     const weightsPl = {
       Bem_gasto: 0,
