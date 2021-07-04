@@ -72,7 +72,7 @@ if (workbox) {
   registerRoute(
     // Check to see if the request's destination is style for an image
     ({ request }) =>
-      request.destination === "image" || request.destination === "ico",
+      request.destination === "image",
     // Use a Cache First caching strategy
     new CacheFirst({
       // Put all cached files in a cache named 'images'

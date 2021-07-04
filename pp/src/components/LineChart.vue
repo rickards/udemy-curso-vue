@@ -215,6 +215,7 @@ export default {
           ? this.$refs.chart.hideSeries(name)
           : this.$refs.chart.showSeries(name);
       }
+      this.updateData(this.selectionInterval)
     },
     amountData: function() {
       this.updateSeries(this.series);
