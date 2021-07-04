@@ -37,9 +37,9 @@ export default {
       investiments: undefined,
       revenue: undefined,
       series: {
-        pls:[],
+        pls: [],
         expenses: [],
-        cash: []
+        cash: [],
       },
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -83,28 +83,40 @@ export default {
       Receita: 0,
       Investimento: 0,
       Despesa: 1,
-    }
+    };
 
     Object.keys(groupByDate)
       .sort()
-      .reduce((sum, i) => {
-        const pl = groupByDate[i].reduce(
-          (amount, j) => amount + j.value * weightsPl[j.type],
-          0
-        );
-        const cash = groupByDate[i].reduce(
-          (amount, j) => amount + j.value * weightsCash[j.type],
-          0
-        );
-        const expenses = groupByDate[i].reduce(
-          (amount, j) => amount + j.value * weightsExpenses[j.type],
-          0
-        );
-        this.series.pls.push([new Date(i).getTime(), Math.round(sum['pls'] += pl, 2)]);
-        this.series.cash.push([new Date(i).getTime(), Math.round(sum['cash'] += cash, 2)]);
-        this.series.expenses.push([new Date(i).getTime(), Math.round(sum['expenses'] += expenses, 2)]);
-        return sum;
-      }, {pls: 0, cash: 0, expenses: 0});
+      .reduce(
+        (sum, i) => {
+          const pl = groupByDate[i].reduce(
+            (amount, j) => amount + j.value * weightsPl[j.type],
+            0
+          );
+          const cash = groupByDate[i].reduce(
+            (amount, j) => amount + j.value * weightsCash[j.type],
+            0
+          );
+          const expenses = groupByDate[i].reduce(
+            (amount, j) => amount + j.value * weightsExpenses[j.type],
+            0
+          );
+          this.series.pls.push([
+            new Date(i).getTime(),
+            Math.round((sum["pls"] += pl), 2),
+          ]);
+          this.series.cash.push([
+            new Date(i).getTime(),
+            Math.round((sum["cash"] += cash), 2),
+          ]);
+          this.series.expenses.push([
+            new Date(i).getTime(),
+            Math.round((sum["expenses"] += expenses), 2),
+          ]);
+          return sum;
+        },
+        { pls: 0, cash: 0, expenses: 0 }
+      );
   },
   computed: {
     getSeries() {
@@ -122,15 +134,22 @@ export default {
           name: "Despesas",
           data: this.series.expenses,
           show: false,
-        }
+        },
       ];
     },
     totalExpenses() {
       return this.expenses.reduce((sum, i) => sum + i.value, 0);
     },
     totalCash() {
-      return this.totalRevenue - this.totalExpenses - this.totalInvestiments - 
-             this.physicalGoods.reduce((sum, i) => i.type == "Bem_gasto" ? sum + i.value : 0, 0);
+      return (
+        this.totalRevenue -
+        this.totalExpenses -
+        this.totalInvestiments -
+        this.physicalGoods.reduce(
+          (sum, i) => (i.type == "Bem_gasto" ? sum + i.value : 0),
+          0
+        )
+      );
     },
     totalPhysicalGoods() {
       return this.physicalGoods.reduce((sum, i) => sum + i.value, 0);
@@ -143,8 +162,12 @@ export default {
     },
     totalPL() {
       return (
-        this.physicalGoods.reduce((sum, i) => i.type == "Bem_ganho" ? sum + i.value : 0, 0) +
-        this.totalRevenue - this.totalExpenses
+        this.physicalGoods.reduce(
+          (sum, i) => (i.type == "Bem_ganho" ? sum + i.value : 0),
+          0
+        ) +
+        this.totalRevenue -
+        this.totalExpenses
       );
     },
   },
