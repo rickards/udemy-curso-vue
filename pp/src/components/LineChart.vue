@@ -1,15 +1,38 @@
 <template>
   <div id="chart">
     <div class="toolbar">
-      <button 
-        v-for="item in buttons" 
-        :key="item"
-        :id="item"
-        @click="updateData(item)"
-        :class="{ active: selection === item, 'chart-button': true }"
-      >
-        {{item}}
-      </button>
+      <div>
+        <button
+          v-for="item in buttons"
+          :key="item"
+          :id="item"
+          @click="updateData(item)"
+          :class="{ active: selectionInterval === item, 'chart-button': true }"
+        >
+          {{ item }}
+        </button>
+      </div>
+
+      <div>
+        <button
+          @click="selectionSpacing = 'Amount'"
+          :class="{
+            active: selectionSpacing === 'Amount',
+            'chart-button': true,
+          }"
+        >
+          Montante
+        </button>
+        <button
+          @click="selectionSpacing = 'Variable'"
+          :class="{
+            active: selectionSpacing === 'Variable',
+            'chart-button': true,
+          }"
+        >
+          Variação
+        </button>
+      </div>
     </div>
 
     <div id="chart-timeline">
@@ -38,25 +61,37 @@ export default {
   },
   mounted() {
     // https://qastack.com.br/programming/47634258/what-is-nexttick-or-what-does-it-do-in-vuejs
-    this.$nextTick(()=>{
-      this.hideSeries()
+    this.$nextTick(() => {
+      this.initialHideSeries();
     });
+  },
+  watch: {
+    selectionSpacing(value) {
+      if (value==="Variable"){
+        this.variableData();
+      }
+      if (value==="Amount"){
+        this.amountData();
+      }
+    },
   },
   data() {
     return {
-      buttons: ['1M', '6M', '1Y', 'YTD', 'ALL'],
+      selectionInterval: "ALL",
+      selectionSpacing: "Amount",
+      buttons: ["1M", "6M", "1Y", "YTD", "ALL"],
       chartOptions: {
         chart: {
           id: "area-datetime",
           type: "area",
           height: 350,
           zoom: {
-            autoScaleYaxis: false,
+            autoScaleYaxis: true,
           },
         },
         stroke: {
           width: 3,
-          curve: 'smooth',
+          curve: "smooth",
         },
         // annotations: {
         //   yaxis: [
@@ -119,18 +154,20 @@ export default {
           show: true,
           markers: {
             onClick: function(chart, seriesIndex, opts) {
-              console.log("series- " + seriesIndex + "'s marker was clicked", chart, opts)
-            }
+              console.log(
+                "series- " + seriesIndex + "'s marker was clicked",
+                chart,
+                opts
+              );
+            },
           },
         },
       },
-
-      selection: "1Y",
     };
   },
   methods: {
     updateData: function(timeline) {
-      this.selection = timeline;
+      this.selectionInterval = timeline;
 
       const endPoint = new Date();
       let startingPoint = new Date(endPoint);
@@ -138,24 +175,15 @@ export default {
       switch (timeline) {
         case "1M":
           startingPoint.setMonth(startingPoint.getMonth() - 1);
-          this.$refs.chart.zoomX(
-            startingPoint.getTime(),
-            endPoint.getTime()
-          );
+          this.$refs.chart.zoomX(startingPoint.getTime(), endPoint.getTime());
           break;
         case "6M":
           startingPoint.setMonth(startingPoint.getMonth() - 6);
-          this.$refs.chart.zoomX(
-            startingPoint.getTime(),
-            endPoint.getTime()
-          );
+          this.$refs.chart.zoomX(startingPoint.getTime(), endPoint.getTime());
           break;
         case "1Y":
           startingPoint.setMonth(startingPoint.getMonth() - 12);
-          this.$refs.chart.zoomX(
-            startingPoint.getTime(),
-            endPoint.getTime()
-          );
+          this.$refs.chart.zoomX(startingPoint.getTime(), endPoint.getTime());
           break;
         case "YTD":
           this.$refs.chart.zoomX(
@@ -169,10 +197,47 @@ export default {
         default:
       }
     },
-    hideSeries: function() {
-      for (const serie of this.series){
-        serie.show == false ? this.$refs.chart.hideSeries(serie.name) : console.log(serie.name)
+    initialHideSeries: function() {
+      for (const serie of this.$refs.chart.series) {
+        serie.show === false
+          ? this.$refs.chart.hideSeries(serie.name)
+          : this.$refs.chart.showSeries(serie.name);
+        serie.show = undefined;
       }
+    },
+    updateSeries: function(data) {
+      const shows = this.$refs.chart.series.map(({ name }) => {
+        return { name, show: !this.$refs.chart.toggleSeries(name) };
+      });
+      this.$refs.chart.updateSeries(data);
+      for (const { name, show } of shows) {
+        show === false
+          ? this.$refs.chart.hideSeries(name)
+          : this.$refs.chart.showSeries(name);
+      }
+    },
+    amountData: function() {
+      this.updateSeries(this.series);
+    },
+    variableData: function() {
+      const dataComputed = [];
+      for (const serie of this.series) {
+        dataComputed.push({
+          ...serie,
+          data: this.variance(serie.data),
+        });
+      }
+      this.updateSeries(dataComputed);
+    },
+    variance(array) {
+      const varianceArray = [];
+      for (let i = 0; i < array.length; i++) {
+        varianceArray.push([
+          array[i][0],
+          array[i - 1] ? array[i][1] - array[i - 1][1] : 0,
+        ]);
+      }
+      return varianceArray;
     },
   },
 };
@@ -184,5 +249,14 @@ export default {
   border: 1px solid rgb(3, 3, 3);
   background-color: #2195f3bb;
   font-size: 1rem;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.active {
+  background-color: #21f372bb;
 }
 </style>
