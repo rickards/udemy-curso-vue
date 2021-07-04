@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && workbox injectManifest src/pwa/workbox-config.js",
     "lint": "vue-cli-service lint",
     "start": "node server.js"
   },
@@ -22,7 +22,8 @@
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "workbox-cli": "^6.1.5"
   },
   "eslintConfig": {
     "root": true,
