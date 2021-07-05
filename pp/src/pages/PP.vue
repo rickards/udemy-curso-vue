@@ -40,6 +40,7 @@ export default {
         pls: [],
         expenses: [],
         cash: [],
+        revenues: [],
       },
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -84,6 +85,13 @@ export default {
       Investimento: 0,
       Despesa: 1,
     };
+    const weightsRevenues = {
+      Bem_gasto: 0,
+      Bem_ganho: 0,
+      Receita: 1,
+      Investimento: 0,
+      Despesa: 0,
+    };
 
     Object.keys(groupByDate)
       .sort()
@@ -101,6 +109,10 @@ export default {
             (amount, j) => amount + j.value * weightsExpenses[j.type],
             0
           );
+          const revenues = groupByDate[i].reduce(
+            (amount, j) => amount + j.value * weightsRevenues[j.type],
+            0
+          );
           this.series.pls.push([
             new Date(i).getTime(),
             Math.round((sum["pls"] += pl), 2),
@@ -113,9 +125,13 @@ export default {
             new Date(i).getTime(),
             Math.round((sum["expenses"] += expenses), 2),
           ]);
+          this.series.revenues.push([
+            new Date(i).getTime(),
+            Math.round((sum["revenues"] += revenues), 2),
+          ]);
           return sum;
         },
-        { pls: 0, cash: 0, expenses: 0 }
+        { pls: 0, cash: 0, expenses: 0, revenues: 0 }
       );
   },
   computed: {
@@ -133,6 +149,11 @@ export default {
         {
           name: "Despesas",
           data: this.series.expenses,
+          show: false,
+        },
+        {
+          name: "Receitas",
+          data: this.series.revenues,
           show: false,
         },
       ];

@@ -250,6 +250,7 @@ export default {
   border: 1px solid rgb(3, 3, 3);
   background-color: #2195f3bb;
   font-size: 1rem;
+  margin-bottom: 5px;
 }
 
 .toolbar {
