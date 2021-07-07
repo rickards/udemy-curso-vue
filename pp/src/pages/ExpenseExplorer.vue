@@ -7,7 +7,7 @@
     </div>
     <div>
       <line-chart v-if="lineChartShow" />
-      <StockGrid :stockCards="assetsBills" @deleted="rmExpense" />
+      <StockGrid :stockCards="assetsBills" @deleted="rmStockExpense" />
     </div>
   </div>
 </template>
@@ -130,9 +130,8 @@ export default {
         return false;
       }
     },
-    rmExpense(el) {
-      console.log(el);
-      database.rmExpenseStockDatabase(el);
+    rmStockExpense(el) {
+      database.rmExpenseStockDatabase({regex: el.id});
       this.updateStocks();
     },
   },
