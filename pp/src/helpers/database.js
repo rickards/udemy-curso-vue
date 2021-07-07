@@ -21,10 +21,14 @@ let db = [
     { "date": "2021-05-05", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 5600 },
     { "date": "2021-05-10", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 1800 },
     { "date": "2021-06-03", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 500 },
+    { "date": "2021-06-05", "id": "-asdasdasdasda", "name": "Aluguel", "type": "Despesa", "value": 5000 },
+    { "date": "2021-06-05", "id": "-asdasdasdasda", "name": "Extra", "type": "Despesa", "value": 10000 },
     { "date": "2021-06-08", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 1200 },
     { "date": date, "id": "-MDsssds3asd1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 3400 },
     { "date": "2021-06-10", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 3000 },
-    { "date": "2021-06-25", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 500 }
+    { "date": "2021-06-25", "id": "-MSDSDcaLZCZSqN1CSiDDN", "name": "Lanche", "type": "Despesa", "value": 500 },
+    { "date": "2021-07-05", "id": "-asdasdasdasda", "name": "Extra", "type": "Despesa", "value": 5000 },
+    { "date": "2021-07-05", "id": "-asdasdasdasda", "name": "Aluguel", "type": "Despesa", "value": 10000 }
 ];
 
 let stocks = [
@@ -32,10 +36,12 @@ let stocks = [
   { "regex": "Farmácia" },
   { "regex": ".*?" },
   { "regex": "Aluguel" },
-  { "regex": "" }
+  { "regex": "" },
+  { "regex": "Extra" }
 ]
 
 function runAndroidMethod(nameMethod, jsonParams) {
+  console.log(nameMethod, jsonParams)
   if (typeof window.Android !== "undefined" && window.Android !== null) {
     const javaReturn = window.Android.callFromDBJava(nameMethod, jsonParams)
     console.log("REBIDO PELO JS:", javaReturn)

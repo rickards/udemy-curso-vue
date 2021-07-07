@@ -72,9 +72,7 @@ export default {
         id: element.regex,
         name: splited[0],
         value: valueCurrentMonth,
-        percent:
-          (valueCurrentMonth - valueLastMonth) /
-            Math.max(valueLastMonth, valueCurrentMonth) || 0,
+        percent: valueCurrentMonth / valueLastMonth - 1 || 0,
       };
 
       this.assetsBills.push(bill);
