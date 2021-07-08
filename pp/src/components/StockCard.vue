@@ -2,9 +2,9 @@
   <div class="stock-card stock-labels">
     <span @click.stop="$emit('stockDeleted', bill)" class="stock-close">x</span>
     <p>{{ bill.name }}</p>
-    <h2>{{ bill.value }}</h2>
+    <h2>{{ price.format(bill.value) }}</h2>
     <p :class="{ green: bill.percent >= 0, red: bill.percent < 0 }">
-      {{ spread }} ({{ bill.percent }})
+      {{ spreadFormat.format(spread) }} ({{ percent.format(bill.percent) }})
       <span v-if="bill.percent >= 0">⇧</span>
       <span v-else>⇩</span>
     </p>
@@ -18,7 +18,21 @@ export default {
   },
   data() {
     return {
-      
+      price: new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      percent: new Intl.NumberFormat("en-US", {
+        style: "percent",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      spreadFormat: new Intl.NumberFormat("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
     };
   },
   computed: {
