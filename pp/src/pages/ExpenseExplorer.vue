@@ -85,7 +85,7 @@ export default {
       const expensesSelected = this.filter(
         this.expenses,
         (i) =>
-          re.test(i.name) && this.datebetweenStartOfMonth(i.date, stringToday)
+          re.test(i.name) && this.dateBetweenStartOfMonth(i.date, stringToday)
       );
       return expensesSelected.reduce((sum, i) => sum + i.value, 0);
     },
@@ -94,11 +94,11 @@ export default {
       const today = new Date().toISOString();
       const expensesSelected = this.filter(
         this.expenses,
-        (i) => re.test(i.name) && this.datebetweenStartOfMonth(i.date, today)
+        (i) => re.test(i.name) && this.dateBetweenStartOfMonth(i.date, today)
       );
       return expensesSelected.reduce((sum, i) => sum + i.value, 0);
     },
-    datebetweenStartOfMonth(dateToEvaluate, deadline) {
+    dateBetweenStartOfMonth(dateToEvaluate, deadline) {
       const after = new Date(deadline);
       let before = new Date(deadline);
       before.setDate(0);

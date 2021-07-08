@@ -15,7 +15,7 @@ export default {
     },
     methods: {
         add() {
-            this.$emit('billAdded', { regex: this.regex })
+            this.$emit('billAdded', { regex: this.regex.slice() })
             this.regex = ''
         }
     }
