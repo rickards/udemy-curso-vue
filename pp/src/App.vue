@@ -9,6 +9,7 @@
       <button @click="page = 'AccountRecord'">RegistroContábil</button>
       <button @click="page = 'ExpenseExplorer'">Explorador de Despesas</button>
       <button @click="page = 'PP'">PP</button>
+      <button @click="page = 'Investiments'">Investimentos</button>
     </div>
   </div>
 </template>
@@ -18,6 +19,7 @@
 import PP from "./pages/PP";
 import ExpenseExplorer from "./pages/ExpenseExplorer";
 import AccountRecord from "./pages/AccountRecord";
+import Investiments from "./pages/Investiments.vue";
 
 export default {
   name: "App",
@@ -25,6 +27,7 @@ export default {
     PP,
     ExpenseExplorer,
     AccountRecord,
+    Investiments
   },
   data() {
     return {
