@@ -2,6 +2,9 @@
   <div>
     <h1>Investimentos</h1>
     <line-chart :series="getSeries" />
+    <div>
+      <Line v-for="inv in investiments" :key="inv.id" :value="inv.value" :label="toStringInvestiment(inv)"></Line>
+    </div>
   </div>
 </template>
 
@@ -9,10 +12,12 @@
 import { HTTP } from "../plugins/axios";
 import database from "@/helpers/interfaceAndroid";
 import LineChart from "../components/LineChart.vue";
+import Line from "../components/Line.vue";
 
 export default {
   components: {
     LineChart,
+    Line
   },
   data() {
     return {
@@ -178,6 +183,9 @@ export default {
       }, 0);
       return weigth;
     },
+    toStringInvestiment(inv) {
+      return inv.qtde + " x " + inv.name;
+    }
   },
 };
 </script>
