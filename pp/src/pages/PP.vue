@@ -4,11 +4,13 @@
     <line-chart :series="getSeries" />
     <div class="grid-column">
       <div class="column">
+        <h3>Ativos</h3>
         <Line label="Caixa" :value="totalCash" />
         <Line label="Bens" :value="totalPhysicalGoods" />
         <Line label="Investimentos" :value="totalInvestiments" />
       </div>
       <div class="column">
+        <h3>Passivos</h3>
         <Line label="Despesas" :value="totalExpenses" />
         <Line label="Depreciação" :value="0" />
         <Line label="Patrimônio Líquido" :value="totalPL" />

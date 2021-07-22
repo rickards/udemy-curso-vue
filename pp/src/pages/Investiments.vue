@@ -2,7 +2,7 @@
   <div>
     <h1>Investimentos</h1>
     <line-chart :series="getSeries" />
-    <div>
+    <div class="grid-cards">
       <Line v-for="inv in investiments" :key="inv.id" :value="inv.value" :label="toStringInvestiment(inv)"></Line>
     </div>
   </div>
@@ -189,3 +189,14 @@ export default {
   },
 };
 </script>
+
+<style>
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  padding: 0.5%;
+  margin: 0.5%;
+  width: 98%;
+}
+</style>

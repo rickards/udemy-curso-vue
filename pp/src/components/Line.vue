@@ -31,6 +31,7 @@ export default {
   background-color: #2195f3bb;
   display: flex;
   padding: 1%;
+  margin: 1%;
 }
 .span-style {
   width: 100%;
