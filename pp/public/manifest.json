@@ -1,0 +1,23 @@
+{
+    "name": "Patrimônio Pessoal",
+    "short_name": "PP",
+    "start_url": "/?source=pwa",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#0476F2",
+    "background_color": "#fff",
+    "icons": [
+        {
+            "src": "icon/ic_laucher_192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "any maskable"
+          },
+          {
+            "src": "icon/ic_laucher_512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+          }
+    ]
+  }
+  
