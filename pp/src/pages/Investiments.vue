@@ -10,7 +10,7 @@
 
 <script>
 import { HTTP } from "../plugins/axios";
-import database from "@/helpers/interfaceAndroid";
+import database from "@/helpers/db-interface";
 import LineChart from "../components/LineChart.vue";
 import Line from "../components/Line.vue";
 
@@ -30,12 +30,13 @@ export default {
     };
   },
   created() {
-    this.investiments = this.filter(
-      database.getExpensesDatabase(),
-      (i) => i.type === "Investimento"
-    );
-
-    this.createSeries();
+    database.getExpensesDatabase().then((result) => {
+      this.investiments = this.filter(
+        result,
+        (i) => i.type === "Investimento"
+      );
+      this.createSeries();
+    })
   },
   computed: {
     getSeries() {

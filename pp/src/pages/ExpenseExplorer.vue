@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import database from "@/helpers/interfaceAndroid";
+import database from "@/helpers/db-interface";
 import Translations from "@/helpers/translations";
 import StockGrid from "../components/StockGrid";
 import NewBill from "../components/NewBill";
@@ -43,14 +43,18 @@ export default {
     updateStocks() {
       this.assetsBills = [];
       this.invalidInput = undefined;
-      this.expenses = this.filter(
-        database.getExpensesDatabase(),
-        (i) => i.type === "Despesa"
-      );
-      this.stocks = database.getExpenseStocksDatabase();
-      this.stocks.forEach((element) => {
-        this.createAssetBill(element);
-      });
+      database.getExpensesDatabase().then((resp) => {
+        this.expenses = this.filter(
+          resp,
+          (i) => i.type === "Despesa"
+        );
+      })
+      database.getExpenseStocksDatabase().then((resp) => {
+        this.stocks = resp
+        this.stocks.forEach((element) => {
+          this.createAssetBill(element);
+        });
+      })
     },
     filter(array, lambda) {
       let result = [];

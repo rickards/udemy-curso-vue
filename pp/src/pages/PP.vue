@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import database from "@/helpers/interfaceAndroid";
+import database from "@/helpers/db-interface";
 import Translations from "@/helpers/translations";
 import LineChart from "../components/LineChart.vue";
 import Line from "../components/Line.vue";
@@ -34,10 +34,10 @@ export default {
   data() {
     return {
       translator: Translations.pp,
-      expenses: undefined,
-      physicalGoods: undefined,
-      investiments: undefined,
-      revenue: undefined,
+      expenses: [],
+      physicalGoods: [],
+      investiments: [],
+      revenue: [],
       series: {
         pls: [],
         expenses: [],
@@ -53,19 +53,20 @@ export default {
     };
   },
   created() {
-    const listResult = database.getExpensesDatabase();
-    this.expenses = this.filter(listResult, (i) => i.type === "Despesa");
-    this.physicalGoods = this.filter(
-      listResult,
-      (i) => i.type === "Bem_gasto" || i.type === "Bem_ganho"
-    );
-    this.investiments = this.filter(listResult, (i) => {
-      return i.type === "Investimento";
-    });
-    this.revenue = this.filter(listResult, (i) => i.type === "Receita");
-
-    const groupByDate = this.groupBy(listResult, (i) => i.date.slice(0, 7));
-    this.createSeries(groupByDate);
+    database.getExpensesDatabase().then((listResult) => {
+      this.expenses = this.filter(listResult, (i) => i.type === "Despesa");
+      this.physicalGoods = this.filter(
+        listResult,
+        (i) => i.type === "Bem_gasto" || i.type === "Bem_ganho"
+      );
+      this.investiments = this.filter(listResult, (i) => {
+        return i.type === "Investimento";
+      });
+      this.revenue = this.filter(listResult, (i) => i.type === "Receita");
+  
+      const groupByDate = this.groupBy(listResult, (i) => i.date.slice(0, 7));
+      this.createSeries(groupByDate);
+    })
   },
   computed: {
     getSeries() {

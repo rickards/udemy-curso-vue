@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import database from "@/helpers/interfaceAndroid";
+import database from "@/helpers/db-interface";
 
 export default {
   name: "AccountRecord",
