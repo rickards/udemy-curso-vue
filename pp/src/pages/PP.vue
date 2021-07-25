@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ translator.title["EN"] }}</h1>
+    <h1>{{ translator.title["PT"] }}</h1>
     <line-chart :series="getSeries" />
     <div class="grid-column">
       <div class="column">

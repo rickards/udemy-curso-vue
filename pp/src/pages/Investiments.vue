@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      investiments: undefined,
+      investiments: [],
       series: {
         applied: [],
         variance: [],

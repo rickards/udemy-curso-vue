@@ -59,12 +59,6 @@ export default {
   props: {
     series: { type: Array, required: true },
   },
-  mounted() {
-    // https://qastack.com.br/programming/47634258/what-is-nexttick-or-what-does-it-do-in-vuejs
-    this.$nextTick(() => {
-      this.initialHideSeries();
-    });
-  },
   watch: {
     selectionSpacing(value) {
       if (value==="Variable"){
@@ -74,6 +68,15 @@ export default {
         this.amountData();
       }
     },
+    series: {
+      deep: true,
+      handler() {
+        // https://qastack.com.br/programming/47634258/what-is-nexttick-or-what-does-it-do-in-vuejs
+        this.$nextTick(() => {
+          this.initialHideSeries();
+        });
+      }
+    }
   },
   data() {
     return {
@@ -202,7 +205,6 @@ export default {
         serie.show === false
           ? this.$refs.chart.hideSeries(serie.name)
           : this.$refs.chart.showSeries(serie.name);
-        serie.show = undefined;
       }
     },
     updateSeries: function(data) {
