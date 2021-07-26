@@ -135,8 +135,9 @@ export default {
       }
     },
     rmStockExpense(el) {
-      database.rmExpenseStockDatabase({regex: el.id});
-      this.updateStocks();
+      database.rmExpenseStockDatabase({regex: el.id}).then(()=>{
+        this.updateStocks();
+      })
     },
   },
 };

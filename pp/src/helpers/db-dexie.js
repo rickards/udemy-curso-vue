@@ -3,7 +3,7 @@ import Dexie from "dexie";
 const db = new Dexie("pp");
 
 db.version(0.1).stores({
-  expenses: "++id, name, age",
+  expenses: "++id",
   expensesStocks: "++id, regex"
 });
 
@@ -57,21 +57,22 @@ function getExpensesStocks() {
 }
 
 function addExpenses(expense) {
-  db.expenses.push(JSON.parse(expense))
+  db.expenses.add(JSON.parse(expense))
 }
 
 function addExpenseStock(expenseStock) {
-  db.expensesStocks.push(JSON.parse(expenseStock))
+  db.expensesStocks.add(JSON.parse(expenseStock))
 }
 
 function rmExpenseStock(expense) {
-  const stocks = getExpensesStocks()
   const el = JSON.parse(expense)
-  for( let i = 0; i < stocks.length; i++){
-    if ( stocks[i].regex === el.regex) {
-      db.expensesStocks.delete(stocks[i].id)
-    }
-  }
+  return getExpensesStocks().then((stocks) => {
+    Object.keys(stocks).forEach((key) => {
+      if ( stocks[key].regex === el.regex) {
+        db.expensesStocks.delete(stocks[key].id)
+      }
+    })
+  })
 }
 
 export default {
