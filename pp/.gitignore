@@ -23,6 +23,5 @@ pnpm-debug.log*
 *.sw?
 
 # PNG files
-*.png
 *.ico
 *.jpeg
