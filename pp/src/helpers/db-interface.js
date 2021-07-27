@@ -7,24 +7,24 @@ const getExpensesDatabase = async () => {
   });
 };
 
-const addExpenseDatabase = (expense) => {
-  bridge.runAndroidMethod("addExpense", JSON.stringify(expense));
+const addExpenseDatabase = async (expense) => {
+  return await bridge.runAndroidMethod("addExpense", JSON.stringify(expense));
 }
 
-const updateExpenseDatabase = (expense) => {
-  bridge.runAndroidMethod("updateExpense", JSON.stringify(expense));
+const updateExpenseDatabase = async (expense) => {
+  return await bridge.runAndroidMethod("updateExpense", JSON.stringify(expense));
 }
 
-const getExpenseStocksDatabase = () => {
-  return bridge.runAndroidMethod("getExpenseStocks");
+const getExpenseStocksDatabase = async () => {
+  return await bridge.runAndroidMethod("getExpenseStocks");
 }
 
-const addExpenseStockDatabase = (el) => {
-  return bridge.runAndroidMethod("addExpenseStock", JSON.stringify(el));
+const addExpenseStockDatabase = async (el) => {
+  return await bridge.runAndroidMethod("addExpenseStock", JSON.stringify(el));
 }
 
-const rmExpenseStockDatabase = (el) => {
-  return bridge.runAndroidMethod("rmExpenseStock", JSON.stringify(el));
+const rmExpenseStockDatabase = async (el) => {
+  return await bridge.runAndroidMethod("rmExpenseStock", JSON.stringify(el));
 }
 
 export default {

@@ -113,8 +113,9 @@ export default {
     },
     addExpense(el) {
       if (this.inputRegexValidateData(el)) {
-        database.addExpenseStockDatabase(el);
-        this.updateStocks();
+        database.addExpenseStockDatabase(el).then(() => {
+          this.updateStocks();
+        })
       } else {
         this.invalidInput = "Regex inválida:\n" + el.regex;
       }
