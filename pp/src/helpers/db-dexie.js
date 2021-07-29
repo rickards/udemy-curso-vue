@@ -23,9 +23,9 @@ db.on("populate", function() {
     db.expenses.add({id: i+8, date: getDateBetween1Year(), type: "Bem_ganho",name: "Macbook", value: getRandomInt(500000, 1200000)});
     db.expenses.add({id: i+9, date: getDateBetween1Year(), type: "Receita",name: "Vendas", value: getRandomInt(8000, 40000)});
   }
-  db.expenses.add({id: i+1, date: getDateBetween1Year(), type: "Investimento", name: "VRTA11", value: 105.99 * 200, qtde: 200 });
-  db.expenses.add({id: i+2, date: getDateBetween1Year(), type: "Investimento", name: "RBRP11", value: 92.5 * 300, qtde: 300 });
-  db.expenses.add({id: i+3, date: getDateBetween1Year(), type: "Investimento", name: "ABCB4", value: 14.75 * 1800, qtde: 1800 });
+  db.expenses.add({id: i+1, date: getDateBetween1Year(), type: "Investimento", name: "VRTA11", value: 100 * 105.99 * 200, qtde: 200 });
+  db.expenses.add({id: i+2, date: getDateBetween1Year(), type: "Investimento", name: "RBRP11", value: 100 * 92.5 * 300, qtde: 300 });
+  db.expenses.add({id: i+3, date: getDateBetween1Year(), type: "Investimento", name: "ABCB4", value: 100 * 14.75 * 1800, qtde: 1800 });
 
   // Init your DB with some default expensesStocks:
   db.expensesStocks.add({regex: "Despesas=.*?" });
