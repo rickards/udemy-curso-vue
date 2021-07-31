@@ -54,16 +54,7 @@ export default {
         {
           name: "Proventos",
           data: this.series.plusProvents,
-        },
-        // {
-        //   name: "+ Proventos",
-        //   data: this.series.plusProvents.map((item, index) => [
-        //     item[0],
-        //     item[1] + this.series.variance[index]
-        //       ? this.series.variance[index][1]
-        //       : 0,
-        //   ]),
-        // },
+        }
       ];
     },
   },
@@ -89,25 +80,9 @@ export default {
         this.investiments,
         (i) => i.date
       );
-      console.log("investimentsGroupByDate", investimentsGroupByDate)
 
       const aportDates = Object.keys(investimentsGroupByDate).sort();
 
-      // aportDates.concat(today).reduce((sum, date) => {
-      //   const applied = investimentsGroupByDate[date]
-      //     ? investimentsGroupByDate[date].reduce(
-      //         (amount, j) => amount + j.value,
-      //         0
-      //       )
-      //     : 0;
-
-      //   this.series.applied.push([
-      //     new Date(date).getTime(),
-      //     Math.round((sum += applied), 2),
-      //   ]);
-
-      //   return sum;
-      // }, 0);
       const datesSelected = []
 
       const query = this.investiments
@@ -161,53 +136,11 @@ export default {
           Math.round(this.getAportsInDay(date, quotes), 2),
         ]);
 
-        // this.series.plusProvents.push([
-        //   new Date(date).getTime(),
-        //   Math.round(getAmountDividendsInDay(date, quotes, dividends), 2)
-        // ]);
-
+        this.series.plusProvents.push([
+          new Date(date).getTime(),
+          Math.round(this.getAmountDividendsInDay(date, quotes, dividends), 2)
+        ]);
       })
-
-
-
-
-
-
-
-
-
-      // HTTP.get("/dividends?query=" + query).then((resp) => {
-      //   const response = resp.data.response;
-      //   const appliedDates = this.getDaysFrom(aportDates[0]);
-
-
-
-
-      //   const dividendsSerie = {};
-      //   for (let date of appliedDates) {
-      //     dividendsSerie[date] = 0;
-      //   }
-
-      //   quotes.forEach((quote) => {
-      //     const date = response[quote].date;
-      //     const dividends = response[quote].dividends;
-      //     for (let i = 0; i < date.length; i++) {
-      //       const key = date[i];
-      //       if (Object.keys(dividendsSerie).indexOf(key) != -1) {
-      //         const weigth = this.getQtdeQuotes(quote, date[i]);
-      //         dividendsSerie[key] += dividends[i] * weigth;
-      //       }
-      //     }
-      //   });
-
-      //   Object.keys(dividendsSerie).reduce((sum, key) => {
-      //     this.series.plusProvents.push([
-      //       new Date(key).getTime(),
-      //       Math.round(sum, 2),
-      //     ]);
-      //     return (sum += dividendsSerie[key]);
-      //   }, 0);
-      // });
     },
     getDaysFrom(startDate) {
       const firstDay = new Date(startDate);
@@ -228,20 +161,20 @@ export default {
       }, 0);
       return weigth;
     },
-    // getAmountDividendsInDay(date, quotes, dividends){
-    //   const filtered = this.investiments.filter((inv) => inv.date<=date && quotes.indexOf(inv.name + ".SA")!==-1);
-    //   filtered
-
-    //   quotes.map((quote) => {
-    //     const dates = dividends[quote].date
-    //     for (let i=0; i < dates.length; i++){
-    //       if (dates[i] < date){
-
-    //       }
-    //     }
-    //   })
-    //   return 0;
-    // },
+    getAmountDividendsInDay(date, quotes, dividends){
+      const filtered = this.investiments.filter((inv) => date>=inv.date && quotes.indexOf(inv.name + ".SA")!==-1);
+      return filtered.reduce((sum, inv) => (sum += this.getDividendsFromAport(inv, date, dividends)), 0)
+    },
+    getDividendsFromAport({name, date, qtde}, dateConsulted, dividends){
+      let value = 0;
+      const quote = name + ".SA";
+      dividends[quote].date.forEach((day) => {
+        const index = dividends[quote].date.indexOf(day)
+        const additional = dividends[quote].dividends[index] * qtde
+        value += day <= dateConsulted && day > date ? additional : 0
+      })
+      return value
+    },
     getAportsInDay(date, quotes){
       const filtered = this.investiments.filter((inv) => inv.date<=date && quotes.indexOf(inv.name + ".SA")!==-1)
       return filtered.reduce((acc, i) => acc + i.value, 0);
