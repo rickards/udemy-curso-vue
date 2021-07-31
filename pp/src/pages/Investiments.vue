@@ -3,7 +3,12 @@
     <h1>Investimentos</h1>
     <line-chart :series="getSeries" />
     <div class="grid-cards">
-      <Line v-for="inv in investiments" :key="inv.id" :value="inv.value" :label="toStringInvestiment(inv)"></Line>
+      <Line
+        v-for="inv in investiments"
+        :key="inv.id"
+        :value="inv.value"
+        :label="toStringInvestiment(inv)"
+      ></Line>
     </div>
   </div>
 </template>
@@ -17,7 +22,7 @@ import Line from "../components/Line.vue";
 export default {
   components: {
     LineChart,
-    Line
+    Line,
   },
   data() {
     return {
@@ -31,12 +36,9 @@ export default {
   },
   created() {
     database.getExpensesDatabase().then((result) => {
-      this.investiments = this.filter(
-        result,
-        (i) => i.type === "Investimento"
-      );
+      this.investiments = this.filter(result, (i) => i.type === "Investimento");
       this.createSeries();
-    })
+    });
   },
   computed: {
     getSeries() {
@@ -82,88 +84,130 @@ export default {
         return rv;
       }, {});
     },
-    createSeries() {
+    async createSeries() {
       const investimentsGroupByDate = this.groupBy(
         this.investiments,
         (i) => i.date
       );
+      console.log("investimentsGroupByDate", investimentsGroupByDate)
 
-      const startDate = Object.keys(investimentsGroupByDate).sort();
-      const appliedDates = this.getDaysFrom(startDate[0]);
+      const aportDates = Object.keys(investimentsGroupByDate).sort();
 
-      appliedDates.reduce((sum, date) => {
-        const applied = investimentsGroupByDate[date]
-          ? investimentsGroupByDate[date].reduce(
-              (amount, j) => amount + j.value,
-              0
-            )
-          : 0;
-        this.series.applied.push([
-          new Date(date).getTime(),
-          Math.round((sum += applied), 2),
-        ]);
-        return sum;
-      }, 0);
+      // aportDates.concat(today).reduce((sum, date) => {
+      //   const applied = investimentsGroupByDate[date]
+      //     ? investimentsGroupByDate[date].reduce(
+      //         (amount, j) => amount + j.value,
+      //         0
+      //       )
+      //     : 0;
+
+      //   this.series.applied.push([
+      //     new Date(date).getTime(),
+      //     Math.round((sum += applied), 2),
+      //   ]);
+
+      //   return sum;
+      // }, 0);
+      const datesSelected = []
 
       const query = this.investiments
         .map((el) => el.name + ".SA")
         .join(["%2C"]);
 
-      HTTP.get("/historical?query=" + query).then((resp) => {
-        const response = resp.data.response;
+      const historical = (await HTTP.get("/historical?query=" + query)).data.response
+      const quotes = Object.keys(historical).slice(0, -1);
 
-        const dateSerie = response.date.slice(
-          response.date.indexOf(appliedDates[0])
-        );
+      const dayByDay = historical.date.slice(
+        historical.date.indexOf(aportDates[0])
+      );
 
-        dateSerie.forEach((date) => {
-          const quotes = Object.keys(response).slice(0, -1);
-          const intraDay = quotes.reduce((sum, quote) => {
-            const index = response.date.indexOf(date);
+      const datesByMonth = this.groupBy(dayByDay, (date) => date.slice(0, 7))
 
-            const weigth = this.getQtdeQuotes(quote, date);
-            return sum + response[quote][index] * weigth;
-          }, 0);
+      // Each month I choice 2 dates (min and max)
+      Object.keys(datesByMonth).forEach((key) => {
 
-          this.series.variance.push([
-            new Date(date).getTime(),
-            Math.round(intraDay, 2),
-          ]);
-        });
-      });
+        const dates = datesByMonth[key]
 
-      HTTP.get("/dividends?query=" + query).then((resp) => {
-        const response = resp.data.response;
-        const quotes = Object.keys(response);
+        let minDate, maxDate;
+        let minValue, maxValue;
 
-        const startDate = this.investiments.map((i) => i.date).sort()[0];
-        const appliedDates = this.getDaysFrom(startDate);
+        dates.forEach((date) => {
+          const intraDay = this.getVarianceInDay(date, quotes, historical);
 
-        const dividendsSerie = {};
-        for (let date of appliedDates) {
-          dividendsSerie[date] = 0;
-        }
+          if (minValue||intraDay >= intraDay) minDate = date;
+          if (maxValue||intraDay <= intraDay) maxDate = date;
+          
+        })
 
-        quotes.forEach((quote) => {
-          const date = response[quote].date;
-          const dividends = response[quote].dividends;
-          for (let i = 0; i < date.length; i++) {
-            const key = date[i];
-            if (Object.keys(dividendsSerie).indexOf(key) != -1) {
-              const weigth = this.getQtdeQuotes(quote, date[i]);
-              dividendsSerie[key] += dividends[i] * weigth;
-            }
-          }
-        });
+        datesSelected.push(minDate)
+        datesSelected.push(maxDate)
+      })
 
-        Object.keys(dividendsSerie).reduce((sum, key) => {
-          this.series.plusProvents.push([
-            new Date(key).getTime(),
-            Math.round(sum, 2),
-          ]);
-          return (sum += dividendsSerie[key]);
-        }, 0);
-      });
+      const dividends = (await HTTP.get("/dividends?query=" + query)).data.response
+      quotes.forEach((quote) => {
+        datesSelected.push(...dividends[quote].date.filter((i) => aportDates[0] < i && i > aportDates[-1]))
+      })
+
+      datesSelected.push(...aportDates)
+      
+      Array.from(new Set(datesSelected)).sort().forEach((date) => {
+        this.series.variance.push([
+          new Date(date).getTime(),
+          Math.round(this.getVarianceInDay(date, quotes, historical) || 0, 2),
+        ]);
+
+        this.series.applied.push([
+          new Date(date).getTime(),
+          Math.round(this.getAportsInDay(date, quotes), 2),
+        ]);
+
+        // this.series.plusProvents.push([
+        //   new Date(date).getTime(),
+        //   Math.round(getAmountDividendsInDay(date, quotes, dividends), 2)
+        // ]);
+
+      })
+
+
+
+
+
+
+
+
+
+      // HTTP.get("/dividends?query=" + query).then((resp) => {
+      //   const response = resp.data.response;
+      //   const appliedDates = this.getDaysFrom(aportDates[0]);
+
+
+
+
+      //   const dividendsSerie = {};
+      //   for (let date of appliedDates) {
+      //     dividendsSerie[date] = 0;
+      //   }
+
+      //   quotes.forEach((quote) => {
+      //     const date = response[quote].date;
+      //     const dividends = response[quote].dividends;
+      //     for (let i = 0; i < date.length; i++) {
+      //       const key = date[i];
+      //       if (Object.keys(dividendsSerie).indexOf(key) != -1) {
+      //         const weigth = this.getQtdeQuotes(quote, date[i]);
+      //         dividendsSerie[key] += dividends[i] * weigth;
+      //       }
+      //     }
+      //   });
+
+      //   Object.keys(dividendsSerie).reduce((sum, key) => {
+      //     this.series.plusProvents.push([
+      //       new Date(key).getTime(),
+      //       Math.round(sum, 2),
+      //     ]);
+      //     return (sum += dividendsSerie[key]);
+      //   }, 0);
+      // });
     },
     getDaysFrom(startDate) {
       const firstDay = new Date(startDate);
@@ -184,15 +228,40 @@ export default {
       }, 0);
       return weigth;
     },
+    // getAmountDividendsInDay(date, quotes, dividends){
+    //   const filtered = this.investiments.filter((inv) => inv.date<=date && quotes.indexOf(inv.name + ".SA")!==-1);
+    //   filtered
+
+    //   quotes.map((quote) => {
+    //     const dates = dividends[quote].date
+    //     for (let i=0; i < dates.length; i++){
+    //       if (dates[i] < date){
+
+    //       }
+    //     }
+    //   })
+    //   return 0;
+    // },
+    getAportsInDay(date, quotes){
+      const filtered = this.investiments.filter((inv) => inv.date<=date && quotes.indexOf(inv.name + ".SA")!==-1)
+      return filtered.reduce((acc, i) => acc + i.value, 0);
+    },
+    getVarianceInDay(date, quotes, response){
+      return quotes.reduce((sum, quote) => {
+        let index = response.date.indexOf(date);
+
+        const weigth = this.getQtdeQuotes(quote, date);
+        return sum + response[quote][index] * weigth;
+      }, 0);
+    },
     toStringInvestiment(inv) {
       return inv.qtde + " x " + inv.name;
-    }
+    },
   },
 };
 </script>
 
 <style>
-
 .grid-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
