@@ -48,13 +48,30 @@ export default {
           data: this.series.applied,
         },
         {
-          name: "Valorização",
+          name: "Mont. + Valorização",
           data: this.series.variance,
+          show: false
+        },
+        {
+          name: "Mont. + Val. + Prov",
+          data: this.series.plusProvents.map((item, index) => [
+            item[0],
+            item[1] + this.series.variance[index][1],
+          ]),
+        },
+        {
+          name: "Valorização",
+          data: this.series.variance.map((item, index) => [
+            item[0],
+            item[1] - this.series.applied[index][1],
+          ]),
+          show: false
         },
         {
           name: "Proventos",
           data: this.series.plusProvents,
-        }
+          show: false
+        },
       ];
     },
   },

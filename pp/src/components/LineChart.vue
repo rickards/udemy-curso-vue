@@ -249,10 +249,11 @@ export default {
 <style>
 .chart-button {
   outline: none;
-  border: 1px solid rgb(3, 3, 3);
+  border: 1px solid rgba(3, 3, 3, 0.144);
   background-color: #2195f3bb;
   font-size: 1rem;
   margin-bottom: 5px;
+  margin: 0.2%;
 }
 
 .toolbar {
