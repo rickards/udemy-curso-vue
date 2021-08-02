@@ -18,13 +18,16 @@ export default {
   },
   props: {
     serie: { type: Array, required: true },
-    categories: { type: Array, required: true }
+    categories: { type: Array, required: true },
   },
   methods: {
-      dataSort(array){
-          let sortedIndex = this.serie.slice(0).sort((a, b) => b - a).map((el) => this.serie.indexOf(el))
-          return sortedIndex.map((i) => array[i])
-      }
+    dataSort(array) {
+      let sortedIndex = this.serie
+        .slice(0)
+        .sort((a, b) => b - a)
+        .map((el) => this.serie.indexOf(el));
+      return sortedIndex.map((i) => array[i]);
+    },
   },
   data() {
     return {
@@ -46,14 +49,14 @@ export default {
           },
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
         },
         xaxis: {
           categories: this.dataSort(this.categories),
         },
         fill: {
-          // colors: this.dataSort(this.categories).map((i) => i>0 ? '#97fb91': '#ff0000' ),
-          colors: ['#000', '#FFF', '#9C27B0']
+          colors: [({value}) => value > 0 ? "#228B22" : "#ff0000"],
+          opacity: 0.5,
         },
       },
     };
