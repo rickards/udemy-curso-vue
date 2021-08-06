@@ -1,7 +1,7 @@
 <template>
     <div class="new-bill">
         <input v-model="regex" @keydown.enter="add" type="text"
-            class="form-element" placeholder="<conta> = <sua regex>">
+            class="form-element" placeholder="cotação">
         <button class="form-element" @click="add">+</button>
     </div>
 </template>

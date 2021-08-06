@@ -26,6 +26,7 @@ export default {
         .slice(0)
         .sort((a, b) => b - a)
         .map((el) => this.serie.indexOf(el));
+        // console.log("index", sortedIndex)
       return sortedIndex.map((i) => array[i]);
     },
   },
@@ -35,6 +36,7 @@ export default {
         {
           //apexcharts
           data: this.dataSort(this.serie),
+          // data: this.serie,
         },
       ],
       chartOptions: {
@@ -61,6 +63,9 @@ export default {
       },
     };
   },
+  created(){
+    // console.log("props", this.serie, this.categories)
+  }
 };
 </script>
 
