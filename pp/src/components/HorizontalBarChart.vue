@@ -57,7 +57,7 @@ export default {
           categories: this.dataSort(this.categories),
         },
         fill: {
-          colors: [({value}) => value > 0 ? "#228B22" : "#ff0000"],
+          colors: [({value}) => value > 0 ? "#2196F3" : "#ff0000"],
           opacity: 0.5,
         },
       },
