@@ -60,7 +60,7 @@ export default {
     // }
   },
   created() {
-    this.startDate.setDate(this.startDate.getDate() - 365*4); //2 anos
+    this.startDate.setDate(this.startDate.getDate() - 365*4); //4 anos
     Object.keys(this.mappingAssets).map((index) => {
       this.sliderValues[index] = 0
       this.sliderInterval[index] = [0, 100]
@@ -68,12 +68,9 @@ export default {
   },
   mounted() {
     (async () => {
-      const codes = Object.keys(this.mappingAssets).reduce(
-        (list, key) => {
-          list.push(...this.mappingAssets[key].assets)
-          return list
-        }, []
-      )
+      const codes = []
+      Object.keys(this.mappingAssets).forEach((i) => codes.push(...this.mappingAssets[i].assets))
+
       const query = codes.join(['%2C'])
 
       this.hist = (await HTTP.get("/historical?query=" + query)).data.response
@@ -87,21 +84,14 @@ export default {
       if (!this.hist || !this.quotes) return undefined
 
       const growths = {}
-
-      const quotes = this.quotes.reduce(
-        (dic, qt) => {
-          dic[qt.symbol] = qt
-          return dic
-        }, {})
+      const dictQuotes = this.quotes.reduce((dict, qt) => dict.set(qt.symbol, qt), new Map())
 
       for (let key of Object.keys(this.mappingAssets)) {
         const codes = this.mappingAssets[key].assets
         const indexHomoDay = this.sliderValues[key]
 
-        //TODO: resolver linha abaixo
         const { weights, amountPart } = this.getQuotesWeight(codes.map((cod) => this.hist[cod][indexHomoDay] ))
-
-        const prices = codes.map((code) => quotes[code].regularMarketPrice)
+        const prices = codes.map((code) => dictQuotes.get(code).regularMarketPrice)
         // const percents = quotes.map((x) => x.regularMarketChangePercent)
 
         const growth = codes.reduce((d, quote) => {
@@ -109,6 +99,7 @@ export default {
           d[quote] = (((weights[quoteIndex] * prices[quoteIndex]) / amountPart) * 100) - 100
           return d
         }, {})
+        
         growths[key] = growth
       }
       // console.log(growths)
@@ -129,25 +120,15 @@ export default {
         })
       },
       getPossibleIndex(codes){
-        let date;
-        for (date of this.hist.date){
-          if (date > this.startDate.toISOString().slice(0, 10)) break;
-        }
+        const date = Math.min(...this.hist.date.filter((i) => i > this.startDate.toISOString().slice(0, 10)))
         const indexs = codes.map((code) => this.getValueFromIndex(this.hist.date.indexOf(date), this.hist[code]))
         return Math.max(...indexs)
       },
       getValueFromIndex(index, array){
-        while (!array[index]){
+        while (array[index]===0){
           index += 1
         }
         return index
-      },
-      dateNeighbor(startDate, listDate){
-        let date;
-        for (date of listDate.sort()){
-          if (date > startDate.toISOString().slice(0, 10)) return date;
-        }
-        return listDate.sort().slice(-1)
       },
       getQuotesWeight(quotesPrice) {    
         const amountPart = 100 / quotesPrice.length
