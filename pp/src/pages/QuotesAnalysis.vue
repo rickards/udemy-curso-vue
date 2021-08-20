@@ -102,7 +102,6 @@ export default {
         
         growths[key] = growth
       }
-      // console.log(growths)
       return growths
     }
   },
@@ -120,7 +119,10 @@ export default {
         })
       },
       getPossibleIndex(codes){
-        const date = Math.min(...this.hist.date.filter((i) => i > this.startDate.toISOString().slice(0, 10)))
+        const date = this.hist.date.filter((i) => i > this.startDate.toISOString().slice(0, 10))
+                      .sort()
+                      .reverse()
+                      .pop()
         const indexs = codes.map((code) => this.getValueFromIndex(this.hist.date.indexOf(date), this.hist[code]))
         return Math.max(...indexs)
       },
