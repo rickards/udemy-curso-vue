@@ -41,6 +41,9 @@ export default {
       ],
       chartOptions: {
         chart: {
+          animations: {
+            enabled: false,
+          },
           type: "bar",
           height: 50,
         },

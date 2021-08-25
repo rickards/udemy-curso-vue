@@ -1,17 +1,22 @@
 <template>
   <div>
     <h1>Meus Índices</h1>
+    <div class="toolbar">
+      <div v-for="cat in Object.keys(mappingAssets)" :key="cat">
+        <button class="chart-button">{{cat}}</button>
+      </div>
+    </div>
     <div v-for="cat in Object.keys(mappingAssets)" :key="cat">
       <h5>{{cat}}</h5>
       <BarChart
         v-if="getDictQuoteGrowth"
         :serie="mappingAssets[cat].assets.map((quote)=>getDictQuoteGrowth[cat][quote])"
         :categories="mappingAssets[cat].assets"
-        :key="getDictQuoteGrowth"
+        :key="getDictQuoteGrowth[cat]"
       ></BarChart>
-      <div v-if="sliderValues" class="slidecontainer">
+      <div v-if="hist" class="slidecontainer">
         <input type="range" :min="sliderInterval[cat][0]" :max="sliderInterval[cat][1]" class="slider" id="myRange" v-model="sliderValues[cat]">
-        <h5>{{sliderValues[cat]}}</h5>
+        <h5>{{hist.date[sliderValues[cat]]}}</h5>
       </div>
     </div>
     <NewBill @billAdded="addQuote"></NewBill>
@@ -49,6 +54,7 @@ export default {
         }
       },
       hist: undefined,
+      marketData: undefined,
       quotes: undefined,
       sliderValues: {},
       sliderInterval: {}
@@ -74,29 +80,29 @@ export default {
       const query = codes.join(['%2C'])
 
       this.hist = (await HTTP.get("/historical?query=" + query)).data.response
-      this.quotes = (await HTTP.get("/quotes?query=" + query)).data.response
+      // this.marketData = (await HTTP.get("/quotes?query=" + query)).data.response
+
+      // this.quotes = this.marketData.reduce((dict, qt) => dict.set(qt.symbol, qt.regularMarketPrice), new Map())
+
+      this.quotes = codes.reduce((dict, code) => dict.set(code, this.hist[code].slice(-1).pop()), new Map())
 
       this.getSliderInterval()
     })();
   },
   computed: {
     getDictQuoteGrowth(){
-      if (!this.hist || !this.quotes) return undefined
+      if (!this.hist) return undefined
 
       const growths = {}
-      const dictQuotes = this.quotes.reduce((dict, qt) => dict.set(qt.symbol, qt), new Map())
 
       for (let key of Object.keys(this.mappingAssets)) {
         const codes = this.mappingAssets[key].assets
         const indexHomoDay = this.sliderValues[key]
 
-        const { weights, amountPart } = this.getQuotesWeight(codes.map((cod) => this.hist[cod][indexHomoDay] ))
-        const prices = codes.map((code) => dictQuotes.get(code).regularMarketPrice)
-        // const percents = quotes.map((x) => x.regularMarketChangePercent)
-
-        const growth = codes.reduce((d, quote) => {
-          const quoteIndex = codes.indexOf(quote)
-          d[quote] = (((weights[quoteIndex] * prices[quoteIndex]) / amountPart) * 100) - 100
+        const growth = codes.reduce((d, cod) => {
+          const before = this.hist[cod][indexHomoDay]
+          const after = this.quotes.get(cod)
+          d[cod] = ((after/before - 1) * 100).toFixed(2)
           return d
         }, {})
         
