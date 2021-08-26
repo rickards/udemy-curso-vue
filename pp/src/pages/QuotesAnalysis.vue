@@ -2,21 +2,21 @@
   <div>
     <h1>Meus Índices</h1>
     <div class="toolbar">
-      <div v-for="cat in Object.keys(mappingAssets)" :key="cat">
-        <button class="chart-button">{{cat}}</button>
+      <div v-for="category in Object.keys(mappingAssets)" :key="category">
+        <button class="chart-button">{{category}}</button>
       </div>
     </div>
-    <div v-for="cat in Object.keys(mappingAssets)" :key="cat">
-      <h5>{{cat}}</h5>
+    <div v-for="category in Object.keys(mappingAssets)" :key="category">
+      <h5>{{category}}</h5>
       <BarChart
-        v-if="getDictQuoteGrowth"
-        :serie="mappingAssets[cat].assets.map((quote)=>getDictQuoteGrowth[cat][quote])"
-        :categories="mappingAssets[cat].assets"
-        :key="getDictQuoteGrowth[cat]"
+        v-if="fallbackPercents"
+        :serie="fallbackPercents[category][hist.date[sliderValues[category]]]"
+        :categories="fallbackPercents[category].assets"
+        :key="sliderValues[category]"
       ></BarChart>
       <div v-if="hist" class="slidecontainer">
-        <input type="range" :min="sliderInterval[cat][0]" :max="sliderInterval[cat][1]" class="slider" id="myRange" v-model="sliderValues[cat]">
-        <h5>{{hist.date[sliderValues[cat]]}}</h5>
+        <input type="range" :min="sliderInterval[category][0]" :max="sliderInterval[category][1]" class="slider" id="myRange" v-model="sliderValues[category]">
+        <h5>{{hist.date[sliderValues[category]]}}</h5>
       </div>
     </div>
     <NewBill @billAdded="addQuote"></NewBill>
@@ -56,6 +56,7 @@ export default {
       hist: undefined,
       marketData: undefined,
       quotes: undefined,
+      fallbackPercents: undefined,
       sliderValues: {},
       sliderInterval: {}
     }
@@ -85,31 +86,9 @@ export default {
       // this.quotes = this.marketData.reduce((dict, qt) => dict.set(qt.symbol, qt.regularMarketPrice), new Map())
 
       this.quotes = codes.reduce((dict, code) => dict.set(code, this.hist[code].slice(-1).pop()), new Map())
-
       this.getSliderInterval()
+      this.fallbackPercents = this.generateDictQuoteGrowth()
     })();
-  },
-  computed: {
-    getDictQuoteGrowth(){
-      if (!this.hist) return undefined
-
-      const growths = {}
-
-      for (let key of Object.keys(this.mappingAssets)) {
-        const codes = this.mappingAssets[key].assets
-        const indexHomoDay = this.sliderValues[key]
-
-        const growth = codes.reduce((d, cod) => {
-          const before = this.hist[cod][indexHomoDay]
-          const after = this.quotes.get(cod)
-          d[cod] = ((after/before - 1) * 100).toFixed(2)
-          return d
-        }, {})
-        
-        growths[key] = growth
-      }
-      return growths
-    }
   },
   methods:{
       addQuote(el){
@@ -138,15 +117,28 @@ export default {
         }
         return index
       },
-      getQuotesWeight(quotesPrice) {    
-        const amountPart = 100 / quotesPrice.length
-        const weights = []
-        for (let price of quotesPrice) {
-            const weight = (price == 0) ? 0 : amountPart / price
-            weights.push(weight)
+      generateDictQuoteGrowth(){
+        const growths = {}
+
+        for (let key of Object.keys(this.mappingAssets)) {
+          const codes = this.mappingAssets[key].assets
+
+          const growth = {
+            "assets": codes
+          }
+
+          for (let i = this.sliderValues[key]; i < this.hist.date.length; i++){
+            const date = this.hist.date[i]
+            growth[date] = codes.map((cod) => {
+              const before = this.hist[cod][i]
+              const after = this.quotes.get(cod)
+              return ((after/before - 1) * 100).toFixed(2)
+            })
+          }
+          growths[key] = growth
         }
-        return { weights, amountPart }
-    }
+        return growths
+      }
   }
 };
 </script>
