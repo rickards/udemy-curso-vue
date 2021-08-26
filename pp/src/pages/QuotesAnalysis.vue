@@ -2,21 +2,27 @@
   <div>
     <h1>Meus Índices</h1>
     <div class="toolbar">
-      <div v-for="category in Object.keys(mappingAssets)" :key="category">
-        <button class="chart-button">{{category}}</button>
+      <div>
+        <button 
+          v-for="category in Object.keys(mappingAssets)" :key="category"
+          @click="selectionCategory=category"
+          :class="{ active: selectionCategory === category, 'chart-button': true }"
+        >
+          {{category}}
+        </button>
       </div>
     </div>
-    <div v-for="category in Object.keys(mappingAssets)" :key="category">
-      <h5>{{category}}</h5>
+    <div>
+      <h4>{{selectionCategory}}</h4>
       <BarChart
         v-if="fallbackPercents"
-        :serie="fallbackPercents[category][hist.date[sliderValues[category]]]"
-        :categories="fallbackPercents[category].assets"
-        :key="sliderValues[category]"
+        :serie="fallbackPercents[selectionCategory][hist.date[sliderValues[selectionCategory]]]"
+        :categories="fallbackPercents[selectionCategory].assets"
+        :key="sliderValues[selectionCategory]"
       ></BarChart>
       <div v-if="hist" class="slidecontainer">
-        <input type="range" :min="sliderInterval[category][0]" :max="sliderInterval[category][1]" class="slider" id="myRange" v-model="sliderValues[category]">
-        <h5>{{hist.date[sliderValues[category]]}}</h5>
+        <input type="range" :min="sliderInterval[selectionCategory][0]" :max="sliderInterval[selectionCategory][1]" class="slider" id="myRange" v-model="sliderValues[selectionCategory]">
+        <h5>{{hist.date[sliderValues[selectionCategory]]}}</h5>
       </div>
     </div>
     <NewBill @billAdded="addQuote"></NewBill>
@@ -58,7 +64,8 @@ export default {
       quotes: undefined,
       fallbackPercents: undefined,
       sliderValues: {},
-      sliderInterval: {}
+      sliderInterval: {},
+      selectionCategory: undefined,
     }
   },
   watch: {
@@ -72,6 +79,7 @@ export default {
       this.sliderValues[index] = 0
       this.sliderInterval[index] = [0, 100]
     })
+    this.selectionCategory = Object.keys(this.mappingAssets).pop()
   },
   mounted() {
     (async () => {
