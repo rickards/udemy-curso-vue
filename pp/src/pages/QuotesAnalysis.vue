@@ -1,13 +1,13 @@
 <template>
   <div>
     <h1>Meus Índices</h1>
-    <div class="toolbar">
+    <div>
       <div>
         <button 
           v-for="category in Object.keys(mappingAssets)" :key="category"
           @click="selectionCategory=category"
-          :class="{ active: selectionCategory === category, 'chart-button': true }"
-        >
+          :class="{ active: selectionCategory === category, 'qa-button': true }"
+        > 
           {{category}}
         </button>
       </div>
@@ -204,4 +204,25 @@ export default {
     transform: rotate(1turn);
   }
 }
+
+.qa-button {
+  outline: none;
+  border: 3px solid rgba(3, 3, 3, 0.144);
+  border-radius: 10%;
+  background-color: #2195f3bb;
+  color: rgb(236, 226, 226);
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin: 0.2%;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.active {
+  background-color: #315740bb;
+}
+
 </style>

@@ -43,12 +43,25 @@ export default {
 </script>
 
 <style>
-#app {
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #c5c5c5;
   margin-top: 2%;
+  animation: gradient 10s ease alternate infinite;
+  background: linear-gradient(-45deg, #111111, #080808, #080808, #1d1f1f) no-repeat;
+  background-size: 300% 300%;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  
+  100% {
+    background-position: 100% 50%;
+  }
 }
 </style>
