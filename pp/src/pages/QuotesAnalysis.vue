@@ -13,7 +13,7 @@
       </div>
     </div>
     <div>
-      <h4>{{selectionCategory}}</h4>
+      <h4 v-if="hist">Crescimento do setor {{selectionCategory}} desde {{hist.date[sliderValues[selectionCategory]]}}</h4>
       <BarChart
         v-if="fallbackPercents"
         :serie="fallbackPercents[selectionCategory][hist.date[sliderValues[selectionCategory]]]"
@@ -22,10 +22,9 @@
       ></BarChart>
       <div v-if="hist" class="slidecontainer">
         <input type="range" :min="sliderInterval[selectionCategory][0]" :max="sliderInterval[selectionCategory][1]" class="slider" id="myRange" v-model="sliderValues[selectionCategory]">
-        <h5>{{hist.date[sliderValues[selectionCategory]]}}</h5>
       </div>
     </div>
-    <NewBill @billAdded="addQuote"></NewBill>
+    <NewBill v-show="false" @billAdded="addQuote"></NewBill>
   </div>
 </template>
 
@@ -159,7 +158,7 @@ export default {
 /* The slider itself */
 .slider {
   -webkit-appearance: none;
-  width: 100%;
+  width: 90%;
   height: 15px;
   border-radius: 5px;  
   background: #d3d3d3;
