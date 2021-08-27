@@ -13,7 +13,8 @@
       </div>
     </div>
     <div>
-      <h4 v-if="hist">Crescimento do setor {{selectionCategory}} desde {{hist.date[sliderValues[selectionCategory]]}}</h4>
+      <div v-if="!hist" class="c-loader"></div>
+      <h4 v-if="hist">{{selectionCategory}} desde {{hist.date[sliderValues[selectionCategory]]}}</h4>
       <BarChart
         v-if="fallbackPercents"
         :serie="fallbackPercents[selectionCategory][hist.date[sliderValues[selectionCategory]]]"
@@ -184,5 +185,23 @@ export default {
   border-radius: 50%;
   background: #2196F3;
   cursor: pointer;
+
+}
+
+.c-loader {
+  animation: is-rotating 1s infinite;
+  width: 150px;
+  height: 150px;
+  border: 6px solid #e5e5e5;
+  border-radius: 50%;
+  border-top-color: #51d4db;
+  display: inline-block;
+  margin: 10%;
+}
+
+@keyframes is-rotating {
+  to {
+    transform: rotate(1turn);
+  }
 }
 </style>
