@@ -5,7 +5,7 @@
     <keep-alive>
       <component :is="page" />
     </keep-alive>
-    <div>
+    <div v-if="androidEnv">
       <button @click="page = 'AccountRecord'">RegistroContábil</button>
       <button @click="page = 'ExpenseExplorer'">Explorador de Despesas</button>
       <button @click="page = 'PP'">PP</button>
@@ -17,6 +17,7 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
+import bridge from "@/helpers/db-bridge.js";
 import PP from "./pages/PP";
 import ExpenseExplorer from "./pages/ExpenseExplorer";
 import AccountRecord from "./pages/AccountRecord";
@@ -30,11 +31,12 @@ export default {
     ExpenseExplorer,
     AccountRecord,
     Investiments,
-    Analytics
+    Analytics,
   },
   data() {
     return {
       page: "Analytics",
+      androidEnv: bridge.ANDROID_ENVIROMENT
     };
   },
 };

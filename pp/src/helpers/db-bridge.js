@@ -1,8 +1,10 @@
 import dexie from "./db-dexie";
 
+const ANDROID_ENVIROMENT = typeof window.Android !== "undefined" && window.Android !== null
+
 function runAndroidMethod(nameMethod, jsonParams) {
   console.log(nameMethod, jsonParams);
-  if (typeof window.Android !== "undefined" && window.Android !== null) {
+  if (ANDROID_ENVIROMENT) {
     const javaReturn = window.Android.callFromDBJava(nameMethod, jsonParams);
     console.log("REBIDO PELO JS:", javaReturn);
     return JSON.parse(javaReturn);
@@ -22,5 +24,6 @@ function callDBLocal(nameMethod, jsonParams) {
 }
 
 export default {
-  runAndroidMethod
+  runAndroidMethod,
+  ANDROID_ENVIROMENT,
 }
