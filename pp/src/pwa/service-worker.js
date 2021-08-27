@@ -3,7 +3,7 @@ importScripts(
 );
 
 if (workbox) {
-  console.log(`Yay! Workbox is loaded 🎉`, workbox);
+  // console.log(`Yay! Workbox is loaded 🎉`, workbox);
 
   workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
