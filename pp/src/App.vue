@@ -5,6 +5,7 @@
     <keep-alive>
       <component :is="page" />
     </keep-alive>
+    <br><br><br><br>
     <div v-if="androidEnv">
       <button @click="page = 'AccountRecord'">RegistroContábil</button>
       <button @click="page = 'ExpenseExplorer'">Explorador de Despesas</button>
@@ -12,6 +13,13 @@
       <button @click="page = 'Investiments'">Investimentos</button>
       <button @click="page = 'Analytics'">Análise de Investimentos</button>
     </div>
+    <!-- <div class="menu">
+      <div class="item-menu">></div>
+      <div class="item-menu">2</div>
+      <div class="item-menu">3</div>
+      <div class="item-menu">4</div>
+      <div class="item-menu">5</div>
+    </div> -->
   </div>
 </template>
 
@@ -63,5 +71,20 @@ body {
   100% {
     background-position: 100% 50%;
   }
+}
+
+.menu {
+  display: inline-flex;
+  position: fixed;
+  right: 0;
+  top: 100%;
+  margin-top: -3.2em;
+}
+
+.item-menu {
+  width: 50px;
+  height: 100vh;
+  border: 1px solid #e5e5e5;
+  background: black;
 }
 </style>

@@ -252,7 +252,7 @@ export default {
 }
 
 .column {
-  margin: 2%;
+  margin: 0% 2% 2% 2%;
 }
 
 .modal {

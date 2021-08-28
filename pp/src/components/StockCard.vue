@@ -45,15 +45,15 @@ export default {
 
 <style>
 .stock-card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(126, 126, 126, 0.658);
   margin: 2%;
-  width: 95%;
+  width: 90%;
   cursor: pointer;
 }
 
 .stock-labels {
   text-align: left;
-  padding-left: 3%;
+  padding-left: 8%;
 }
 
 .red {

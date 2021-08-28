@@ -138,6 +138,18 @@ export default {
           type: "datetime",
           // min: new Date("01 Mar 2012").getTime(),
           tickAmount: 6,
+          labels: {
+            style: {
+              colors: "#fff",
+            },
+          },
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: "#fff",
+            },
+          },
         },
         tooltip: {
           x: {
@@ -155,6 +167,9 @@ export default {
         },
         legend: {
           show: true,
+          labels: {
+            colors: "fff"
+          },
           markers: {
             onClick: function(chart, seriesIndex, opts) {
               console.log(
@@ -162,6 +177,24 @@ export default {
                 chart,
                 opts
               );
+            },
+          },
+          itemMargin: {
+            horizontal: 5,
+            vertical: 20
+          },
+        },
+        grid: {
+          borderColor: "#817f7f79",
+          strokeDashArray: 7,
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          yaxis: {
+            lines: {
+              show: true,
             },
           },
         },
@@ -249,8 +282,10 @@ export default {
 <style>
 .chart-button {
   outline: none;
-  border: 1px solid rgba(3, 3, 3, 0.144);
+  border: 3px solid rgba(3, 3, 3, 0.144);
+  border-radius: 10%;
   background-color: #2195f3bb;
+  color: rgb(236, 226, 226);
   font-size: 1rem;
   margin-bottom: 5px;
   margin: 0.2%;
