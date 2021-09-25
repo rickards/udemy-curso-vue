@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Meus Índices</h1>
+    <div v-if="!hist" class="c-loader"></div>
     <div>
       <div>
         <button 
@@ -11,10 +12,6 @@
           {{category}}
         </button>
       </div>
-    </div>
-    <div>
-      <div v-if="!hist" class="c-loader"></div>
-      <h4 v-if="hist">{{selectionCategory}} desde {{hist.date[sliderValues[selectionCategory]]}}</h4>
       <BarChart
         v-if="fallbackPercents"
         :serie="fallbackPercents[selectionCategory][hist.date[sliderValues[selectionCategory]]]"
@@ -23,6 +20,7 @@
       ></BarChart>
       <div v-if="hist" class="slidecontainer">
         <input type="range" :min="sliderInterval[selectionCategory][0]" :max="sliderInterval[selectionCategory][1]" class="slider" id="myRange" v-model="sliderValues[selectionCategory]">
+        <h4 class="label-slider" v-if="hist">{{selectionCategory}} desde {{hist.date[sliderValues[selectionCategory]]}}</h4>
       </div>
     </div>
     <NewBill v-show="false" @billAdded="addQuote"></NewBill>
@@ -152,8 +150,13 @@ export default {
 </script>
 
 <style>
+.label-slider {
+  min-width: 15em;
+}
+
 .slidecontainer {
-  width: 100%; /* Width of the outside container */
+  display: flex;
+  /* width: 100%; Width of the outside container */
 }
 
 /* The slider itself */
@@ -167,6 +170,7 @@ export default {
   opacity: 0.7;
   -webkit-transition: .2s;
   transition: opacity .2s;
+  align-self: center;
 }
 
 .slider::-webkit-slider-thumb {
@@ -185,18 +189,18 @@ export default {
   border-radius: 50%;
   background: #2196F3;
   cursor: pointer;
-
 }
 
 .c-loader {
   animation: is-rotating 1s infinite;
-  width: 150px;
-  height: 150px;
-  border: 6px solid #e5e5e5;
+  width: 50px;
+  height: 50px;
+  margin: 50%-25px;
+  border: 6px solid #888888;
   border-radius: 50%;
   border-top-color: #51d4db;
+  border-bottom-color: #e79185;
   display: inline-block;
-  margin: 10%;
 }
 
 @keyframes is-rotating {
