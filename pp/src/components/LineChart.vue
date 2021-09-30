@@ -178,10 +178,12 @@ export default {
                 opts
               );
             },
+            width: 20,
+            height: 20,
           },
           itemMargin: {
             horizontal: 5,
-            vertical: 20
+            vertical: 10
           },
         },
         grid: {
