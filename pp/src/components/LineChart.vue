@@ -87,7 +87,7 @@ export default {
         chart: {
           id: "area-datetime",
           type: "area",
-          height: 350,
+          height: 1550,
           zoom: {
             autoScaleYaxis: true,
           },
@@ -180,6 +180,8 @@ export default {
             },
             width: 20,
             height: 20,
+            offsetX: 0,
+            offsetY: 0
           },
           itemMargin: {
             horizontal: 5,
@@ -282,6 +284,11 @@ export default {
 </script>
 
 <style>
+#chart-timeline {
+  margin-top: 5%;
+  margin-bottom: 2%;
+}
+
 .chart-button {
   outline: none;
   border: 3px solid rgba(3, 3, 3, 0.144);

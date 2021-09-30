@@ -2,6 +2,7 @@
   <div>
     <h1>Investimentos</h1>
     <line-chart :series="getSeries" />
+    <h3>Cotações</h3>
     <div class="grid-cards">
       <Line
         v-for="inv in investiments"
