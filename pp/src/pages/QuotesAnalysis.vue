@@ -22,8 +22,8 @@
         <input type="range" :min="sliderInterval[selectionCategory][0]" :max="sliderInterval[selectionCategory][1]" class="slider" id="myRange" v-model="sliderValues[selectionCategory]">
         <h4 class="label-slider" v-if="hist">{{selectionCategory}} desde {{hist.date[sliderValues[selectionCategory]]}}</h4>
       </div>
+      <NewBill v-show="false" @billAdded="addQuote"></NewBill>
     </div>
-    <NewBill v-show="false" @billAdded="addQuote"></NewBill>
   </div>
 </template>
 
@@ -195,7 +195,7 @@ export default {
   animation: is-rotating 1s infinite;
   width: 50px;
   height: 50px;
-  margin: 50%-25px;
+  margin: 25%;
   border: 6px solid #888888;
   border-radius: 50%;
   border-top-color: #51d4db;
