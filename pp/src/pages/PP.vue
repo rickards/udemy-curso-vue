@@ -1,21 +1,27 @@
 <template>
   <div>
-    <h1>{{ translator.title["PT"] }}</h1>
-    <line-chart :series="getSeries" />
-    <div class="grid-column">
-      <div class="column">
-        <h3>Ativos</h3>
-        <Line label="Caixa" :value="totalCash" />
-        <Line label="Bens" :value="totalPhysicalGoods" />
-        <Line label="Investimentos" :value="totalInvestiments" />
+    <Post>
+      <h1>{{ translator.title["PT"] }}</h1>
+    </Post>
+    <Post>
+      <line-chart :series="getSeries" />
+    </Post>
+    <Post>
+      <div class="grid-column">
+        <div class="column">
+          <h3>Ativos</h3>
+          <Line label="Caixa" :value="totalCash" />
+          <Line label="Bens" :value="totalPhysicalGoods" />
+          <Line label="Investimentos" :value="totalInvestiments" />
+        </div>
+        <div class="column">
+          <h3>Passivos</h3>
+          <Line label="Despesas" :value="totalExpenses" />
+          <Line label="Depreciação" :value="0" />
+          <Line label="Patrimônio Líquido" :value="totalPL" />
+        </div>
       </div>
-      <div class="column">
-        <h3>Passivos</h3>
-        <Line label="Despesas" :value="totalExpenses" />
-        <Line label="Depreciação" :value="0" />
-        <Line label="Patrimônio Líquido" :value="totalPL" />
-      </div>
-    </div>
+    </Post>
   </div>
 </template>
 
@@ -24,12 +30,14 @@ import database from "@/helpers/db-interface";
 import Translations from "@/helpers/translations";
 import LineChart from "../components/LineChart.vue";
 import Line from "../components/Line.vue";
+import Post from "../components/Post.vue";
 
 export default {
   name: "PP",
   components: {
     LineChart,
     Line,
+    Post,
   },
   data() {
     return {
