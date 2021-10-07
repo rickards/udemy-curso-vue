@@ -307,5 +307,6 @@ export default {
 
 .active {
   background-color: #21f372bb;
+  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
 }
 </style>

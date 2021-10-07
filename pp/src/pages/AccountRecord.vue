@@ -8,6 +8,7 @@
     </div>
 
     <input class="input" type="date" :value="date" />
+    
     <input class="input" type="text" placeholder="nome descritor" v-model="billname" />
     <input class="input" type="number" placeholder="valor" v-model="value" />
 
@@ -170,9 +171,16 @@ export default {
 
 .active {
   background-color: #21f372bb;
+  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
 }
 
 .input {
-  border-radius: 20%;
+  font-size: 16px;
+  font-size: max(16px, 1em);
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: #fff;
+  border: 2px solid var(--input-border);
+  border-radius: 4px;
 }
 </style>

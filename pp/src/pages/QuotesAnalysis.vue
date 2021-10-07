@@ -179,7 +179,8 @@ export default {
   width: 25px;
   height: 25px;
   border-radius: 50%; 
-  background: #2196F3;
+  background: #06f164;
+  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
   cursor: pointer;
 }
 
@@ -227,6 +228,7 @@ export default {
 
 .active {
   background-color: #315740bb;
+  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
 }
 
 </style>
