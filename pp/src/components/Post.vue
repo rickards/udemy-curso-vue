@@ -9,5 +9,6 @@
     margin: 10px;
     padding: 10px;
     border-radius: 10%;
+    row-gap: 1em;
 }
 </style>

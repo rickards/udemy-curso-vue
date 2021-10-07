@@ -1,14 +1,16 @@
 <template>
   <div class="account-record">
     <h1>Registro Contábil</h1>
-    <select name="tipo" v-model="natureCombobox">
-      <option value="gasto" selected>Gasto</option>
-      <option value="ganho">Ganho</option>
-      <option value="investimento">Investimentos</option>
-    </select>
-    <input type="date" :value="date" />
+    <div>
+      <button :class="{ active: natureCombobox=='gasto', 'acc-record-button': true }" @click="natureCombobox='gasto'">Gasto</button>
+      <button :class="{ active: natureCombobox=='ganho', 'acc-record-button': true }" @click="natureCombobox='ganho'">Ganho</button>
+      <button :class="{ active: natureCombobox=='investimento', 'acc-record-button': true }" @click="natureCombobox='investimento'">Investimento</button>
+    </div>
+
+    <input class="input" type="date" :value="date" />
     <input type="text" placeholder="nome descritor" v-model="billname" />
     <input type="number" placeholder="valor" v-model="value" />
+    
     <div><input v-model="isAsset" type="checkbox" /> <label>Bem</label></div>
     <div v-show="natureCombobox == 'investimento'">
       <label>Quantidade de cotas:</label>
@@ -22,15 +24,19 @@
     <label v-show="info" style="color: red;"
       >Há campos obrigatórios vazios!</label
     >
-    <button @click="sendRecord">Registrar</button>
+    <button class="acc-record-button" @click="sendRecord">Registrar</button>
   </div>
 </template>
 
 <script>
 import database from "@/helpers/db-interface";
+// import Post from "../components/Post.vue";
 
 export default {
   name: "AccountRecord",
+  // components: {
+  //   Post,
+  // },
   data() {
     return {
       natureCombobox: "gasto",
@@ -148,6 +154,26 @@ export default {
 .account-record {
   display: inline-grid;
   padding: 1%;
-  row-gap: 1em;
+  row-gap: 2em;
+  width: 80%;
+}
+
+.acc-record-button {
+  outline: none;
+  border: 3px solid rgba(3, 3, 3, 0.144);
+  border-radius: 10%;
+  background-color: #2195f3bb;
+  color: rgb(236, 226, 226);
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin: 0.2%;
+}
+
+.active {
+  background-color: #21f372bb;
+}
+
+.input {
+  border-radius: 20%;
 }
 </style>
