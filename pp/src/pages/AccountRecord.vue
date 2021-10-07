@@ -8,9 +8,9 @@
     </div>
 
     <input class="input" type="date" :value="date" />
-    <input type="text" placeholder="nome descritor" v-model="billname" />
-    <input type="number" placeholder="valor" v-model="value" />
-    
+    <input class="input" type="text" placeholder="nome descritor" v-model="billname" />
+    <input class="input" type="number" placeholder="valor" v-model="value" />
+
     <div><input v-model="isAsset" type="checkbox" /> <label>Bem</label></div>
     <div v-show="natureCombobox == 'investimento'">
       <label>Quantidade de cotas:</label>
@@ -155,7 +155,6 @@ export default {
   display: inline-grid;
   padding: 1%;
   row-gap: 2em;
-  width: 80%;
 }
 
 .acc-record-button {
