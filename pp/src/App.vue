@@ -5,13 +5,21 @@
     <keep-alive>
       <component :is="page" />
     </keep-alive>
-    <br><br><br><br>
-    <div v-if="androidEnv">
-      <button @click="page = 'AccountRecord'">RegistroContábil</button>
-      <button @click="page = 'ExpenseExplorer'">Explorador de Despesas</button>
-      <button @click="page = 'PP'">PP</button>
-      <button @click="page = 'Investiments'">Investimentos</button>
-      <button @click="page = 'Analytics'">Análise de Investimentos</button>
+    <br /><br /><br />
+    <div class="grid" v-if="androidEnv">
+      <div class="button-card" @click="page = 'AccountRecord'">
+        Registro Contábil
+      </div>
+      <div class="button-card" @click="page = 'ExpenseExplorer'">
+        Explorador de Despesas
+      </div>
+      <div class="button-card" @click="page = 'PP'">PP</div>
+      <div class="button-card" @click="page = 'Investiments'">
+        Investimentos
+      </div>
+      <div class="button-card" @click="page = 'Analytics'">
+        Análise de Investimentos
+      </div>
     </div>
     <!-- <div class="menu">
       <div class="item-menu">></div>
@@ -30,7 +38,7 @@ import PP from "./pages/PP";
 import ExpenseExplorer from "./pages/ExpenseExplorer";
 import AccountRecord from "./pages/AccountRecord";
 import Investiments from "./pages/Investiments.vue";
-import Analytics from "./pages/QuotesAnalysis.vue"
+import Analytics from "./pages/QuotesAnalysis.vue";
 
 export default {
   name: "App",
@@ -44,7 +52,7 @@ export default {
   data() {
     return {
       page: "Analytics",
-      androidEnv: bridge.ANDROID_ENVIROMENT
+      androidEnv: bridge.ANDROID_ENVIROMENT,
     };
   },
 };
@@ -59,7 +67,8 @@ body {
   color: #c5c5c5;
   margin-top: 2%;
   animation: gradient 10s ease alternate infinite;
-  background: linear-gradient(-45deg, #111111, #080808, #080808, #1d1f1f) no-repeat;
+  background: linear-gradient(-45deg, #111111, #080808, #080808, #1d1f1f)
+    no-repeat;
   background-size: 300% 300%;
 }
 
@@ -67,7 +76,7 @@ body {
   0% {
     background-position: 0 50%;
   }
-  
+
   100% {
     background-position: 100% 50%;
   }
@@ -86,5 +95,21 @@ body {
   height: 100vh;
   border: 1px solid #e5e5e5;
   background: black;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin: 5%;
+}
+
+.button-card {
+  box-shadow: 0 0 8px 8px rgba(126, 126, 126, 0.658);
+  margin: 10%;
+  width: 80%;
+  padding: 5%;
+  cursor: pointer;
+  text-align: center;
+  padding-left: 8%;
 }
 </style>
