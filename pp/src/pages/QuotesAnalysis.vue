@@ -2,8 +2,8 @@
   <div>
     <h1>Meus Índices</h1>
     <div v-if="!hist" class="c-loader"></div>
-    <div>
-      <div>
+    <div v-else>
+      <div style="margin: 2%;">
         <button 
           v-for="category in Object.keys(mappingAssets)" :key="category"
           @click="selectionCategory=category"
@@ -18,9 +18,16 @@
         :categories="fallbackPercents[selectionCategory].assets"
         :key="sliderValues[selectionCategory]"
       ></BarChart>
-      <div v-if="hist" class="slidecontainer">
+      <div class="slidecontainer">
         <input type="range" :min="sliderInterval[selectionCategory][0]" :max="sliderInterval[selectionCategory][1]" class="slider" id="myRange" v-model="sliderValues[selectionCategory]">
         <h4 class="label-slider" v-if="hist">{{selectionCategory}} desde {{hist.date[sliderValues[selectionCategory]]}}</h4>
+      </div>
+      <div class="grid">
+        <div class="quote-card" v-for="quote in mappingAssets[selectionCategory].assets" :key="quote">
+          {{quote}}
+          <br>
+          {{quotes.get(quote)}}
+        </div>
       </div>
       <NewBill v-show="false" @billAdded="addQuote"></NewBill>
     </div>
@@ -229,6 +236,22 @@ export default {
 .active {
   background-color: #315740bb;
   box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  margin: 5%;
+}
+
+.quote-card {
+  box-shadow: 0 0 8px 8px rgba(126, 126, 126, 0.658);
+  margin: 10%;
+  width: 80%;
+  padding: 5%;
+  cursor: pointer;
+  text-align: center;
+  padding-left: 8%;
 }
 
 </style>
