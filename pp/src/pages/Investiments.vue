@@ -5,11 +5,19 @@
     <h3>Cotações</h3>
     <div class="grid-cards">
       <Line
-        v-for="inv in investiments"
+        v-for="inv in investimentsGroupByName"
         :key="inv.id"
-        :value="inv.value"
+        :value="inv.reduce((sum, i) => i.value + sum, 0)"
         :label="toStringInvestiment(inv)"
-      ></Line>
+      >
+        <Line
+          v-for="i in inv"
+          :key="i.id"
+          :value="i.value"
+          :label="i.qtde + ' x ' + i.name"
+        >
+        </Line>
+      </Line>
     </div>
   </div>
 </template>
@@ -38,6 +46,19 @@ export default {
   created() {
     database.getExpensesDatabase().then((result) => {
       this.investiments = this.filter(result, (i) => i.type === "Investimento");
+
+      const investimentsGroupByName = this.groupBy(
+        this.investiments,
+        (i) => i.name
+      );
+      const names = [];
+      const values = Object.keys(investimentsGroupByName).map((name)=>{
+        names.push(name);
+        return investimentsGroupByName[name].reduce((sum, inv) => sum + inv.value, 0);
+      });
+
+      const indexOrder = values.sort().map((i) => values.indexOf(i));
+      this.investimentsGroupByName = indexOrder.map((i)=>investimentsGroupByName[names[i]])
       this.createSeries();
     });
   },
@@ -205,8 +226,8 @@ export default {
         return sum + response[quote][index] * weigth;
       }, 0);
     },
-    toStringInvestiment(inv) {
-      return inv.qtde + " x " + inv.name;
+    toStringInvestiment(invArray) {
+      return invArray.reduce((sum, inv)=> inv.qtde + sum, 0) + " x " + invArray[0].name;
     },
   },
 };

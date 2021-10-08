@@ -1,10 +1,16 @@
 <template>
-  <p class="line">
-    <span class="span-style" style="text-align: left;">{{ label }}</span>
-    <span class="span-style" style="text-align: right;">{{
-      price.format(value)
-    }}</span>
-  </p>
+  <div>
+    <p class="line" @click="show=!show">
+      <span class="span-style" style="text-align: left;">{{ label }}</span>
+      <span class="span-style" style="text-align: right;">{{
+        price.format(value)
+      }}</span>
+    </p>
+    <div class="p" v-if="show">
+      <slot>
+      </slot>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -21,6 +27,7 @@ export default {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       }),
+      show: false
     };
   },
 };
@@ -35,5 +42,12 @@ export default {
 }
 .span-style {
   width: 100%;
+}
+.p {
+  margin: 10px;
+  font-size: 0.8em;
+  background: rgba(85, 101, 104, 0.527);
+  padding: 2px;
+  border-radius: 5%;
 }
 </style>
