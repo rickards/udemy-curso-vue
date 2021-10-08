@@ -75,6 +75,7 @@ export default {
         this.$nextTick(() => {
           this.initialHideSeries();
         });
+        this.selectionSpacing = JSON.parse(JSON.stringify(this.selectionSpacing));
       }
     }
   },

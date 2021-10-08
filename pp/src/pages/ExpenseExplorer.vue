@@ -6,8 +6,12 @@
       <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p>
     </div>
     <div>
-      <line-chart v-if="lineChartShow" />
-      <StockGrid :stockCards="assetsBills" @deleted="rmStockExpense" />
+      <line-chart :series="serie" v-if="lineChartShow" />
+      <StockGrid
+        :stockCards="assetsBills"
+        @deleted="rmStockExpense"
+        @stockClicked="clicked"
+      />
     </div>
   </div>
 </template>
@@ -29,32 +33,71 @@ export default {
   data() {
     return {
       translator: Translations.pp,
-      lineChartShow: false,
+      lineChartShow: true,
       stocks: undefined,
       expenses: undefined,
       invalidInput: undefined,
       assetsBills: [],
+      serieName: "Despesas",
+      serieRegex: ".*?",
     };
   },
   created() {
     this.updateStocks();
+  },
+  computed: {
+    serie() {
+      const re = new RegExp(`${this.serieRegex}`);
+      if (this.expenses) {
+        console.log(this.filter(this.expenses, (i) => re.test(i.name)), 'haha')
+        const groupByDate = this.groupBy(
+          this.filter(this.expenses, (i) => re.test(i.name)),
+          (i) => i.date.slice(0, 7)
+        );
+        const expensesSerie = [];
+        Object.keys(groupByDate)
+          .sort()
+          .reduce((sum, i) => {
+            const expenses = groupByDate[i].reduce(
+              (amount, j) => amount + j.value,
+              0
+            );
+            expensesSerie.push([
+              new Date(i).getTime(),
+              Math.round((sum += expenses), 2),
+            ]);
+            return sum
+          }, 0);
+        console.log(expensesSerie)
+        return [
+          {
+            name: this.serieName,
+            data: expensesSerie,
+          },
+        ];
+      }
+      return [];
+    },
   },
   methods: {
     updateStocks() {
       this.assetsBills = [];
       this.invalidInput = undefined;
       database.getExpensesDatabase().then((resp) => {
-        this.expenses = this.filter(
-          resp,
-          (i) => i.type === "Despesa"
-        );
-      })
+        this.expenses = this.filter(resp, (i) => i.type === "Despesa");
+      });
       database.getExpenseStocksDatabase().then((resp) => {
-        this.stocks = resp
+        this.stocks = resp;
         this.stocks.forEach((element) => {
           this.createAssetBill(element);
         });
-      })
+      });
+    },
+    groupBy(array, keys) {
+      return array.reduce(function (rv, i) {
+        (rv[keys(i)] = rv[keys(i)] || []).push(i);
+        return rv;
+      }, {});
     },
     filter(array, lambda) {
       let result = [];
@@ -115,19 +158,14 @@ export default {
       if (this.inputRegexValidateData(el)) {
         database.addExpenseStockDatabase(el).then(() => {
           this.updateStocks();
-        })
+        });
       } else {
         this.invalidInput = "Regex inválida:\n" + el.regex;
       }
     },
     inputRegexValidateData(el) {
       const re = el.regex;
-      const regex = re.includes("=")
-        ? re
-            .split("=")
-            .slice(1)
-            .join("")
-        : re;
+      const regex = re.includes("=") ? re.split("=").slice(1).join("") : re;
       try {
         new RegExp(`${regex}`);
         return true;
@@ -136,9 +174,14 @@ export default {
       }
     },
     rmStockExpense(el) {
-      database.rmExpenseStockDatabase({regex: el.id}).then(()=>{
+      database.rmExpenseStockDatabase({ regex: el.id }).then(() => {
         this.updateStocks();
-      })
+      });
+    },
+    clicked(el) {
+      console.log(el)
+      this.serieName = el.name;
+      this.serieRegex = el.id.split("=")[1] || el.id.split("=")[0];
     },
   },
 };

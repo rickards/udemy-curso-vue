@@ -18,7 +18,7 @@
         Investimentos
       </div>
       <div class="button-card" @click="page = 'Analytics'">
-        Análise de Investimentos
+        Análise de Cotações
       </div>
     </div>
     <!-- <div class="menu">
