@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="input-new-bill">
-      <h1>Explorador de Despesas</h1>
+      <h2>Explorador de Despesas</h2>
       <new-bill @billAdded="addExpense" />
       <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p>
     </div>
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       translator: Translations.pp,
-      lineChartShow: true,
+      lineChartShow: false,
       stocks: undefined,
       expenses: undefined,
       invalidInput: undefined,

@@ -6,8 +6,8 @@
 
 <style>
 .panel {
-    margin: 10px;
-    padding: 10px;
+    margin: 2px;
+    padding: 2px;
     border-radius: 10%;
     row-gap: 1em;
 }
