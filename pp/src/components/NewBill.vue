@@ -1,7 +1,7 @@
 <template>
     <div class="new-bill">
         <input v-model="regex" @keydown.enter="add" type="text"
-            class="form-element" placeholder="cotação">
+            class="form-element" placeholder="<conta>=<regex>">
         <button class="form-element" @click="add">+</button>
     </div>
 </template>
@@ -24,13 +24,13 @@ export default {
 
 <style>
     .new-bill {
-        margin: 35px 15px 35px 15px;
+        margin: 0 10px 25px 10px;
         font-size-adjust: unset;
     }
 
     .form-element {
         outline: none;
-        font-size: 2rem;
+        font-size: 1.5rem;
         border: 1px solid rgb(3, 3, 3);
         padding: 5px 10px 8px;
         color: rgb(0, 0, 0);

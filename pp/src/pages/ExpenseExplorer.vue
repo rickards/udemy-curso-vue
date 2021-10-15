@@ -1,10 +1,11 @@
 <template>
   <div>
-    <div class="input-new-bill">
-      <h2>Explorador de Despesas</h2>
-      <new-bill @billAdded="addExpense" />
-      <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p>
-    </div>
+    <TitleSlideDown title="Explorador de Despesas">
+      <div class="input-new-bill">
+        <new-bill @billAdded="addExpense" />
+        <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p>
+      </div>
+    </TitleSlideDown>
     <div>
       <line-chart :series="serie" v-if="lineChartShow" />
       <StockGrid
@@ -22,6 +23,7 @@ import Translations from "@/helpers/translations";
 import StockGrid from "../components/StockGrid";
 import NewBill from "../components/NewBill";
 import LineChart from "../components/LineChart.vue";
+import TitleSlideDown from "../components/TitleSlideDown.vue";
 
 export default {
   name: "ExpenseExplore",
@@ -29,6 +31,7 @@ export default {
     StockGrid,
     NewBill,
     LineChart,
+    TitleSlideDown,
   },
   data() {
     return {

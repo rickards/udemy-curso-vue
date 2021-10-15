@@ -45,9 +45,10 @@ export default {
 
 <style>
 .stock-card {
-  box-shadow: 0 4px 8px 0 rgba(126, 126, 126, 0.658);
-  margin: 2%;
-  width: 90%;
+  box-shadow: 1px 4px 8px 1px rgba(248, 248, 248, 0.658);
+  background-color: rgb(21, 21, 21);
+  margin: 5%;
+  width: 85%;
   cursor: pointer;
 }
 
