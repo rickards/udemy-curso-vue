@@ -1,6 +1,15 @@
 <template>
   <div>
-    <h1>Meus Índices</h1>
+    <TitleSlideDown title="Meus Índices">
+      <div class="pp-input" v-if="false">
+        <PPInput placeholder="Seu ETF" @billAdded="addETF" />
+        <div style="display: flex; margin-left: 20px">
+          <h5>{{selectionCategory}}:</h5>
+          <PPInput placeholder="Cota" @billAdded="addQuote" />
+        </div>
+        <!-- <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p> -->
+      </div>
+    </TitleSlideDown>
     <div v-if="!hist" class="c-loader"></div>
     <div v-else>
       <div style="margin: 2%;">
@@ -29,7 +38,6 @@
           {{quotes.get(quote)}}
         </div>
       </div>
-      <NewBill v-show="false" @billAdded="addQuote"></NewBill>
     </div>
   </div>
 </template>
@@ -37,12 +45,14 @@
 <script>
 import { HTTP } from "../plugins/axios";
 import BarChart from "../components/HorizontalBarChart.vue";
-import NewBill from "../components/NewBill";
+import PPInput from "../components/PPInput.vue";
+import TitleSlideDown from "../components/TitleSlideDown.vue";
 
 export default {
   components: {
     BarChart,
-    NewBill,
+    PPInput,
+    TitleSlideDown,
   },
   data(){
     return {
@@ -104,8 +114,11 @@ export default {
     })();
   },
   methods:{
+      addETF(el){
+        this.mappingAssets[el.regex] = {'assets': []}
+      },
       addQuote(el){
-        console.log(el)
+        this.mappingAssets[this.selectionCategory]['assets'].push(el.regex)
       },
       getSliderInterval(){
         Object.keys(this.mappingAssets).map((index) => {

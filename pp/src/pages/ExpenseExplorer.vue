@@ -1,8 +1,8 @@
 <template>
   <div>
     <TitleSlideDown title="Explorador de Despesas">
-      <div class="input-new-bill">
-        <new-bill @billAdded="addExpense" />
+      <div class="pp-input">
+        <PPInput @billAdded="addExpense" placeholder="<conta>=<regex>"/>
         <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p>
       </div>
     </TitleSlideDown>
@@ -11,7 +11,7 @@
       <StockGrid
         :stockCards="assetsBills"
         @deleted="rmStockExpense"
-        @stockClicked="clicked"
+        @stockClicked="cardClicked"
       />
     </div>
   </div>
@@ -21,7 +21,7 @@
 import database from "@/helpers/db-interface";
 import Translations from "@/helpers/translations";
 import StockGrid from "../components/StockGrid";
-import NewBill from "../components/NewBill";
+import PPInput from "../components/PPInput";
 import LineChart from "../components/LineChart.vue";
 import TitleSlideDown from "../components/TitleSlideDown.vue";
 
@@ -29,7 +29,7 @@ export default {
   name: "ExpenseExplore",
   components: {
     StockGrid,
-    NewBill,
+    PPInput,
     LineChart,
     TitleSlideDown,
   },
@@ -181,8 +181,8 @@ export default {
         this.updateStocks();
       });
     },
-    clicked(el) {
-      console.log(el)
+    cardClicked(el) {
+      this.lineChartShow = this.serieName == el.name ? !this.lineChartShow : true
       this.serieName = el.name;
       this.serieRegex = el.id.split("=")[1] || el.id.split("=")[0];
     },
@@ -191,7 +191,7 @@ export default {
 </script>
 
 <style>
-.input-new-bill {
+.pp-input {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 0.5%;
 }

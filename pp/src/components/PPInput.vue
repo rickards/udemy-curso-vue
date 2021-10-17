@@ -1,7 +1,7 @@
 <template>
-    <div class="new-bill">
+    <div class="pp-input">
         <input v-model="regex" @keydown.enter="add" type="text"
-            class="form-element" placeholder="<conta>=<regex>">
+            class="form-element" :placeholder="placeholder">
         <button class="form-element" @click="add">+</button>
     </div>
 </template>
@@ -13,6 +13,9 @@ export default {
             regex: ''
         }
     },
+    props: {
+        placeholder: { type: String, required: false },
+    },
     methods: {
         add() {
             this.$emit('billAdded', { regex: this.regex.slice() })
@@ -23,7 +26,7 @@ export default {
 </script>
 
 <style>
-    .new-bill {
+    .pp-input {
         margin: 0 10px 25px 10px;
         font-size-adjust: unset;
     }
