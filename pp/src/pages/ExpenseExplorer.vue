@@ -52,7 +52,6 @@ export default {
     serie() {
       const re = new RegExp(`${this.serieRegex}`);
       if (this.expenses) {
-        console.log(this.filter(this.expenses, (i) => re.test(i.name)), 'haha')
         const groupByDate = this.groupBy(
           this.filter(this.expenses, (i) => re.test(i.name)),
           (i) => i.date.slice(0, 7)
@@ -71,7 +70,6 @@ export default {
             ]);
             return sum
           }, 0);
-        console.log(expensesSerie)
         return [
           {
             name: this.serieName,

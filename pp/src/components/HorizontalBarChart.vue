@@ -11,6 +11,7 @@
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
+import { commomChartOptions } from "../config/apexchart";
 
 export default {
   components: {
@@ -39,6 +40,7 @@ export default {
         },
       ],
       chartOptions: {
+        ...commomChartOptions,
         chart: {
           animations: {
             enabled: false,
@@ -53,56 +55,13 @@ export default {
             horizontal: true,
           },
         },
-        dataLabels: {
-          enabled: true,
-          color: undefined,
-        },
-        xaxis: {
-          categories: this.dataSort(this.categories),
-          labels: {
-            style: {
-              colors: "#fff",
-            },
-          },
-        },
-        yaxis: {
-          labels: {
-            style: {
-              colors: "#fff",
-            },
-          },
-        },
-        axisTicks: {
-          show: true,
-          borderType: "solid",
-          color: "#78909C",
-          height: 6,
-          offsetX: 0,
-          offsetY: 0,
-        },
-        fill: {
-          colors: [({ value }) => (value > 0 ? "#2196F3" : "#ff0000")],
-          opacity: 0.5,
-        },
-        grid: {
-          borderColor: "#817f7f79",
-          strokeDashArray: 7,
-          xaxis: {
-            lines: {
-              show: true,
-            },
-          },
-          yaxis: {
-            lines: {
-              show: true,
-            },
-          },
-        },
       },
     };
   },
   created() {
-    // console.log("props", this.serie, this.categories)
+    this.chartOptions.fill.colors = [({ value }) => (value > 0 ? "#2196F3" : "#ff0000")];
+    this.chartOptions.fill.gradient.shade = 'light';
+    this.chartOptions.xaxis.categories = this.dataSort(this.categories);
   },
 };
 </script>

@@ -50,6 +50,7 @@
 <script>
 // https://apexcharts.com/docs/chart-types/area-chart/
 import VueApexCharts from "vue3-apexcharts";
+import { commomChartOptions } from "../config/apexchart";
 
 export default {
   name: "LineChart",
@@ -61,12 +62,7 @@ export default {
   },
   watch: {
     selectionSpacing(value) {
-      if (value==="Variable"){
-        this.variableData();
-      }
-      if (value==="Amount"){
-        this.amountData();
-      }
+      this.updateSpacingData(value);
     },
     series: {
       deep: true,
@@ -75,139 +71,44 @@ export default {
         this.$nextTick(() => {
           this.initialHideSeries();
         });
-        this.selectionSpacing = JSON.parse(JSON.stringify(this.selectionSpacing));
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       selectionInterval: "ALL",
-      selectionSpacing: "Amount",
+      selectionSpacing: "Variable",
       buttons: ["1M", "6M", "1Y", "YTD", "ALL"],
       chartOptions: {
+        ...commomChartOptions,
         chart: {
           id: "area-datetime",
           type: "area",
           height: 1550,
+          background: "#101010",
           zoom: {
             autoScaleYaxis: true,
+          },
+        },
+        tooltip: {
+          x: {
+            format: "MMM yyyy",
           },
         },
         stroke: {
           width: 3,
           curve: "smooth",
         },
-        // annotations: {
-        //   yaxis: [
-        //     {
-        //       y: 30,
-        //       borderColor: "#999",
-        //       label: {
-        //         show: true,
-        //         text: "Support",
-        //         style: {
-        //           color: "#fff",
-        //           background: "#00E396",
-        //         },
-        //       },
-        //     },
-        //   ],
-        //   xaxis: [
-        //     {
-        //       x: new Date("14 Nov 2012").getTime(),
-        //       borderColor: "#999",
-        //       yAxisIndex: 0,
-        //       label: {
-        //         show: true,
-        //         text: "Rally",
-        //         style: {
-        //           color: "#fff",
-        //           background: "#775DD0",
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
-        dataLabels: {
-          enabled: false,
-        },
-        markers: {
-          size: 0,
-          style: "hollow",
-        },
-        xaxis: {
-          type: "datetime",
-          // min: new Date("01 Mar 2012").getTime(),
-          tickAmount: 6,
-          labels: {
-            style: {
-              colors: "#fff",
-            },
-          },
-        },
-        yaxis: {
-          labels: {
-            style: {
-              colors: "#fff",
-            },
-          },
-        },
-        tooltip: {
-          x: {
-            format: "dd MMM yyyy",
-          },
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.1,
-            opacityTo: 0.7,
-            stops: [0, 100],
-          },
-        },
-        legend: {
-          show: true,
-          labels: {
-            colors: "fff"
-          },
-          markers: {
-            onClick: function(chart, seriesIndex, opts) {
-              console.log(
-                "series- " + seriesIndex + "'s marker was clicked",
-                chart,
-                opts
-              );
-            },
-            width: 20,
-            height: 20,
-            offsetX: 0,
-            offsetY: 0
-          },
-          itemMargin: {
-            horizontal: 5,
-            vertical: 10
-          },
-        },
-        grid: {
-          borderColor: "#817f7f79",
-          strokeDashArray: 7,
-          xaxis: {
-            lines: {
-              show: true,
-            },
-          },
-          yaxis: {
-            lines: {
-              show: true,
-            },
-          },
-        },
       },
     };
   },
+  created() {
+    this.chartOptions.dataLabels.enabled = false;
+    this.chartOptions.fill.colors = undefined;
+    this.chartOptions.xaxis.type = "datetime";
+  },
   methods: {
-    updateData: function(timeline) {
+    updateData: function (timeline) {
       this.selectionInterval = timeline;
 
       const endPoint = new Date();
@@ -238,14 +139,14 @@ export default {
         default:
       }
     },
-    initialHideSeries: function() {
+    initialHideSeries: function () {
       for (const serie of this.$refs.chart.series) {
         serie.show === false
           ? this.$refs.chart.hideSeries(serie.name)
           : this.$refs.chart.showSeries(serie.name);
       }
     },
-    updateSeries: function(data) {
+    updateSeries: function (data) {
       const shows = this.$refs.chart.series.map(({ name }) => {
         return { name, show: !this.$refs.chart.toggleSeries(name) };
       });
@@ -255,12 +156,21 @@ export default {
           ? this.$refs.chart.hideSeries(name)
           : this.$refs.chart.showSeries(name);
       }
-      this.updateData(this.selectionInterval)
+      this.updateData(this.selectionInterval);
     },
-    amountData: function() {
+    updateSpacingData: function (value) {
+      console.log("selectionSpacing", value);
+      if (value === "Variable") {
+        this.variableData();
+      }
+      if (value === "Amount") {
+        this.amountData();
+      }
+    },
+    amountData: function () {
       this.updateSeries(this.series);
     },
-    variableData: function() {
+    variableData: function () {
       const dataComputed = [];
       for (const serie of this.series) {
         dataComputed.push({
