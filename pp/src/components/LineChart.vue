@@ -15,18 +15,18 @@
 
       <div>
         <button
-          @click="selectionSpacing = 'Amount'"
+          @click="preprocessor = amountData"
           :class="{
-            active: selectionSpacing === 'Amount',
+            active: preprocessor === amountData,
             'chart-button': true,
           }"
         >
           Montante
         </button>
         <button
-          @click="selectionSpacing = 'Variable'"
+          @click="preprocessor = variableData"
           :class="{
-            active: selectionSpacing === 'Variable',
+            active: preprocessor === variableData,
             'chart-button': true,
           }"
         >
@@ -41,7 +41,7 @@
         height="350"
         ref="chart"
         :options="chartOptions"
-        :series="series"
+        :series="preprocessor(series)"
       ></apexchart>
     </div>
   </div>
@@ -61,9 +61,6 @@ export default {
     series: { type: Array, required: true },
   },
   watch: {
-    selectionSpacing(value) {
-      this.updateSpacingData(value);
-    },
     series: {
       deep: true,
       handler() {
@@ -71,11 +68,14 @@ export default {
         this.$nextTick(() => this.initialHideSeries());
       },
     },
+    preprocessor(){
+      this.$nextTick(() => this.initialHideSeries());
+    }
   },
   data() {
     return {
       selectionInterval: "ALL",
-      selectionSpacing: "Variable",
+      preprocessor: this.amountData, 
       buttons: ["1M", "6M", "1Y", "YTD", "ALL"],
       chartOptions: {
         ...commomChartOptions,
@@ -102,8 +102,10 @@ export default {
   },
   created() {
     this.chartOptions.dataLabels.enabled = false;
-    this.chartOptions.fill.colors = undefined;
     this.chartOptions.xaxis.type = "datetime";
+    this.chartOptions.fill.colors = undefined;
+    this.chartOptions.colors = ['blue', 'red', 'green', 'yellow', 'purple'];
+    this.chartOptions.legend.markers.onClick = (chart, seriesIndex) => this.$refs.chart.series[seriesIndex].show = !this.$refs.chart.series[seriesIndex].show;
   },
   methods: {
     updateData: function (timeline) {
@@ -136,43 +138,27 @@ export default {
           break;
         default:
       }
+      this.$nextTick(() => this.initialHideSeries());
     },
     initialHideSeries: function () {
       for (const serie of this.$refs.chart.series) {
-        serie.show = serie.show === false || this.$refs.chart.toggleSeries(serie.name)
-          ? this.$refs.chart.hideSeries(serie.name)
-          : this.$refs.chart.showSeries(serie.name);
+        serie.show = serie.show === false
+          ? this.$refs.chart.hideSeries(serie.name) || false
+          : this.$refs.chart.showSeries(serie.name) || true;
       }
     },
-    updateSeries: function (data) {
-      const shows = this.$refs.chart.series.map(({ name }) => {
-        return { name, show: !this.$refs.chart.toggleSeries(name) };
-      });
-      this.$refs.chart.updateSeries(data);
-      for (const { name, show } of shows) {
-        show === false
-          ? this.$refs.chart.hideSeries(name)
-          : this.$refs.chart.showSeries(name);
-      }
-      this.updateData(this.selectionInterval);
+    amountData: function (series) {
+      return series;
     },
-    updateSpacingData: function (value) {
-      console.log("selectionSpacing", value);
-      if (value === "Variable") this.variableData();
-      if (value === "Amount") this.amountData();
-    },
-    amountData: function () {
-      this.updateSeries(this.series);
-    },
-    variableData: function () {
+    variableData: function (series) {
       const dataComputed = [];
-      for (const serie of this.series) {
+      for (const serie of series) {
         dataComputed.push({
           ...serie,
           data: this.variance(serie.data),
         });
       }
-      this.updateSeries(dataComputed);
+      return dataComputed
     },
     variance(array) {
       const varianceArray = [];

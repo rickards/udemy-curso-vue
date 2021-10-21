@@ -84,13 +84,13 @@ export default {
           data: this.series.pls,
         },
         {
-          name: "Caixa",
-          data: this.series.cash,
+          name: "Despesas",
+          data: this.series.expenses,
           show: false,
         },
         {
-          name: "Despesas",
-          data: this.series.expenses,
+          name: "Caixa",
+          data: this.series.cash,
           show: false,
         },
         {

@@ -4,7 +4,6 @@ export const commomChartOptions = {
     },
     dataLabels: {
         enabled: true,
-        color: undefined,
     },
     xaxis: {
         tickAmount: 6,
@@ -60,13 +59,6 @@ export const commomChartOptions = {
             colors: "fff",
         },
         markers: {
-            onClick: function (chart, seriesIndex, opts) {
-                console.log(
-                    "series- " + seriesIndex + "'s marker was clicked",
-                    chart,
-                    opts
-                );
-            },
             width: 20,
             height: 20,
             offsetX: 0,

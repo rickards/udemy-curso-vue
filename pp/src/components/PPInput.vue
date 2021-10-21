@@ -1,7 +1,7 @@
 <template>
     <div class="pp-input">
         <input v-model="regex" @keydown.enter="add" type="text"
-            class="form-element" :placeholder="placeholder">
+            class="form-element" :placeholder="placeholder" style="color: #C0C0C0;">
         <button class="form-element" @click="add">+</button>
     </div>
 </template>

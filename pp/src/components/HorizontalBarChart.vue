@@ -36,6 +36,7 @@ export default {
       series: [
         {
           //apexcharts
+          name: "%",
           data: this.dataSort(this.serie),
         },
       ],
