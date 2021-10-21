@@ -68,9 +68,7 @@ export default {
       deep: true,
       handler() {
         // https://qastack.com.br/programming/47634258/what-is-nexttick-or-what-does-it-do-in-vuejs
-        this.$nextTick(() => {
-          this.initialHideSeries();
-        });
+        this.$nextTick(() => this.initialHideSeries());
       },
     },
   },
@@ -141,7 +139,7 @@ export default {
     },
     initialHideSeries: function () {
       for (const serie of this.$refs.chart.series) {
-        serie.show === false
+        serie.show = serie.show === false || this.$refs.chart.toggleSeries(serie.name)
           ? this.$refs.chart.hideSeries(serie.name)
           : this.$refs.chart.showSeries(serie.name);
       }
@@ -160,12 +158,8 @@ export default {
     },
     updateSpacingData: function (value) {
       console.log("selectionSpacing", value);
-      if (value === "Variable") {
-        this.variableData();
-      }
-      if (value === "Amount") {
-        this.amountData();
-      }
+      if (value === "Variable") this.variableData();
+      if (value === "Amount") this.amountData();
     },
     amountData: function () {
       this.updateSeries(this.series);
