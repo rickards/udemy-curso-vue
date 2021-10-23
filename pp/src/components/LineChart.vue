@@ -6,7 +6,7 @@
           v-for="item in buttons"
           :key="item"
           :id="item"
-          @click="updateData(item)"
+          @click="selectionInterval = item"
           :class="{ active: selectionInterval === item, 'chart-button': true }"
         >
           {{ item }}
@@ -64,12 +64,14 @@ export default {
     series: {
       deep: true,
       handler() {
-        // https://qastack.com.br/programming/47634258/what-is-nexttick-or-what-does-it-do-in-vuejs
-        this.$nextTick(() => this.initialHideSeries());
+        this.updateGraphycsChart();
       },
     },
     preprocessor(){
-      this.$nextTick(() => this.initialHideSeries());
+      this.updateGraphycsChart();
+    },
+    selectionInterval(){
+      this.updateGraphycsChart();
     }
   },
   data() {
@@ -85,7 +87,7 @@ export default {
           height: 1550,
           background: "#101010",
           zoom: {
-            autoScaleYaxis: true,
+            autoScaleYaxis: false,
           },
         },
         tooltip: {
@@ -108,7 +110,22 @@ export default {
     this.chartOptions.legend.markers.onClick = (chart, seriesIndex) => this.$refs.chart.series[seriesIndex].show = !this.$refs.chart.series[seriesIndex].show;
   },
   methods: {
+    updateGraphycsChart: function () {
+      // https://qastack.com.br/programming/47634258/what-is-nexttick-or-what-does-it-do-in-vuejs
+      this.$nextTick(() => {
+        this.updateToggleSeries()
+        this.updateData(this.selectionInterval)
+      });
+    },
+    updateToggleSeries: function () {
+      for (const serie of this.$refs.chart.series) {
+        serie.show = serie.show === false
+          ? this.$refs.chart.hideSeries(serie.name) || false
+          : this.$refs.chart.showSeries(serie.name) || true;
+      }
+    },
     updateData: function (timeline) {
+      console.log("updateData", timeline);
       this.selectionInterval = timeline;
 
       const endPoint = new Date();
@@ -137,14 +154,6 @@ export default {
           this.$refs.chart.zoomX();
           break;
         default:
-      }
-      this.$nextTick(() => this.initialHideSeries());
-    },
-    initialHideSeries: function () {
-      for (const serie of this.$refs.chart.series) {
-        serie.show = serie.show === false
-          ? this.$refs.chart.hideSeries(serie.name) || false
-          : this.$refs.chart.showSeries(serie.name) || true;
       }
     },
     amountData: function (series) {
