@@ -2,7 +2,7 @@
     <div class="pp-input">
         <input v-model="regex" @keydown.enter="add" type="text"
             class="form-element" :placeholder="placeholder" style="color: #C0C0C0;">
-        <button class="form-element" @click="add">+</button>
+        <button class="form-element" @click="add" v-if="plusButton">+</button>
     </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
     },
     props: {
         placeholder: { type: String, required: false },
+        plusButton: { type: Boolean, default: true },
     },
     methods: {
         add() {
@@ -27,14 +28,13 @@ export default {
 
 <style>
     .pp-input {
-        margin: 0 10px 25px 10px;
         font-size-adjust: unset;
     }
 
     .form-element {
         outline: none;
         font-size: 1.5rem;
-        border: 1px solid rgb(3, 3, 3);
+        border: 1px solid rgba(3, 3, 3, 0);
         padding: 5px 10px 8px;
         color: rgb(0, 0, 0);
     }

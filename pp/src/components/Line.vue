@@ -2,7 +2,7 @@
   <div>
     <p class="line" @click="show=!show">
       <span class="span-style" style="text-align: left;">{{ label }}</span>
-      <span class="span-style" style="text-align: right;">{{
+      <span class="span-style" style="text-align: right;" v-if="value">{{
         price.format(value)
       }}</span>
     </p>
