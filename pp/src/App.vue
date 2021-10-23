@@ -65,11 +65,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #c5c5c5;
-  margin-top: 2%;
   animation: gradient 10s ease alternate infinite;
   background: linear-gradient(-45deg, #111111, #080808, #080808, #1d1f1f)
     no-repeat;
   background-size: 300% 300%;
+  padding: 1%;
 }
 
 @keyframes gradient {
@@ -80,21 +80,6 @@ body {
   100% {
     background-position: 100% 50%;
   }
-}
-
-.menu {
-  display: inline-flex;
-  position: fixed;
-  right: 0;
-  top: 100%;
-  margin-top: -3.2em;
-}
-
-.item-menu {
-  width: 50px;
-  height: 100vh;
-  border: 1px solid #e5e5e5;
-  background: black;
 }
 
 .grid {
