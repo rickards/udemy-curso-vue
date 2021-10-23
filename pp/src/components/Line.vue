@@ -5,8 +5,9 @@
       <span class="span-style" style="text-align: right;" v-if="value">{{
         price.format(value)
       }}</span>
+      <span class="span-style" style="text-align: right;" v-else-if="expansive">{{ show ? "▲" : "▼" }}</span>
     </p>
-    <div class="p" v-if="show">
+    <div :class="{p : expansive}" v-if="show && expansive">
       <slot>
       </slot>
     </div>
@@ -18,6 +19,7 @@ export default {
   props: {
     label: { type: String, required: true },
     value: { type: Number, required: false },
+    expansive: { type: Boolean, required: false, default: true },
   },
   data() {
     return {
