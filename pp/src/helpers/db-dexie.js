@@ -4,7 +4,12 @@ const db = new Dexie("pp");
 
 db.version(0.1).stores({
   expenses: "++id",
-  expensesStocks: "++id, regex"
+  expensesStocks: "++id, regex",
+  qaAnalysis: "++id",
+});
+
+db.version(0.2).stores({
+  qaAnalysis: "++id",
 });
 
 db.on("populate", function() {
@@ -76,10 +81,18 @@ function rmExpenseStock(expense) {
   })
 }
 
+function putQuoteAnalysis(setup){
+  db.qaAnalysis.put({
+    ...JSON.parse(setup),
+    id: 1
+  })
+}
+
 export default {
   getExpenses,
   getExpensesStocks,
   addExpenses,
   addExpenseStock,
-  rmExpenseStock
+  rmExpenseStock,
+  putQuoteAnalysis
 };
