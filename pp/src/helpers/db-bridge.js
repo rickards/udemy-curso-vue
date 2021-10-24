@@ -22,6 +22,7 @@ function callDBLocal(nameMethod, jsonParams) {
   if (nameMethod == "addExpenseStock") return dexie.addExpenseStock(jsonParams);
   if (nameMethod == "rmExpenseStock") return dexie.rmExpenseStock(jsonParams);
   if (nameMethod == "putQuoteAnalysis") return dexie.putQuoteAnalysis(jsonParams);
+  if ((nameMethod == "getQuoteAnalysis"&& jsonParams == undefined)) return dexie.getQuoteAnalysis();
 }
 
 export default {

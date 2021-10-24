@@ -31,6 +31,10 @@ const putQuoteAnalysis = async (el) => {
   return await bridge.runAndroidMethod("putQuoteAnalysis", JSON.stringify(el));
 }
 
+const getQuoteAnalysis = async () => {
+  return await bridge.runAndroidMethod("getQuoteAnalysis");
+}
+
 export default {
   getExpensesDatabase,
   addExpenseDatabase,
@@ -38,5 +42,6 @@ export default {
   getExpenseStocksDatabase,
   addExpenseStockDatabase,
   rmExpenseStockDatabase,
-  putQuoteAnalysis
+  putQuoteAnalysis,
+  getQuoteAnalysis
 };

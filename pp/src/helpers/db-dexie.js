@@ -5,7 +5,6 @@ const db = new Dexie("pp");
 db.version(0.1).stores({
   expenses: "++id",
   expensesStocks: "++id, regex",
-  qaAnalysis: "++id",
 });
 
 db.version(0.2).stores({
@@ -88,11 +87,18 @@ function putQuoteAnalysis(setup){
   })
 }
 
+async function getQuoteAnalysis(){
+  const array = await db.qaAnalysis.toArray();
+  delete array[0]['id']
+  return {...array[0]}
+}
+
 export default {
   getExpenses,
   getExpensesStocks,
   addExpenses,
   addExpenseStock,
   rmExpenseStock,
-  putQuoteAnalysis
+  putQuoteAnalysis,
+  getQuoteAnalysis
 };
