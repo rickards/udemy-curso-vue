@@ -23,12 +23,12 @@ export default {
   },
   methods: {
     dataSort(array) {
-      let sortedIndex = this.serie
+      const distinctArray = this.serie.slice(0).map((el, i) => parseFloat(el) + i * 0.001) // make all distinct
+      let sortedIndex2 = distinctArray
         .slice(0)
         .sort((a, b) => b - a)
-        .map((el) => this.serie.indexOf(el));
-      // console.log("index", sortedIndex)
-      return sortedIndex.map((i) => array[i]);
+        .map((el) => distinctArray.indexOf(el));
+      return sortedIndex2.map((i) => array[i]);
     },
   },
   data() {

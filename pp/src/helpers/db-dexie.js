@@ -89,8 +89,11 @@ function putQuoteAnalysis(setup){
 
 async function getQuoteAnalysis(){
   const array = await db.qaAnalysis.toArray();
-  delete array[0]['id']
-  return {...array[0]}
+  if (array.length > 0){
+    delete array[0]['id']
+    return {...array[0]}
+  }
+  return {}
 }
 
 export default {
