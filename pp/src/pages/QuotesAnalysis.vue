@@ -44,15 +44,17 @@
       ></BarChart>
 
       <div class="slidecontainer">
+        <button class="button-slider" @click="incrementRange(-1)">◄</button>
         <input 
           type="range" 
           :min="slideChart.min" 
           :max="slideChart.max" 
           class="slider" 
           id="myRange" 
-          v-model="slideChart.valueSlideChart"
+          v-model.number="slideChart.valueSlideChart"
           @click.prevent="updateChart=updateChart*-1"
         >
+        <button class="button-slider" @click="incrementRange(1)">►</button>
         <h4 class="label-slider">
           {{selectionCategory}} desde {{hist.date[slideChart.valueSlideChart]}}
         </h4>
@@ -96,7 +98,7 @@ export default {
   },
   watch: {
     selectionCategory(){
-      this.updateChart = this.updateChart * -1
+      this.updateChart *= -1
     }
   },
   computed: {
@@ -143,6 +145,12 @@ export default {
     },
     updateSlide(dates){
       this.slideChart.max = dates.length - 1
+    },
+    incrementRange(n){
+      this.slideChart.valueSlideChart += n
+      this.slideChart.valueSlideChart = Math.min(this.slideChart.valueSlideChart, this.hist.date.length-1)
+      this.slideChart.valueSlideChart = Math.max(this.slideChart.valueSlideChart, 0)
+      this.updateChart *= -1
     }
   }
 };
@@ -183,7 +191,19 @@ export default {
 }
 
 .label-slider {
-  min-width: 15em;
+  min-width: 12em;
+  font-size: 0.9em;
+}
+
+.button-slider {
+  background-color: #080808; /* Green */
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  /* font-size: 16px; */
 }
 
 .slidecontainer {
