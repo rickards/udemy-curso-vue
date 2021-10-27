@@ -1,15 +1,19 @@
 <template>
   <div>
     <p class="line" @click="show=!show">
-      <span class="span-style" style="text-align: left;">{{ label }}</span>
-      <span class="span-style" style="text-align: right;" v-if="value">{{
-        price.format(value)
-      }}</span>
-      <span class="span-style" style="text-align: right;" v-else-if="expansive">{{ show ? "▲" : "▼" }}</span>
+      <span class="icon-expansive" v-if="expansive">{{ show ? "▲" : "▼" }}</span>
+      <span v-if="!editLabel" class="span-style" style="text-align: left;">{{ llabel }}</span>
+      <input v-else class="input-style" type="text" @keydown.enter="labelChanged" v-model="llabel" />
+      <span class="span-style" style="text-align: right;" v-if="value">
+        {{price.format(value)}}
+      </span>
+      <span v-else-if="!editLabel" class="button-panel">
+        <button class="button-style" @click="onEditChange()">✎</button>
+        <button class="button-style" @click="$emit('delete', label)">✘</button>
+      </span>
     </p>
     <div :class="{p : expansive}" v-if="show && expansive">
-      <slot>
-      </slot>
+      <slot />
     </div>
   </div>
 </template>
@@ -19,7 +23,6 @@ export default {
   props: {
     label: { type: String, required: true },
     value: { type: Number, required: false },
-    expansive: { type: Boolean, required: false, default: true },
   },
   data() {
     return {
@@ -29,9 +32,30 @@ export default {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       }),
-      show: false
+      show: false,
+      editLabel: false,
+      llabel: "",
+      oldLabel: "",
     };
   },
+  created() {
+    this.llabel = this.label
+  },
+  computed: {
+    expansive() {
+      return this.$slots.default || false;
+    },
+  },
+  methods: {
+    labelChanged() {
+      this.editLabel=!this.editLabel
+      this.$emit("labelChanged", {new: this.llabel, old: this.oldLabel})
+    },
+    onEditChange() {
+      this.editLabel=!this.editLabel
+      this.oldLabel=this.llabel
+    }
+  }
 };
 </script>
 
@@ -45,11 +69,38 @@ export default {
 .span-style {
   width: 100%;
 }
+.button-style {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  margin-right: 5px;
+}
+
+.button-panel {
+  text-align: right;
+  display: flex;
+}
+
 .p {
   margin: 10px;
   font-size: 0.8em;
   background: rgba(85, 101, 104, 0.527);
   padding: 2px;
   border-radius: 5%;
+}
+
+.icon-expansive {
+  margin-right: 5px;
+}
+
+.input-style {
+  background: none;
+	color: inherit;
+	font: inherit;
+	outline: inherit;
 }
 </style>
