@@ -2,24 +2,29 @@
   <div>
     <TitleSlideDown title="Meus Índices">
       <div class="qa-input">
-        <PPInput placeholder="Seu ETF" @billAdded="addETF" style="transform: scale(0.85);" />
+        <div style="display: inline-flex;">
+          <PPInput placeholder="Seu ETF" @billAdded="addETF" style="transform: scale(0.85);" />
+          <button class="qa-button" @click="saveSetup">♻</button>
+        </div>
         <div class="grid-cards">
           <Line
             v-for="inv in Object.keys(etf2add)"
             :key="inv"
             :label="inv"
+            @delete="remove($event, inv)"
+            @labelChanged="editLine($event, inv)"
           >
             <Line
               v-for="i in etf2add[inv]"
               :key="i"
               :label="i"
-              :expansive="false"
+              @delete="remove($event, inv)"
+              @labelChanged="editLine($event, inv)"
             ></Line>
-            <PPInput placeholder="Cotas" @billAdded="addQuote($event, inv)" style="transform: scale(0.8);" />
+            <!-- <template v-slot:outside> -->
+              <PPInput placeholder="Cotas" @billAdded="addQuote($event, inv)" style="transform: scale(0.8);" />
+            <!-- </template> -->
           </Line>
-        </div>
-        <div style="display: flex-root; margin-right=2%;">
-          <button class="qa-button" @click="saveSetup">➲</button>
         </div>
         <!-- <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p> -->
       </div>
@@ -106,6 +111,9 @@ export default {
       const codes = this.mappingAssets[this.selectionCategory]
 
       const growth = codes.map((cod) => {
+        if (!this.hist[cod]) {
+          return 0
+        }
         const before = this.hist[cod][this.slideChart.valueSlideChart]
         const after = this.hist[cod].slice(-1).pop()
         return before ? ((after/before - 1) * 100).toFixed(2) : 0
@@ -119,8 +127,8 @@ export default {
       let listAssets = await database.getQuoteAnalysis()
       listAssets = !Object.keys(listAssets) ? {'IBOVESPA': ['^BVSP', 'EWZ']} : listAssets
       console.log(listAssets)
-      this.mappingAssets = listAssets
-      this.etf2add = listAssets
+      this.mappingAssets = {...listAssets}
+      this.etf2add = {...listAssets}
       this.selectionCategory = Object.keys(listAssets).pop()
 
       const codes = Object.keys(this.mappingAssets).reduce(
@@ -151,6 +159,24 @@ export default {
       this.slideChart.valueSlideChart = Math.min(this.slideChart.valueSlideChart, this.hist.date.length-1)
       this.slideChart.valueSlideChart = Math.max(this.slideChart.valueSlideChart, 0)
       this.updateChart *= -1
+    },
+    remove(item, grupo){
+      if (grupo === item){
+        delete this.etf2add[grupo]
+      }else{
+        this.etf2add[grupo].pop(item)
+      }
+    },
+    editLine(item, grupo){
+      if (item.old != item.new){
+        if (grupo === item.old){
+          this.etf2add[item.new] = this.etf2add[grupo]
+          delete this.etf2add[grupo]
+        }else{
+          const index = this.etf2add[grupo].indexOf(item.old)
+          this.etf2add[grupo][index] = item.new
+        }
+      }
     }
   }
 };
@@ -163,15 +189,10 @@ export default {
 }
 
 .qa-button {
-  outline: none;
-  font-size: 1.5rem;
-  border: 1px solid rgb(3, 3, 3);
-  padding: 5px 10px 8px;
-  color: rgb(0, 0, 0);
   border-left: none;
-  background-color: #21f33d;
+  background-color: #2196F3;
   border-radius: 8px;
-  float: right;
+  font-size-adjust: unset;
 }
 
 .qa-chart-button {
