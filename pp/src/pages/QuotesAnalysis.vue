@@ -106,7 +106,15 @@ export default {
   watch: {
     selectionCategory(){
       this.updateChart *= -1
-    }
+    },
+    slideChart: {
+      deep: true,
+      handler(obj) {
+        console.log("obj", obj)
+        // this.mappingAssets[this.selectionCategory].slide = obj.valueSlideChart
+        // database.putQuoteAnalysis(this.mappingAssets)
+      },
+    },
   },
   computed: {
     fallbackPercents(){
@@ -127,8 +135,7 @@ export default {
   mounted(){
     (async () => {
       let listAssets = await database.getQuoteAnalysis()
-      listAssets = !Object.keys(listAssets) ? {'IBOVESPA': ['^BVSP', 'EWZ']} : listAssets
-      console.log(listAssets)
+      listAssets = !Object.keys(listAssets).length ? {'IBOVESPA': ['^BVSP', 'EWZ']} : listAssets
       this.mappingAssets = {...listAssets}
       this.etf2add = {...listAssets}
       this.selectionCategory = Object.keys(listAssets).pop()
