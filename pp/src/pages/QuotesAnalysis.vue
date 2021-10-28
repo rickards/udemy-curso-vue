@@ -1,11 +1,11 @@
 <template>
   <div>
-    <TitleSlideDown title="Meus Índices">
+    <TitleSlideDown title="Meus Índices" style="margin: 10px;">
       <div class="qa-input">
         <div style="display: inline-flex;">
           <PPInput placeholder="Seu ETF" @billAdded="addETF" style="transform: scale(0.85);" />
-          <button class="qa-button" @click="saveSetup">♻</button>
         </div>
+        <div id="linha-horizontal"></div>
         <div class="grid-cards">
           <Line
             v-for="inv in Object.keys(etf2add)"
@@ -26,6 +26,8 @@
             <!-- </template> -->
           </Line>
         </div>
+        <div id="linha-horizontal"></div>
+        <button class="qa-button" @click="saveSetup">♻ Atualizar</button>
         <!-- <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p> -->
       </div>
     </TitleSlideDown>
@@ -186,6 +188,7 @@ export default {
 .qa-input {
   background: #fff2;
   padding: 1%;
+  margin-bottom: 30px;
 }
 
 .qa-button {
@@ -193,6 +196,10 @@ export default {
   background-color: #2196F3;
   border-radius: 8px;
   font-size-adjust: unset;
+  font-size: 1.5em;
+  width: 150px;
+  margin: 10px;
+  color: rgba(36, 36, 36);
 }
 
 .qa-chart-button {
@@ -263,5 +270,11 @@ export default {
   border-radius: 50%;
   background: #2196F3;
   cursor: pointer;
+}
+
+#linha-horizontal {
+    width: 96.5%;
+    border: 1px solid rgb(100, 100, 100);
+    margin: 10px;
 }
 </style>
