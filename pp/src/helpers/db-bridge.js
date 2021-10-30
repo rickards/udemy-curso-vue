@@ -18,11 +18,14 @@ function runAndroidMethod(nameMethod, jsonParams) {
 function callDBLocal(nameMethod, jsonParams) {
   if ((nameMethod == "getExpenses" && jsonParams == undefined)) return dexie.getExpenses();
   if (nameMethod == "addExpense") return dexie.addExpenses(jsonParams);
-  if ((nameMethod == "getExpenseStocks"&& jsonParams == undefined)) return dexie.getExpensesStocks();
+  if ((nameMethod == "getExpenseStocks" && jsonParams == undefined)) return dexie.getExpensesStocks();
   if (nameMethod == "addExpenseStock") return dexie.addExpenseStock(jsonParams);
   if (nameMethod == "rmExpenseStock") return dexie.rmExpenseStock(jsonParams);
   if (nameMethod == "putQuoteAnalysis") return dexie.putQuoteAnalysis(jsonParams);
-  if ((nameMethod == "getQuoteAnalysis"&& jsonParams == undefined)) return dexie.getQuoteAnalysis();
+  if ((nameMethod == "getQuoteAnalysis" && jsonParams == undefined)) return dexie.getQuoteAnalysis();
+  if (nameMethod == "putSlideValue") return dexie.putSlideValue(jsonParams);
+  if ((nameMethod == "getSlideValues" && jsonParams == undefined)) return dexie.getSlideValues();
+  if (nameMethod == "deleteSetupSlide") return dexie.deleteSetupSlide();
 }
 
 export default {

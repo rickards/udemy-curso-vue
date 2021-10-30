@@ -87,13 +87,41 @@ function putQuoteAnalysis(setup){
   })
 }
 
-async function getQuoteAnalysis(){
+const getQuoteAnalysis = async () => getSetup(1);
+
+function putSlideValue(setup){
+  db.qaAnalysis.update(2, {
+    ...JSON.parse(setup),
+    id: 2
+  })
+}
+
+const getSlideValues = async () => getSetup(2);
+
+async function getSetup(id){
   const array = await db.qaAnalysis.toArray();
-  if (array.length > 0){
-    delete array[0]['id']
-    return {...array[0]}
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    if (element.id == id){
+      delete array[index]['id']
+      return {...array[index]}
+    }
   }
   return {}
+}
+
+async function deleteSetupSlide() {
+  const categories = Object.keys(await getQuoteAnalysis());
+  const sliders = await getSlideValues();
+  for (const groupName of Object.keys(sliders)) {
+    if (categories.indexOf(groupName) == -1){
+      delete sliders[groupName]
+    }
+  }
+  db.qaAnalysis.put({
+    ...sliders,
+    id: 2
+  })
 }
 
 export default {
@@ -103,5 +131,8 @@ export default {
   addExpenseStock,
   rmExpenseStock,
   putQuoteAnalysis,
-  getQuoteAnalysis
+  getQuoteAnalysis,
+  putSlideValue,
+  getSlideValues,
+  deleteSetupSlide
 };

@@ -106,13 +106,18 @@ export default {
   watch: {
     selectionCategory(){
       this.updateChart *= -1
+      database.getSlideValues().then((slides) => {
+        if (slides[this.selectionCategory]){
+          this.slideChart = slides[this.selectionCategory]
+        }
+      })
     },
     slideChart: {
       deep: true,
       handler(obj) {
-        console.log("obj", obj)
-        // this.mappingAssets[this.selectionCategory].slide = obj.valueSlideChart
-        // database.putQuoteAnalysis(this.mappingAssets)
+        const slide2save = {}
+        slide2save[this.selectionCategory] = obj
+        database.putSlideValue(slide2save)
       },
     },
   },
@@ -158,6 +163,7 @@ export default {
     },
     saveSetup(){
       database.putQuoteAnalysis(this.etf2add)
+      database.deleteSetupSlide()
       window.location.reload()
     },
     updateSlide(dates){

@@ -7,33 +7,16 @@ const getExpensesDatabase = async () => {
   });
 };
 
-const addExpenseDatabase = async (expense) => {
-  return await bridge.runAndroidMethod("addExpense", JSON.stringify(expense));
-}
-
-const updateExpenseDatabase = async (expense) => {
-  return await bridge.runAndroidMethod("updateExpense", JSON.stringify(expense));
-}
-
-const getExpenseStocksDatabase = async () => {
-  return await bridge.runAndroidMethod("getExpenseStocks");
-}
-
-const addExpenseStockDatabase = async (el) => {
-  return await bridge.runAndroidMethod("addExpenseStock", JSON.stringify(el));
-}
-
-const rmExpenseStockDatabase = async (el) => {
-  return await bridge.runAndroidMethod("rmExpenseStock", JSON.stringify(el));
-}
-
-const putQuoteAnalysis = async (el) => {
-  return await bridge.runAndroidMethod("putQuoteAnalysis", JSON.stringify(el));
-}
-
-const getQuoteAnalysis = async () => {
-  return await bridge.runAndroidMethod("getQuoteAnalysis");
-}
+const addExpenseDatabase = async (expense) => await bridge.runAndroidMethod("addExpense", JSON.stringify(expense));
+const updateExpenseDatabase = async (expense) => await bridge.runAndroidMethod("updateExpense", JSON.stringify(expense));
+const getExpenseStocksDatabase = async () => await bridge.runAndroidMethod("getExpenseStocks");
+const addExpenseStockDatabase = async (el) => await bridge.runAndroidMethod("addExpenseStock", JSON.stringify(el));
+const rmExpenseStockDatabase = async (el) => await bridge.runAndroidMethod("rmExpenseStock", JSON.stringify(el));
+const putQuoteAnalysis = async (el) => await bridge.runAndroidMethod("putQuoteAnalysis", JSON.stringify(el));
+const getQuoteAnalysis = async () => await bridge.runAndroidMethod("getQuoteAnalysis");
+const putSlideValue = async (el) => await bridge.runAndroidMethod("putSlideValue", JSON.stringify(el));
+const getSlideValues = async () => await bridge.runAndroidMethod("getSlideValues");
+const deleteSetupSlide = async () => await bridge.runAndroidMethod("deleteSetupSlide");
 
 export default {
   getExpensesDatabase,
@@ -43,5 +26,8 @@ export default {
   addExpenseStockDatabase,
   rmExpenseStockDatabase,
   putQuoteAnalysis,
-  getQuoteAnalysis
+  getQuoteAnalysis,
+  putSlideValue,
+  getSlideValues,
+  deleteSetupSlide,
 };
