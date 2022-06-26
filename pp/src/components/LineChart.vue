@@ -21,7 +21,7 @@
             'chart-button': true,
           }"
         >
-          Montante
+          ACUMULADO
         </button>
         <button
           @click="preprocessor = variableData"
@@ -30,7 +30,7 @@
             'chart-button': true,
           }"
         >
-          Variação
+          VARIAÇÃO
         </button>
       </div>
     </div>

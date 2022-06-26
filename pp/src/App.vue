@@ -20,6 +20,9 @@
       <div class="button-card" @click="page = 'Analytics'">
         Análise de Cotações
       </div>
+      <div class="button-card" @click="page = 'Backup'">
+        Backup
+      </div>
     </div>
     <!-- <div class="menu">
       <div class="item-menu">></div>
@@ -39,6 +42,7 @@ import ExpenseExplorer from "./pages/ExpenseExplorer";
 import AccountRecord from "./pages/AccountRecord";
 import Investiments from "./pages/Investiments.vue";
 import Analytics from "./pages/QuotesAnalysis.vue";
+import Backup from "./pages/Backup.vue";
 
 export default {
   name: "App",
@@ -48,6 +52,7 @@ export default {
     AccountRecord,
     Investiments,
     Analytics,
+    Backup
   },
   data() {
     return {

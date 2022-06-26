@@ -27,7 +27,7 @@
           </Line>
         </div>
         <div id="linha-horizontal"></div>
-        <button class="qa-button" @click="saveSetup">♻ Atualizar</button>
+        <button class="qa-button" @click="saveSetup">Atualizar</button>
         <!-- <p v-if="invalidInput" style="color: red">{{ invalidInput }}</p> -->
       </div>
     </TitleSlideDown>
