@@ -1,11 +1,13 @@
 <template>
   <div>
     <h1>Despesas</h1>
+    <donut-chart 
+      :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))" 
+      :labels="expensesGroupByName.map(i => i[0].name)"  
+    />
     <div class="grid-cards">
       <Line
-        v-for="inv in expensesGroupByName.sort(
-          (a, b) => b.reduce(lambdaAmount, 0) - a.reduce(lambdaAmount, 0)
-        )"
+        v-for="inv in expensesGroupByName"
         :key="inv.id"
         :value="inv.reduce(lambdaAmount, 0)"
         :label="inv[0].name"
@@ -21,17 +23,19 @@
 import database from "@/helpers/db-interface";
 import Line from "../components/Line.vue";
 import utils from "../plugins/utils";
+import DonutChart from "../components/DonutChart.vue";
 
 export default {
   name: "ExpensesPage",
   components: {
     Line,
+    DonutChart,
   },
   data() {
     return {
       expenses: [],
       expensesGroupByName: [],
-      lambdaAmount: (sum, i) => i.value + sum,
+      lambdaAmount: (sum, i) => i.value + sum
     };
   },
   created() {
@@ -52,6 +56,11 @@ export default {
       const indexOrder = values.sort().map((i) => values.indexOf(i));
       this.expensesGroupByName = indexOrder.map(
         (i) => expensesGroupByName[names[i]]
+      );
+
+      this.expensesGroupByName.sort(
+        (a, b) =>
+          b.reduce(this.lambdaAmount, 0) - a.reduce(this.lambdaAmount, 0)
       );
       console.log(this.expensesGroupByName);
     });
