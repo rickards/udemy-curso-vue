@@ -13,6 +13,9 @@
       <div class="button-card" @click="page = 'Analytics'">
         Análise de Cotações
       </div>
+      <div class="button-card" @click="page = 'ExpensesPage'">
+        Despesas
+      </div>
     </div>
     <div class="grid" v-if="androidEnv">
       <div class="button-card" @click="page = 'ExpenseExplorer'">
@@ -21,9 +24,6 @@
       <div class="button-card" @click="page = 'PP'">PP</div>
       <div class="button-card" @click="page = 'Investiments'">
         Investimentos
-      </div>
-      <div class="button-card" @click="page = 'Backup'">
-        Backup
       </div>
     </div>
     <!-- <div class="menu">
@@ -44,7 +44,7 @@ import ExpenseExplorer from "./pages/ExpenseExplorer";
 import AccountRecord from "./pages/AccountRecord";
 import Investiments from "./pages/Investiments.vue";
 import Analytics from "./pages/QuotesAnalysis.vue";
-import Backup from "./pages/Backup.vue";
+import ExpensesPage from "./pages/ExpensesPage.vue";
 
 export default {
   name: "App",
@@ -54,7 +54,7 @@ export default {
     AccountRecord,
     Investiments,
     Analytics,
-    Backup
+    ExpensesPage
   },
   data() {
     return {

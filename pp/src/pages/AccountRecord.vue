@@ -102,7 +102,7 @@ export default {
     sendRecord() {
       if (this.validData()) {
         var expense = {
-          billname:
+          name:
             this.natureCombobox == "Investimento"
               ? this.billname.toUpperCase()
               : this.capitalize(this.billname),
