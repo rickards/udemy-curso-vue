@@ -179,8 +179,10 @@ export default {
   font-size: max(16px, 1em);
   font-family: inherit;
   padding: 0.25em 0.5em;
-  background-color: #fff;
+  background-color: rgb(95, 95, 95);
+  color: antiquewhite;
   border: 2px solid var(--input-border);
-  border-radius: 4px;
+  border-radius: 50px;
+  size: 1rem;
 }
 </style>

@@ -5,7 +5,7 @@ const ANDROID_ENVIROMENT = typeof window.Android !== "undefined" && window.Andro
 function runAndroidMethod(nameMethod, jsonParams) {
   console.log(nameMethod, jsonParams);
   if (ANDROID_ENVIROMENT) {
-    const javaReturn = window.Android.callFromDBJava(nameMethod, jsonParams);
+    const javaReturn = window.firestore.run(nameMethod, jsonParams);
     console.log("REBIDO PELO JS:", javaReturn);
     return JSON.parse(javaReturn);
   } else {

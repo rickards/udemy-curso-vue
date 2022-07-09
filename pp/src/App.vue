@@ -6,19 +6,21 @@
       <component :is="page" />
     </keep-alive>
     <br /><br /><br />
-    <div class="grid" v-if="androidEnv">
+    <div class="grid">
       <div class="button-card" @click="page = 'AccountRecord'">
         Registro Contábil
       </div>
+      <div class="button-card" @click="page = 'Analytics'">
+        Análise de Cotações
+      </div>
+    </div>
+    <div class="grid" v-if="androidEnv">
       <div class="button-card" @click="page = 'ExpenseExplorer'">
         Explorador de Despesas
       </div>
       <div class="button-card" @click="page = 'PP'">PP</div>
       <div class="button-card" @click="page = 'Investiments'">
         Investimentos
-      </div>
-      <div class="button-card" @click="page = 'Analytics'">
-        Análise de Cotações
       </div>
       <div class="button-card" @click="page = 'Backup'">
         Backup
@@ -71,7 +73,7 @@ body {
   text-align: center;
   color: #c5c5c5;
   animation: gradient 10s ease alternate infinite;
-  background: linear-gradient(-45deg, #111111, #080808, #080808, #1d1f1f)
+  background: linear-gradient(-45deg, #202020, #202020, #202020, #202020)
     no-repeat;
   background-size: 300% 300%;
   padding: 1%;
