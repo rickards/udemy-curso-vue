@@ -27,6 +27,7 @@ import { HTTP } from "../plugins/axios";
 import database from "@/helpers/db-interface";
 import LineChart from "../components/LineChart.vue";
 import Line from "../components/Line.vue";
+import utils from "../plugins/utils";
 
 export default {
   components: {
@@ -45,9 +46,9 @@ export default {
   },
   created() {
     database.getExpensesDatabase().then((result) => {
-      this.investiments = this.filter(result, (i) => i.type === "Investimento");
+      this.investiments = utils.filter(result, (i) => i.type === "Investimento");
 
-      const investimentsGroupByName = this.groupBy(
+      const investimentsGroupByName = utils.groupBy(
         this.investiments,
         (i) => i.name
       );
@@ -98,24 +99,8 @@ export default {
     },
   },
   methods: {
-    filter(array, lambda) {
-      let result = [];
-      for (let i = 0; i < array.length; i++) {
-        let item = array[i];
-        if (lambda(item)) {
-          result.push(item);
-        }
-      }
-      return result;
-    },
-    groupBy(array, keys) {
-      return array.reduce(function(rv, i) {
-        (rv[keys(i)] = rv[keys(i)] || []).push(i);
-        return rv;
-      }, {});
-    },
     async createSeries() {
-      const investimentsGroupByDate = this.groupBy(
+      const investimentsGroupByDate = utils.groupBy(
         this.investiments,
         (i) => i.date
       );
@@ -135,7 +120,7 @@ export default {
         historical.date.indexOf(aportDates[0])
       );
 
-      const datesByMonth = this.groupBy(dayByDay, (date) => date.slice(0, 7))
+      const datesByMonth = utils.groupBy(dayByDay, (date) => date.slice(0, 7))
 
       // Each month I choice 2 dates (min and max)
       Object.keys(datesByMonth).forEach((key) => {
