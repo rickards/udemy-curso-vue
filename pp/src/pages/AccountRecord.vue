@@ -15,13 +15,13 @@
         <input
           class="input"
           type="text"
-          placeholder="nome descritor"
+          placeholder="Nome descritor"
           v-model="billname"
         />
         <input
           class="input"
           type="number"
-          placeholder="valor"
+          placeholder="Valor"
           v-model="value"
         />
       </div>

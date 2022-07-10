@@ -203,6 +203,7 @@ export default {
   background: #fff2;
   padding: 1%;
   margin-bottom: 30px;
+  border-radius: 10px;
 }
 
 .qa-button {
@@ -213,7 +214,7 @@ export default {
   font-size: 1.5em;
   width: 150px;
   margin: 10px;
-  color: rgba(36, 36, 36);
+  color: rgb(236, 236, 236)
 }
 
 .qa-chart-button {
@@ -225,7 +226,8 @@ export default {
   font-size: 0.9rem;
   margin-bottom: 5px;
   margin: 0.2%;
-  min-width: 100px;
+  min-width: 120px;
+  height: 30px;
 }
 
 .label-slider {
