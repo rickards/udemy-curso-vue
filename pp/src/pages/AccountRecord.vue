@@ -3,16 +3,51 @@
     <div class="account-record">
       <h1>Registro Contábil</h1>
       <div class="grid-buttons">
-        <button :class="{ active: natureCombobox=='gasto', 'acc-record-button': true }" @click="natureCombobox='gasto'">Gasto</button>
-        <button :class="{ active: natureCombobox=='ganho', 'acc-record-button': true }" @click="natureCombobox='ganho'">Ganho</button>
-        <button :class="{ active: natureCombobox=='investimento', 'acc-record-button': true }" @click="natureCombobox='investimento'">Investimento</button>
+        <button
+          :class="{
+            active: natureCombobox == 'gasto',
+            'acc-record-button': true,
+          }"
+          @click="natureCombobox = 'gasto'"
+        >
+          Gasto
+        </button>
+        <button
+          :class="{
+            active: natureCombobox == 'ganho',
+            'acc-record-button': true,
+          }"
+          @click="natureCombobox = 'ganho'"
+        >
+          Ganho
+        </button>
+        <button
+          :class="{
+            active: natureCombobox == 'investimento',
+            'acc-record-button': true,
+          }"
+          @click="natureCombobox = 'investimento'"
+        >
+          Investimento
+        </button>
       </div>
+      <br>
 
       <input class="input" type="date" :value="date" />
-      
+
       <div class="grid-cards gap">
-        <input class="input" type="text" placeholder="nome descritor" v-model="billname" />
-        <input class="input" type="number" placeholder="valor" v-model="value" />
+        <input
+          class="input"
+          type="text"
+          placeholder="nome descritor"
+          v-model="billname"
+        />
+        <input
+          class="input"
+          type="number"
+          placeholder="valor"
+          v-model="value"
+        />
       </div>
 
       <div><input v-model="isAsset" type="checkbox" /> <label>Bem</label></div>
@@ -21,11 +56,11 @@
         <input
           type="number"
           placeholder="5"
-          style="width:50px;"
+          style="width: 50px"
           v-model="numberQuotes"
         />
       </div>
-      <label v-show="info" style="color: red;"
+      <label v-show="info" style="color: red"
         >Há campos obrigatórios vazios!</label
       >
       <button class="acc-record-button" @click="sendRecord">Registrar</button>
@@ -67,6 +102,7 @@ export default {
     preloadSetup() {
       this.loadParamsURL();
       this.mappingSetupFromLabel();
+      this.typeFromSetup();
     },
     loadParamsURL() {
       var url = new URL(window.location.href);

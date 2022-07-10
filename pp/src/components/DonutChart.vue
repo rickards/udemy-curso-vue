@@ -3,7 +3,7 @@
     <div id="chart-timeline">
       <apexchart
         type="donut"
-        height="350"
+        height="500"
         ref="chart"
         :options="chartOptions"
         :series="series"
