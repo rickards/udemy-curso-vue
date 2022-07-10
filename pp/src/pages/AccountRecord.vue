@@ -3,33 +3,9 @@
     <div class="account-record">
       <h1>Registro Contábil</h1>
       <div class="grid-buttons">
-        <button
-          :class="{
-            active: natureCombobox == 'gasto',
-            'acc-record-button': true,
-          }"
-          @click="natureCombobox = 'gasto'"
-        >
-          Gasto
-        </button>
-        <button
-          :class="{
-            active: natureCombobox == 'ganho',
-            'acc-record-button': true,
-          }"
-          @click="natureCombobox = 'ganho'"
-        >
-          Ganho
-        </button>
-        <button
-          :class="{
-            active: natureCombobox == 'investimento',
-            'acc-record-button': true,
-          }"
-          @click="natureCombobox = 'investimento'"
-        >
-          Investimento
-        </button>
+        <button :class="{ active: natureCombobox == 'gasto', 'acc-record-button': true, }" @click="natureCombobox = 'gasto'">Gasto</button>
+        <button :class="{ active: natureCombobox == 'ganho', 'acc-record-button': true, }" @click="natureCombobox = 'ganho'">Ganho</button>
+        <button :class="{ active: natureCombobox == 'investimento', 'acc-record-button': true, }" @click="natureCombobox = 'investimento'">Investimento</button>
       </div>
       <br>
 
@@ -208,11 +184,6 @@ export default {
   margin-bottom: 5px;
   margin: 0.2%;
   height: 40px;
-}
-
-.active {
-  background-color: #21f372bb;
-  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
 }
 
 .input {

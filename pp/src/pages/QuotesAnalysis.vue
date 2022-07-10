@@ -228,7 +228,7 @@ export default {
 
 .active {
   background-color: #315740bb;
-  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
+  box-shadow: 0px 0px 8px 8px #315740bb;
 }
 
 .label-slider {
