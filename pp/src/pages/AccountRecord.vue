@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-cards">
+  <div class="grid-columns">
     <div class="account-record">
       <h1>Registro Contábil</h1>
       <div class="grid-buttons">
@@ -35,7 +35,7 @@
 
       <input class="input" type="date" :value="date" />
 
-      <div class="grid-cards gap">
+      <div class="grid-columns gap">
         <input
           class="input"
           type="text"
@@ -239,5 +239,10 @@ export default {
   padding: 0.5%;
   margin: 0.5%;
   width: 98%;
+}
+
+.grid-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 </style>
