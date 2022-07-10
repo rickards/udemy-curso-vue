@@ -183,7 +183,7 @@ export default {
   font-size: 1rem;
   margin-bottom: 5px;
   margin: 0.2%;
-  height: 40px;
+  height: 45px;
 }
 
 .input {

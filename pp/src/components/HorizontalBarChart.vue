@@ -48,7 +48,7 @@ export default {
           },
           type: "bar",
           height: 50,
-          background: "#101010",
+          background: "#202020",
         },
         plotOptions: {
           bar: {

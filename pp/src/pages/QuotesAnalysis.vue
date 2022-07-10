@@ -32,6 +32,7 @@
       </div>
     </TitleSlideDown>
 
+    <br><br>
     <Loading v-if="!hist" />
     <div v-else>
       <div v-if="selectionCategory" style="margin: 2%;">
@@ -51,6 +52,9 @@
       ></BarChart>
 
       <div class="slidecontainer">
+        <h4 class="label-slider">
+          {{selectionCategory}} desde {{hist.date[slideChart.valueSlideChart]}}
+        </h4>
         <button class="button-slider" @click="incrementRange(-1)">◄</button>
         <input 
           type="range" 
@@ -62,9 +66,6 @@
           @click.prevent="updateChart=updateChart*-1"
         >
         <button class="button-slider" @click="incrementRange(1)">►</button>
-        <h4 class="label-slider">
-          {{selectionCategory}} desde {{hist.date[slideChart.valueSlideChart]}}
-        </h4>
       </div>
 
     </div>
@@ -218,12 +219,13 @@ export default {
 .qa-chart-button {
   outline: none;
   border: 3px solid rgba(3, 3, 3, 0.144);
-  border-radius: 10%;
+  border-radius: 25px;
   background-color: #2195f3bb;
   color: rgb(236, 226, 226);
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin-bottom: 5px;
   margin: 0.2%;
+  min-width: 100px;
 }
 
 .active {
@@ -237,18 +239,19 @@ export default {
 }
 
 .button-slider {
-  background-color: #080808; /* Green */
+  background-color: #202020; /* Green */
   border: none;
   color: white;
   padding: 5px;
   text-align: center;
   text-decoration: none;
   /* display: inline-block; */
-  /* font-size: 16px; */
+  font-size: 25px;
 }
 
 .slidecontainer {
   display: flex;
+  column-gap: 1em;
   /* width: 100%; Width of the outside container */
 }
 
@@ -272,9 +275,9 @@ export default {
   width: 25px;
   height: 25px;
   border-radius: 50%; 
-  background: #06f164;
-  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
+  background: #315740;
   cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.144);
 }
 
 .slider::-moz-range-thumb {
