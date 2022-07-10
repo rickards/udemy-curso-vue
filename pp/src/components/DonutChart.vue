@@ -1,6 +1,6 @@
 <template>
   <div id="chart">
-    <div id="chart-timeline">
+    <div>
       <apexchart
         type="donut"
         height="500"
@@ -58,11 +58,6 @@ export default {
 </script>
 
 <style>
-#chart-timeline {
-  margin-top: 5%;
-  margin-bottom: 2%;
-}
-
 .chart-button {
   outline: none;
   border: 3px solid rgba(3, 3, 3, 0.144);

@@ -3,6 +3,8 @@
     <Post>
       <h1>{{ translator.title["PT"] }}</h1>
     </Post>
+    <br>
+    <br>
     <Post>
       <line-chart :series="getSeries" />
     </Post>
@@ -270,5 +272,10 @@ export default {
   padding: 0.5%;
   width: 48%;
   /* min-width: 250px; */
+}
+
+.active {
+  background-color: #315740bb!important;
+  box-shadow: 0px 0px 8px 8px #315740bb!important;
 }
 </style>

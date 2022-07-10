@@ -42,7 +42,7 @@ export default {
 
 .slide-title {
   outline: none;
-  font-size: 1rem;
+  font-size: 1,5rem;
   border: 1px solid rgb(3, 3, 3);
   padding: 5px 10px 8px;
   margin: 0%;

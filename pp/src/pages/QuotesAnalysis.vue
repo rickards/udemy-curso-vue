@@ -228,11 +228,6 @@ export default {
   min-width: 100px;
 }
 
-.active {
-  background-color: #315740bb;
-  box-shadow: 0px 0px 8px 8px #315740bb;
-}
-
 .label-slider {
   min-width: 12em;
   font-size: 0.9em;

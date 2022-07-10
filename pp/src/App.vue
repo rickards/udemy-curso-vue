@@ -10,18 +10,19 @@
       <div class="button-card" @click="page = 'AccountRecord'">
         Registro Contábil
       </div>
-      <div class="button-card" @click="page = 'Analytics'">
-        Análise de Cotações
-      </div>
       <div class="button-card" @click="page = 'ExpensesPage'">
         Despesas
       </div>
+      <div class="button-card" @click="page = 'PP'">PP</div>
+      <div class="button-card" @click="page = 'Analytics'">
+        Análise de Cotações
+      </div>
+
     </div>
     <div class="grid" v-if="androidEnv">
       <div class="button-card" @click="page = 'ExpenseExplorer'">
         Explorador de Despesas
       </div>
-      <div class="button-card" @click="page = 'PP'">PP</div>
       <div class="button-card" @click="page = 'Investiments'">
         Investimentos
       </div>

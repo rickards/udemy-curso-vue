@@ -1,10 +1,14 @@
 <template>
   <div v-if="expenses.length!=0">
     <h1>Despesas</h1>
+
+    <br><br>
     <donut-chart 
       :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))" 
       :labels="expensesGroupByName.map(i => i[0].name)"  
     />
+    
+    <br><br>
     <div class="grid-cards">
       <Line
         v-for="inv in expensesGroupByName"

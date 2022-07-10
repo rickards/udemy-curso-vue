@@ -85,7 +85,7 @@ export default {
           id: "area-datetime",
           type: "area",
           height: 1550,
-          background: "#101010",
+          background: "#202020",
           zoom: {
             autoScaleYaxis: false,
           },
@@ -184,10 +184,6 @@ export default {
 </script>
 
 <style>
-#chart-timeline {
-  margin-top: 5%;
-  margin-bottom: 2%;
-}
 
 .chart-button {
   outline: none;
@@ -203,10 +199,5 @@ export default {
 .toolbar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.active {
-  background-color: #21f372bb;
-  box-shadow: 0px 0px 8px 8px rgba(36, 211, 103, 0.658);
 }
 </style>
