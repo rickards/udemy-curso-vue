@@ -1,13 +1,13 @@
 <template>
   <div v-if="expenses.length!=0">
-    <h1>Despesas</h1>
+    <TitleSlideDown title="Despesas" style="margin: 10px;"></TitleSlideDown>
 
     <br><br>
     <donut-chart 
       :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))" 
       :labels="expensesGroupByName.map(i => i[0].name)"  
     />
-    
+
     <br><br>
     <div class="grid-cards">
       <Line
@@ -31,12 +31,14 @@ import database from "@/helpers/db-interface";
 import Line from "../components/Line.vue";
 import utils from "../plugins/utils";
 import DonutChart from "../components/DonutChart.vue";
+import TitleSlideDown from "../components/TitleSlideDown.vue";
 
 export default {
   name: "ExpensesPage",
   components: {
     Line,
     DonutChart,
+    TitleSlideDown
   },
   data() {
     return {

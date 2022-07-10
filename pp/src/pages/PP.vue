@@ -1,7 +1,7 @@
 <template>
   <div>
     <Post>
-      <h1>{{ translator.title["PT"] }}</h1>
+      <TitleSlideDown :title="translator.title['PT']" style="margin: 10px;"></TitleSlideDown>
     </Post>
     <br>
     <br>
@@ -33,6 +33,7 @@ import Translations from "@/helpers/translations";
 import LineChart from "../components/LineChart.vue";
 import Line from "../components/Line.vue";
 import Post from "../components/Post.vue";
+import TitleSlideDown from "../components/TitleSlideDown.vue";
 
 export default {
   name: "PP",
@@ -40,6 +41,7 @@ export default {
     LineChart,
     Line,
     Post,
+    TitleSlideDown
   },
   data() {
     return {

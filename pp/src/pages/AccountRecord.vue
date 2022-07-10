@@ -1,7 +1,7 @@
 <template>
   <div class="grid-columns">
     <div class="account-record">
-      <h1>Registro Contábil</h1>
+      <TitleSlideDown title="Registro Contábil" style="margin: 10px;"></TitleSlideDown>
       <div class="grid-buttons">
         <button :class="{ active: natureCombobox == 'gasto', 'acc-record-button': true, }" @click="natureCombobox = 'gasto'">Gasto</button>
         <button :class="{ active: natureCombobox == 'ganho', 'acc-record-button': true, }" @click="natureCombobox = 'ganho'">Ganho</button>
@@ -46,13 +46,14 @@
 
 <script>
 import database from "@/helpers/db-interface";
+import TitleSlideDown from "../components/TitleSlideDown.vue";
 // import Post from "../components/Post.vue";
 
 export default {
   name: "AccountRecord",
-  // components: {
-  //   Post,
-  // },
+   components: {
+     TitleSlideDown,
+  },
   data() {
     return {
       natureCombobox: "gasto",
