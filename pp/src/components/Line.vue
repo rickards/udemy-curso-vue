@@ -65,8 +65,8 @@ export default {
   border-radius: 20px;
   height: 20px;
   display: flex;
-  padding: 3%;
   margin: 1%;
+  padding: 0.5em 0.5em 0.5em;
 }
 .span-style {
   width: 100%;
