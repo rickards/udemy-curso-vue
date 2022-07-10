@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      page: "Analytics",
+      page: "ExpensesPage",
       androidEnv: bridge.ANDROID_ENVIROMENT,
     };
   },
