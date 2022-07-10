@@ -85,7 +85,7 @@ export default {
           id: "area-datetime",
           type: "area",
           height: 1550,
-          background: "#202020",
+          background: "#00000000",
           zoom: {
             autoScaleYaxis: false,
           },

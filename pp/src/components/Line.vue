@@ -90,7 +90,7 @@ export default {
 .p {
   margin: 10px;
   font-size: 0.8em;
-  background: rgba(85, 101, 104, 0.527);
+  background: rgba(0, 0, 0, 0);
   padding: 2px;
   border-radius: 5%;
 }

@@ -33,7 +33,7 @@ export default {
           id: "donut-chart",
           type: "donut",
           height: 1550,
-          background: "#202020",
+          background: "#00000000",
         },
         legend: {
           position: "bottom",
