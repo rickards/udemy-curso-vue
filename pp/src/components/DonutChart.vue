@@ -42,6 +42,13 @@ export default {
           },
           show: true,
         },
+        fill: {
+          type: "gradient",
+          gradient: {
+            opacityFrom: 0.6,
+            opacityTo: 0.7,
+          },
+        },
       },
     };
   },

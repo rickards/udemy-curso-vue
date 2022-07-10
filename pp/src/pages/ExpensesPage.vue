@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="expenses.length!=0">
     <h1>Despesas</h1>
     <donut-chart 
       :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))" 
@@ -16,6 +16,9 @@
         </Line>
       </Line>
     </div>
+  </div>
+  <div v-else>
+    <h1>Não há despesas cadastradas!</h1>
   </div>
 </template>
 

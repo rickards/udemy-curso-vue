@@ -62,8 +62,10 @@ export default {
 <style>
 .line {
   background-color: #2195f3bb;
+  border-radius: 20px;
+  height: 20px;
   display: flex;
-  padding: 1%;
+  padding: 3%;
   margin: 1%;
 }
 .span-style {

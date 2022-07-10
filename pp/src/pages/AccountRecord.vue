@@ -1,31 +1,35 @@
 <template>
-  <div class="account-record">
-    <h1>Registro Contábil</h1>
-    <div>
-      <button :class="{ active: natureCombobox=='gasto', 'acc-record-button': true }" @click="natureCombobox='gasto'">Gasto</button>
-      <button :class="{ active: natureCombobox=='ganho', 'acc-record-button': true }" @click="natureCombobox='ganho'">Ganho</button>
-      <button :class="{ active: natureCombobox=='investimento', 'acc-record-button': true }" @click="natureCombobox='investimento'">Investimento</button>
-    </div>
+  <div class="grid-cards">
+    <div class="account-record">
+      <h1>Registro Contábil</h1>
+      <div class="grid-buttons">
+        <button :class="{ active: natureCombobox=='gasto', 'acc-record-button': true }" @click="natureCombobox='gasto'">Gasto</button>
+        <button :class="{ active: natureCombobox=='ganho', 'acc-record-button': true }" @click="natureCombobox='ganho'">Ganho</button>
+        <button :class="{ active: natureCombobox=='investimento', 'acc-record-button': true }" @click="natureCombobox='investimento'">Investimento</button>
+      </div>
 
-    <input class="input" type="date" :value="date" />
-    
-    <input class="input" type="text" placeholder="nome descritor" v-model="billname" />
-    <input class="input" type="number" placeholder="valor" v-model="value" />
+      <input class="input" type="date" :value="date" />
+      
+      <div class="grid-cards gap">
+        <input class="input" type="text" placeholder="nome descritor" v-model="billname" />
+        <input class="input" type="number" placeholder="valor" v-model="value" />
+      </div>
 
-    <div><input v-model="isAsset" type="checkbox" /> <label>Bem</label></div>
-    <div v-show="natureCombobox == 'investimento'">
-      <label>Quantidade de cotas:</label>
-      <input
-        type="number"
-        placeholder="5"
-        style="width:50px;"
-        v-model="numberQuotes"
-      />
+      <div><input v-model="isAsset" type="checkbox" /> <label>Bem</label></div>
+      <div v-show="natureCombobox == 'investimento'">
+        <label>Quantidade de cotas:</label>
+        <input
+          type="number"
+          placeholder="5"
+          style="width:50px;"
+          v-model="numberQuotes"
+        />
+      </div>
+      <label v-show="info" style="color: red;"
+        >Há campos obrigatórios vazios!</label
+      >
+      <button class="acc-record-button" @click="sendRecord">Registrar</button>
     </div>
-    <label v-show="info" style="color: red;"
-      >Há campos obrigatórios vazios!</label
-    >
-    <button class="acc-record-button" @click="sendRecord">Registrar</button>
   </div>
 </template>
 
@@ -161,12 +165,13 @@ export default {
 .acc-record-button {
   outline: none;
   border: 3px solid rgba(3, 3, 3, 0.144);
-  border-radius: 10%;
+  border-radius: 20px;
   background-color: #2195f3bb;
   color: rgb(236, 226, 226);
   font-size: 1rem;
   margin-bottom: 5px;
   margin: 0.2%;
+  height: 40px;
 }
 
 .active {
@@ -175,14 +180,28 @@ export default {
 }
 
 .input {
-  font-size: 16px;
+  font-size: 20px;
   font-size: max(16px, 1em);
   font-family: inherit;
-  padding: 0.25em 0.5em;
+  padding: 0.25em 1.5em;
   background-color: rgb(95, 95, 95);
   color: antiquewhite;
   border: 2px solid var(--input-border);
   border-radius: 50px;
   size: 1rem;
+  height: 40px;
+}
+
+.gap {
+  row-gap: 2em;
+  column-gap: 2em;
+}
+
+.grid-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  padding: 0.5%;
+  margin: 0.5%;
+  width: 98%;
 }
 </style>
