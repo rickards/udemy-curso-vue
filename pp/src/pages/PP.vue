@@ -1,7 +1,7 @@
 <template>
   <div>
     <Post>
-      <TitleSlideDown :title="translator.title['PT']" style="margin: 10px;"></TitleSlideDown>
+      <TitleSlideDown :title="translator.title['PT']"></TitleSlideDown>
     </Post>
     <br>
     <br>

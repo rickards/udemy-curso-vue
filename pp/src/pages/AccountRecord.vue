@@ -1,8 +1,8 @@
 <template>
   <div class="grid-columns">
     <div class="account-record">
-      <TitleSlideDown title="Registro Contábil" style="margin: 10px;"></TitleSlideDown>
-      <div class="grid-buttons">
+      <TitleSlideDown title="Registro Contábil"></TitleSlideDown>
+      <div class="grid-columns">
         <button :class="{ active: natureCombobox == 'gasto', 'acc-record-button': true, }" @click="natureCombobox = 'gasto'">Gasto</button>
         <button :class="{ active: natureCombobox == 'ganho', 'acc-record-button': true, }" @click="natureCombobox = 'ganho'">Ganho</button>
         <button :class="{ active: natureCombobox == 'investimento', 'acc-record-button': true, }" @click="natureCombobox = 'investimento'">Investimento</button>
@@ -203,14 +203,6 @@ export default {
 .gap {
   row-gap: 2em;
   column-gap: 2em;
-}
-
-.grid-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  padding: 0.5%;
-  margin: 0.5%;
-  width: 98%;
 }
 
 .grid-columns {

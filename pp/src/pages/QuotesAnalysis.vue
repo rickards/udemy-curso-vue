@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TitleSlideDown title="Meus Índices" style="margin: 10px;">
+    <TitleSlideDown title="Meus Índices">
       <div class="qa-input">
         <div style="display: inline-flex;">
           <PPInput placeholder="Seu ETF" @billAdded="addETF" style="transform: scale(0.85);" />

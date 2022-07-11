@@ -1,6 +1,6 @@
 <template>
   <div v-if="expenses.length!=0">
-    <TitleSlideDown title="Despesas" style="margin: 10px;"></TitleSlideDown>
+    <TitleSlideDown title="Despesas"></TitleSlideDown>
 
     <br><br>
     <donut-chart 

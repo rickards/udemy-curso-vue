@@ -35,7 +35,7 @@ export default {
 
 <style>
 .slide-top {
-  margin: 25px 10px 25px 10px;
+  margin: 25px 0px 25px 0px;
   font-size-adjust: unset;
   display: flex;
 }
