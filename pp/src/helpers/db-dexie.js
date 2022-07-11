@@ -90,7 +90,18 @@ function putQuoteAnalysis(setup){
 const getQuoteAnalysis = async () => getSetup(1);
 
 function putSlideValue(setup){
-  db.qaAnalysis.update(2, {
+  updateSlideValue(setup).then((updated) => {
+    if (!updated){
+      db.qaAnalysis.put({
+        ...JSON.parse(setup),
+        id: 2
+      })
+    }
+  })
+}
+
+function updateSlideValue(setup){
+  return db.qaAnalysis.update(2, {
     ...JSON.parse(setup),
     id: 2
   })
