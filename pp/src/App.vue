@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       page: "ExpensesPage",
-      androidEnv: bridge.ANDROID_ENVIROMENT,
+      androidEnv: bridge.FIRESTORE_ENVIROMENT,
     };
   },
 };

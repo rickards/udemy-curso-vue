@@ -1,10 +1,10 @@
 import dexie from "./db-dexie";
 
-const ANDROID_ENVIROMENT = typeof window.Android !== "undefined" && window.Android !== null
+const FIRESTORE_ENVIROMENT = typeof window.firestore !== "undefined" && window.firestore !== null
 
 function runAndroidMethod(nameMethod, jsonParams) {
   console.log(nameMethod, jsonParams);
-  if (ANDROID_ENVIROMENT) {
+  if (FIRESTORE_ENVIROMENT) {
     const javaReturn = window.firestore.run(nameMethod, jsonParams);
     console.log("REBIDO PELO JS:", javaReturn);
     return JSON.parse(javaReturn);
@@ -30,5 +30,5 @@ function callDBLocal(nameMethod, jsonParams) {
 
 export default {
   runAndroidMethod,
-  ANDROID_ENVIROMENT,
+  FIRESTORE_ENVIROMENT,
 }

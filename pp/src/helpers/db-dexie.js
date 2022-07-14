@@ -61,7 +61,7 @@ function getExpensesStocks() {
   return db.expensesStocks.toArray();
 }
 
-function addExpenses(expense) {
+function addExpense(expense) {
   db.expenses.add(JSON.parse(expense))
 }
 
@@ -138,7 +138,7 @@ async function deleteSetupSlide() {
 export default {
   getExpenses,
   getExpensesStocks,
-  addExpenses,
+  addExpense,
   addExpenseStock,
   rmExpenseStock,
   putQuoteAnalysis,
