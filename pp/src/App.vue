@@ -39,7 +39,7 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import bridge from "@/helpers/db-bridge.js";
+import firestore from "@/helpers/db-firestore.js";
 import PP from "./pages/PP";
 import ExpenseExplorer from "./pages/ExpenseExplorer";
 import AccountRecord from "./pages/AccountRecord";
@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       page: "ExpensesPage",
-      androidEnv: bridge.FIRESTORE_ENVIROMENT,
+      androidEnv: firestore.FIRESTORE_ENVIROMENT,
     };
   },
 };

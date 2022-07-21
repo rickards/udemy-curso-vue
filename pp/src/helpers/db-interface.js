@@ -1,4 +1,6 @@
-import bridge from "./db-bridge";
+import dexie from "./db-dexie";
+import firestore from "./db-firestore";
+
 
 const getExpensesDatabase = async () => {
   const expenses = await bridge.runAndroidMethod("getExpenses")
@@ -7,16 +9,54 @@ const getExpensesDatabase = async () => {
   });
 };
 
-const addExpenseDatabase = async (expense) => await bridge.runAndroidMethod("addExpense", JSON.stringify(expense));
-const updateExpenseDatabase = async (expense) => await bridge.runAndroidMethod("updateExpense", JSON.stringify(expense));
-const getExpenseStocksDatabase = async () => await bridge.runAndroidMethod("getExpenseStocks");
-const addExpenseStockDatabase = async (el) => await bridge.runAndroidMethod("addExpenseStock", JSON.stringify(el));
-const rmExpenseStockDatabase = async (el) => await bridge.runAndroidMethod("rmExpenseStock", JSON.stringify(el));
-const putQuoteAnalysis = async (el) => await bridge.runAndroidMethod("putQuoteAnalysis", JSON.stringify(el));
-const getQuoteAnalysis = async () => await bridge.runAndroidMethod("getQuoteAnalysis");
-const putSlideValue = async (el) => await bridge.runAndroidMethod("putSlideValue", JSON.stringify(el));
-const getSlideValues = async () => await bridge.runAndroidMethod("getSlideValues");
-const deleteSetupSlide = async () => await bridge.runAndroidMethod("deleteSetupSlide");
+const addExpenseDatabase = async (expense) => {
+  dexie.addExpense(expense)
+  firestore.addExpense(expense)
+}
+
+const updateExpenseDatabase = async (expense) => {
+  dexie.updateExpenseDatabase(expense)
+  firestore.updateExpense(expense)
+}
+
+const getExpenseStocksDatabase = async () => {
+  dexie.getExpenseStocksDatabase()
+  firestore.getExpenseStocksDatabase()
+}
+
+const addExpenseStockDatabase = async (el) => {
+  dexie.addExpenseStock(el)
+  firestore.addExpenseStock(el)
+}
+
+const rmExpenseStockDatabase = async (el) => {
+  dexie.rmExpenseStock(el)
+  firestore.rmExpenseStock(el)
+};
+
+const putQuoteAnalysis = async (el) => {
+  dexie.putQuoteAnalysis(el)
+  firestore.putQuoteAnalysis(el)
+}
+
+const getQuoteAnalysis = async () => {
+  dexie.getQuoteAnalysis()
+  firestore.getQuoteAnalysis()
+}
+
+const putSlideValue = async (el) => {
+  dexie.putSlideValue(el)
+  firestore.putSlideValue(el)
+}
+
+const getSlideValues = async () => {
+  dexie.getSlideValues()
+  firestore.getSlideValues()
+}
+const deleteSetupSlide = async () => {
+  dexie.deleteSetupSlide()
+  firestore.deleteSetupSlide()
+}
 
 export default {
   getExpensesDatabase,
