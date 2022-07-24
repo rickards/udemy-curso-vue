@@ -62,7 +62,7 @@ function getExpensesStocks() {
 }
 
 function addExpense(expense) {
-  db.expenses.add(JSON.parse(expense))
+  db.expenses.add(JSON.parse(JSON.stringify(expense)))
 }
 
 function addExpenseStock(expenseStock) {
