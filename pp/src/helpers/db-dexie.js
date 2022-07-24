@@ -66,11 +66,11 @@ function addExpense(expense) {
 }
 
 function addExpenseStock(expenseStock) {
-  db.expensesStocks.add(JSON.parse(expenseStock))
+  db.expensesStocks.add(JSON.parse(JSON.stringify(expenseStock)))
 }
 
 function rmExpenseStock(expense) {
-  const el = JSON.parse(expense)
+  const el = JSON.parse(JSON.stringify(expense))
   return getExpensesStocks().then((stocks) => {
     Object.keys(stocks).forEach((key) => {
       if ( stocks[key].regex === el.regex) {
@@ -82,7 +82,7 @@ function rmExpenseStock(expense) {
 
 function putQuoteAnalysis(setup){
   db.qaAnalysis.put({
-    ...JSON.parse(setup),
+    ...JSON.parse(JSON.stringify(setup)),
     id: 1
   })
 }
@@ -93,7 +93,7 @@ function putSlideValue(setup){
   updateSlideValue(setup).then((updated) => {
     if (!updated){
       db.qaAnalysis.put({
-        ...JSON.parse(setup),
+        ...JSON.parse(JSON.stringify(setup)),
         id: 2
       })
     }
@@ -102,7 +102,7 @@ function putSlideValue(setup){
 
 function updateSlideValue(setup){
   return db.qaAnalysis.update(2, {
-    ...JSON.parse(setup),
+    ...JSON.parse(JSON.stringify(setup)),
     id: 2
   })
 }

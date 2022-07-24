@@ -20,9 +20,7 @@ const updateExpenseDatabase = async (expense) => {
   firebase.updateExpense(expense)
 }
 
-const getExpenseStocksDatabase = async () => {
-  return dexie.getExpenseStocksDatabase()
-}
+const getExpenseStocksDatabase = async () => await dexie.getExpenseStocksDatabase()
 
 const addExpenseStockDatabase = async (el) => {
   const hash = firebase.addExpenseStock(el)
@@ -40,18 +38,16 @@ const putQuoteAnalysis = async (el) => {
   firebase.putQuoteAnalysis(el)
 }
 
-const getQuoteAnalysis = async () => {
-  dexie.getQuoteAnalysis()
-}
+const getQuoteAnalysis = async () => await dexie.getQuoteAnalysis()
+
 
 const putSlideValue = async (el) => {
   dexie.putSlideValue(el)
   firebase.putSlideValue(el)
 }
 
-const getSlideValues = async () => {
-  dexie.getSlideValues()
-}
+const getSlideValues = async () => await dexie.getSlideValues()
+
 const deleteSetupSlide = async () => {
   dexie.deleteSetupSlide()
   firebase.deleteSetupSlide()
