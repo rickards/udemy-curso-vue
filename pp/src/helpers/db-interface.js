@@ -20,10 +20,10 @@ const updateExpenseDatabase = async (expense) => {
   firebase.updateExpense(expense)
 }
 
-const getExpenseStocksDatabase = async () => await dexie.getExpenseStocksDatabase()
+const getExpenseStocksDatabase = async () => await dexie.getExpensesStocks()
 
 const addExpenseStockDatabase = async (el) => {
-  const hash = firebase.addExpenseStock(el)
+  const hash = await firebase.addExpenseStock(el)
   el["id"] = hash
   dexie.addExpenseStock(el)
 }
