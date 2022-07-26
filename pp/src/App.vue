@@ -20,6 +20,9 @@
       <div class="button-card" @click="page = 'ExpenseExplorer'">
         Explorador de Despesas
       </div>
+      <div class="button-card" @click="page = 'ImportData'">
+        ImportData
+      </div>
 
     </div>
     <div class="grid" v-if="androidEnv">
@@ -46,6 +49,7 @@ import AccountRecord from "./pages/AccountRecord";
 import Investiments from "./pages/Investiments.vue";
 import Analytics from "./pages/QuotesAnalysis.vue";
 import ExpensesPage from "./pages/ExpensesPage.vue";
+import ImportData from "./pages/ImportData.vue";
 
 export default {
   name: "App",
@@ -55,7 +59,8 @@ export default {
     AccountRecord,
     Investiments,
     Analytics,
-    ExpensesPage
+    ExpensesPage,
+    ImportData
   },
   data() {
     return {

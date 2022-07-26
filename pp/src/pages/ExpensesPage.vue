@@ -54,15 +54,15 @@ export default {
       const expensesGroupByName = utils.groupBy(this.expenses, (i) => i.name);
 
       const names = [];
-      const values = Object.keys(expensesGroupByName).map((name) => {
+      const values = Object.keys(expensesGroupByName).map((name, index) => {
         names.push(name);
         return expensesGroupByName[name].reduce(
-          (sum, inv) => sum + inv.value,
+          (sum, inv) => sum + inv.value + 0.00000001*index,
           0
         );
       });
 
-      const indexOrder = values.sort().map((i) => values.indexOf(i));
+      const indexOrder = values.slice().sort().map((i) => values.indexOf(i));
       this.expensesGroupByName = indexOrder.map(
         (i) => expensesGroupByName[names[i]]
       );
