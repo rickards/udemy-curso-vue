@@ -33,4 +33,5 @@ export default {
     putQuoteAnalysis,
     putSlideValue,
     deleteSetupSlide,
+    DB
   };
