@@ -3,7 +3,7 @@
     <TitleSlideDown title="Despesas"></TitleSlideDown>
 
     <br><br>
-    <div v-if="expenses.length != 0">
+    <div v-if="expensesGroupByName.length != 0">
       <donut-chart :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))"
         :labels="expensesGroupByName.map(i => i[0].name)" />
     </div>
@@ -43,38 +43,48 @@ export default {
   },
   data() {
     return {
-      expenses: [],
       expensesGroupByName: [],
       lambdaAmount: (sum, i) => i.value + sum,
-      month: "2020-02"
+      month: ""
     };
   },
-  updated() {
-    database.getExpensesMonth(this.month).then((result) => {
-      console.log(result)
-      this.expenses = utils.filter(result, (i) => i.type === "Despesa");
+  created() {
+    console.log("created!")
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate")
+  },
+  watch: {
+    // whenever question changes, this function will run
+    month(month) {
+      database.getExpensesMonth(month).then((result) => {
+        const expenses = utils.filter(result, (i) => i.type === "Despesa");
 
-      const expensesGroupByName = utils.groupBy(this.expenses, (i) => i.name);
+        let expensesGroupByName = utils.groupBy(expenses, (i) => i.name);
 
-      const names = [];
-      const values = Object.keys(expensesGroupByName).map((name, index) => {
-        names.push(name);
-        return expensesGroupByName[name].reduce(
-          (sum, inv) => sum + inv.value + 0.00000001 * index,
-          0
+        const names = [];
+        const values = Object.keys(expensesGroupByName).map((name, index) => {
+          names.push(name);
+          return expensesGroupByName[name].reduce(
+            (sum, inv) => sum + inv.value + 0.00000001 * index,
+            0
+          );
+        });
+
+        const indexOrder = values.slice().sort().map((i) => values.indexOf(i));
+        expensesGroupByName = indexOrder.map(
+          (i) => expensesGroupByName[names[i]]
         );
+
+        expensesGroupByName.sort(
+          (a, b) =>
+            b.reduce(this.lambdaAmount, 0) - a.reduce(this.lambdaAmount, 0)
+        );
+
+        // Modifica um data e aciona o updated apenas 1 vez
+        this.expensesGroupByName = expensesGroupByName
       });
-
-      const indexOrder = values.slice().sort().map((i) => values.indexOf(i));
-      this.expensesGroupByName = indexOrder.map(
-        (i) => expensesGroupByName[names[i]]
-      );
-
-      this.expensesGroupByName.sort(
-        (a, b) =>
-          b.reduce(this.lambdaAmount, 0) - a.reduce(this.lambdaAmount, 0)
-      );
-    });
+    }
   },
   methods: {},
 };
