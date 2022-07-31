@@ -1,28 +1,29 @@
 <template>
-  <div v-if="expenses.length!=0">
+  <div>
     <TitleSlideDown title="Despesas"></TitleSlideDown>
 
     <br><br>
-    <donut-chart 
-      :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))" 
-      :labels="expensesGroupByName.map(i => i[0].name)"  
-    />
+    <div v-if="expenses.length != 0">
+      <donut-chart :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))"
+        :labels="expensesGroupByName.map(i => i[0].name)" />
+    </div>
+    <div v-else>
+      <h1>Não há despesas cadastradas para esse mês!</h1>
+    </div>
 
-    <br><br>
+    <br>
+    <br>
+    <input class="input" type="month" v-model="month" />
+    <br>
+    <br>
+    <br>
+
     <div class="grid-cards">
-      <Line
-        v-for="inv in expensesGroupByName"
-        :key="inv.id"
-        :value="inv.reduce(lambdaAmount, 0)"
-        :label="inv[0].name"
-      >
+      <Line v-for="inv in expensesGroupByName" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="inv[0].name">
         <Line v-for="i in inv" :key="i.id" :value="i.value" :label="i.name">
         </Line>
       </Line>
     </div>
-  </div>
-  <div v-else>
-    <h1>Não há despesas cadastradas!</h1>
   </div>
 </template>
 
@@ -44,11 +45,12 @@ export default {
     return {
       expenses: [],
       expensesGroupByName: [],
-      lambdaAmount: (sum, i) => i.value + sum
+      lambdaAmount: (sum, i) => i.value + sum,
+      month: "2020-02"
     };
   },
-  created() {
-    database.getExpensesDatabase().then((result) => {
+  updated() {
+    database.getExpensesMonth(this.month).then((result) => {
       console.log(result)
       this.expenses = utils.filter(result, (i) => i.type === "Despesa");
 
@@ -58,7 +60,7 @@ export default {
       const values = Object.keys(expensesGroupByName).map((name, index) => {
         names.push(name);
         return expensesGroupByName[name].reduce(
-          (sum, inv) => sum + inv.value + 0.00000001*index,
+          (sum, inv) => sum + inv.value + 0.00000001 * index,
           0
         );
       });

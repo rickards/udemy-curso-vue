@@ -9,6 +9,13 @@ const getExpensesDatabase = async () => {
   });
 };
 
+const getExpensesMonth = async (month) => {
+  const expenses = await dexie.getExpensesMonth(month)
+  return expenses.map((i) => {
+    return { ...i, value: i.value / 100 };
+  });
+};
+
 const addExpenseDatabase = async (expense) => {
   const hash = await firebase.addExpense(expense)
   expense["id"] = hash
@@ -55,6 +62,7 @@ const deleteSetupSlide = async () => {
 
 export default {
   getExpensesDatabase,
+  getExpensesMonth,
   addExpenseDatabase,
   updateExpenseDatabase,
   getExpenseStocksDatabase,
