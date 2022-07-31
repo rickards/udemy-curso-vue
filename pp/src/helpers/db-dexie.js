@@ -14,10 +14,8 @@ db.version(0.2).stores({
 
 db.on("populate", function() {
   if(firebase.FIREBASE_ENVIROMENT){
-    console.log("Start populate!")
     let stringDatabase = firebase.DB.initialState()
-    console.log(stringDatabase)
-    // let stringDatabase = "{expensesStock={-N8GgJc0JFx8fCuaMmyv={regex=Lanche}, -N8GgJZodCwEpYDPjJFu={regex=Despesas=.*?}, -N8GgJfN6z71Jtr7nU5p={regex=Aluguel=Aluguel}}, expense={-N8GiKlkMYg-E146ohPm={date=2020-02-15, name=Natação, value=1500, type=Despesa, qtde=0}, -N8GiLbYbeF-NhW_m4oe={date=2020-02-19, name=Ônibus, value=365, type=Despesa, qtde=0}, -N8GiKrWs3IBLfTjrQvj={date=2020-02-17, name=Enxoval pf, value=12000, type=Despesa, qtde=0}, -N8GiKwQNN61TSCwbrLH={date=2020-02-17, name=Farmácia, value=6673, type=Despesa, qtde=0}, -N8GiL0TY29wXDkBtS7q={date=2020-02-17, name=Academia, value=6000, type=Despesa, qtde=0}, -N8GiLWDw_aO9to86FLO={date=2020-02-19, name=Almoço, value=1590, type=Despesa, qtde=0}, -N8GiLLoW7e07SB3ODV9={date=2020-02-19, name=Van, value=2300, type=Despesa, qtde=0}, -N8GiLmmzW8iSQqxgRD-={date=2020-02-21, name=Natação, value=1525, type=Despesa, qtde=0}, -N8GiLBfBQQGwytcg6Db={date=2020-02-18, name=Mercado, value=600, type=Despesa, qtde=0}, -N8GiLgSCiKONqwc2duc={date=2020-02-19, name=Ônibus, value=365, type=Despesa, qtde=0}, -N8GiLre0IqSYOaUOeTr={date=2020-02-21, name=Cabelo, value=1000, type=Despesa, qtde=0}, -N8GiL6o_BGAXKl3RYdG={date=2020-02-17, name=Almoço, value=1889, type=Despesa, qtde=0}, -N8GiLGkb6CmfOii_w-r={date=2020-02-18, name=Mercado, value=500, type=Despesa, qtde=0}, -N8GiLRR6X18toqcICi9={date=2020-02-19, name=Van, value=2300, type=Despesa, qtde=0}}}"
+    // let stringDatabase = "{expensesStocks={-N8GgJc0JFx8fCuaMmyv={regex=Lanche}, -N8GgJZodCwEpYDPjJFu={regex=Despesas=.*?}, -N8GgJfN6z71Jtr7nU5p={regex=Aluguel=Aluguel}}, expense={-N8GiKlkMYg-E146ohPm={date=2020-02-15, name=Natação, value=1500, type=Despesa, qtde=0}, -N8GiLbYbeF-NhW_m4oe={date=2020-02-19, name=Ônibus, value=365, type=Despesa, qtde=0}, -N8GiKrWs3IBLfTjrQvj={date=2020-02-17, name=Enxoval pf, value=12000, type=Despesa, qtde=0}, -N8GiKwQNN61TSCwbrLH={date=2020-02-17, name=Farmácia, value=6673, type=Despesa, qtde=0}, -N8GiL0TY29wXDkBtS7q={date=2020-02-17, name=Academia, value=6000, type=Despesa, qtde=0}, -N8GiLWDw_aO9to86FLO={date=2020-02-19, name=Almoço, value=1590, type=Despesa, qtde=0}, -N8GiLLoW7e07SB3ODV9={date=2020-02-19, name=Van, value=2300, type=Despesa, qtde=0}, -N8GiLmmzW8iSQqxgRD-={date=2020-02-21, name=Natação, value=1525, type=Despesa, qtde=0}, -N8GiLBfBQQGwytcg6Db={date=2020-02-18, name=Mercado, value=600, type=Despesa, qtde=0}, -N8GiLgSCiKONqwc2duc={date=2020-02-19, name=Ônibus, value=365, type=Despesa, qtde=0}, -N8GiLre0IqSYOaUOeTr={date=2020-02-21, name=Cabelo, value=1000, type=Despesa, qtde=0}, -N8GiL6o_BGAXKl3RYdG={date=2020-02-17, name=Almoço, value=1889, type=Despesa, qtde=0}, -N8GiLGkb6CmfOii_w-r={date=2020-02-18, name=Mercado, value=500, type=Despesa, qtde=0}, -N8GiLRR6X18toqcICi9={date=2020-02-19, name=Van, value=2300, type=Despesa, qtde=0}}}"
 
     let re_expense_table = new RegExp("expense={(.*?)}}");
     let stringExpenses = (re_expense_table.exec(stringDatabase)[1])+"}";
@@ -35,9 +33,8 @@ db.on("populate", function() {
         qtde: expense.match(/qtde=(.*?)[,}]/i)[1],
       });
     })
-    console.log("populate expensesStock part!")
 
-    let re_expenseStock_table = new RegExp("expensesStock={(.*?)}}");
+    let re_expenseStock_table = new RegExp("expensesStocks={(.*?)}}");
     let stringExpenseStock = (re_expenseStock_table.exec(stringDatabase)[1])+"}";
     
     const arrayExpenseStock = [...stringExpenseStock.matchAll("{(.*?)}")];
@@ -48,7 +45,6 @@ db.on("populate", function() {
         regex: expenseStock.match(/regex=(.*?)[,}]/i)[1]
       });
     })
-    console.log("populate finished!")
   }
 });
 
