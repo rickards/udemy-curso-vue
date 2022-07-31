@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :key="expensesGroupByName">
     <TitleSlideDown title="Despesas"></TitleSlideDown>
 
     <br><br>
@@ -52,8 +52,8 @@ export default {
     console.log("created!")
     this.month = ""
   },
-  beforeUpdate() {
-    console.log("beforeUpdate")
+  updated() {
+    console.log("update")
   },
   watch: {
     // whenever question changes, this function will run
