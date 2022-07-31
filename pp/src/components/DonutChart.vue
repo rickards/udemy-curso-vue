@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       chartOptions: {
+        colors:['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#2B908F', '#C7F464', '#6212BD', '#151415', '#A5978B'],
         labels: this.labels,
         chart: {
           id: "donut-chart",
@@ -52,7 +53,8 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+  },
   methods: {},
 };
 </script>
