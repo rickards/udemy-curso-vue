@@ -5,7 +5,7 @@ const db = new Dexie("pp");
 
 db.version(0.1).stores({
   expenses: "++id",
-  expensesStocks: "++id, regex",
+  expensesStocks: "++id",
 });
 
 db.version(0.2).stores({
