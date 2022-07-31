@@ -49,6 +49,7 @@ export default {
   },
   created() {
     database.getExpensesDatabase().then((result) => {
+      console.log(result)
       this.expenses = utils.filter(result, (i) => i.type === "Despesa");
 
       const expensesGroupByName = utils.groupBy(this.expenses, (i) => i.name);

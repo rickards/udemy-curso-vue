@@ -45,6 +45,7 @@ db.on("populate", function() {
         regex: expenseStock.match(/regex=(.*?)[,}]/i)[1]
       });
     })
+    console.log("populate finished!")
   }
 });
 
