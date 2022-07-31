@@ -91,7 +91,7 @@ export default {
   computed: {
     top10value(){
       const somatorio = this.expensesGroupByName.map(i => i.reduce(this.lambdaAmount, 0))
-      if (somatorio.slice(10)!==[]){
+      if (somatorio.slice(9).length!=0){
         return somatorio.slice(0,9).concat(somatorio.slice(9).reduce((sum,i)=> i+sum))
       }else{
         return somatorio
@@ -99,7 +99,7 @@ export default {
     },
     top10label(){
       const names = this.expensesGroupByName.map(i => i[0].name)
-      if(names.slice(10)!==[]){
+      if(names.slice(9).length!=0){
         return names.slice(0,9).concat(["Outros"])
       }else{
         return names
