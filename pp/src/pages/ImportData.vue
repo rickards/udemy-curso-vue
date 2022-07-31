@@ -52,8 +52,6 @@ export default {
             reader.onprogress = this.updateProgress;
             reader.onload = this.loaded;
             reader.onerror = this.errorHandler;
-
-            console.log(reader)
         },
 
         updateProgress(evt) {

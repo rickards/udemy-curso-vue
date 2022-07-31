@@ -71,7 +71,6 @@ export default {
         (a, b) =>
           b.reduce(this.lambdaAmount, 0) - a.reduce(this.lambdaAmount, 0)
       );
-      console.log(this.expensesGroupByName);
     });
   },
   methods: {},

@@ -33,5 +33,6 @@ export default {
     putQuoteAnalysis,
     putSlideValue,
     deleteSetupSlide,
-    DB
+    DB,
+    FIREBASE_ENVIROMENT
   };
