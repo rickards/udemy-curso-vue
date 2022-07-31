@@ -45,11 +45,12 @@ export default {
     return {
       expensesGroupByName: [],
       lambdaAmount: (sum, i) => i.value + sum,
-      month: ""
+      month: undefined
     };
   },
   created() {
     console.log("created!")
+    this.month = ""
   },
   beforeUpdate() {
     console.log("beforeUpdate")
