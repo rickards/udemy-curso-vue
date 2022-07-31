@@ -4,8 +4,8 @@
 
     <br><br>
     <div v-if="expensesGroupByName.length != 0">
-      <donut-chart :series="expensesGroupByName.map(i => i.reduce(lambdaAmount, 0))"
-        :labels="expensesGroupByName.map(i => i[0].name)" />
+      <donut-chart :series="top10value"
+        :labels="top10label" />
     </div>
     <div v-else>
       <h1>Não há despesas cadastradas para esse mês!</h1>
@@ -88,6 +88,24 @@ export default {
     }
   },
   methods: {},
+  computed: {
+    top10value(){
+      const somatorio = this.expensesGroupByName.map(i => i.reduce(this.lambdaAmount, 0))
+      if (somatorio.slice(10)!==[]){
+        return somatorio.slice(0,9).concat(somatorio.slice(9).reduce((sum,i)=> i+sum))
+      }else{
+        return somatorio
+      }
+    },
+    top10label(){
+      const names = this.expensesGroupByName.map(i => i[0].name)
+      if(names.slice(10)!==[]){
+        return names.slice(0,9).concat(["Outros"])
+      }else{
+        return names
+      }
+    },
+  }
 };
 </script>
 
