@@ -31,7 +31,7 @@ db.on("populate", function() {
       });
     })
 
-    let re_expenseStock_table = new RegExp("expenseStock={(.*?)}}");
+    let re_expenseStock_table = new RegExp("expensesStock={(.*?)}}");
     let stringExpenseStock = (re_expenseStock_table.exec(stringDatabase)[1])+"}";
     
     const arrayExpenseStock = [...stringExpenseStock.matchAll("{(.*?)}")];
