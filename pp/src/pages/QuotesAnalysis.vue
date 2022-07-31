@@ -138,6 +138,9 @@ export default {
       return growth
     }
   },
+  updated(){
+    console.log("updated")
+  },
   mounted(){
     (async () => {
       let listAssets = await database.getQuoteAnalysis()
