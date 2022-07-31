@@ -20,9 +20,9 @@
         />
         <input
           class="input"
-          type="number"
           placeholder="Valor"
-          v-model="value"
+          v-model.lazy="value"
+          v-money="money"
         />
       </div>
 
@@ -47,6 +47,7 @@
 <script>
 import database from "@/helpers/db-interface";
 import TitleSlideDown from "../components/TitleSlideDown.vue";
+import {VMoney} from 'v-money'
 // import Post from "../components/Post.vue";
 
 export default {
@@ -54,6 +55,7 @@ export default {
    components: {
      TitleSlideDown,
   },
+  directives: {money: VMoney},
   data() {
     return {
       natureCombobox: "gasto",
@@ -65,6 +67,14 @@ export default {
       billname: undefined,
       numberQuotes: undefined,
       type: undefined,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: ' ',
+        suffix: ' ',
+        precision: 2,
+        masked: false
+      }
     };
   },
   created() {
@@ -123,7 +133,7 @@ export default {
             this.natureCombobox == "Investimento"
               ? this.billname.toUpperCase()
               : this.capitalize(this.billname),
-          value: this.value,
+          value: this.value.trim().replace(/[,.]/g, ''),
           date: this.date,
           type: this.type,
           qtde: this.numberQuotes,
