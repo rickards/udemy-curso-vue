@@ -50,14 +50,14 @@ const getQuoteAnalysis = async () => await dexie.getQuoteAnalysis()
 
 const putSlideValue = async (el) => {
   dexie.putSlideValue(el)
-  firebase.putSlideValue(el)
+  // firebase.putSlideValue(el)
 }
 
 const getSlideValues = async () => await dexie.getSlideValues()
 
 const deleteSetupSlide = async () => {
   dexie.deleteSetupSlide()
-  firebase.deleteSetupSlide()
+  // firebase.deleteSetupSlide()
 }
 
 export default {
