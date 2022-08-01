@@ -27,6 +27,11 @@ const updateExpenseDatabase = async (expense) => {
   dexie.updateExpenseDatabase(expense)
 }
 
+const rmExpenseDtabase = async (expense) => {
+  firebase.rmExpense(expense)
+  dexie.rmExpense(expense)
+}
+
 const getExpenseStocksDatabase = async () => await dexie.getExpensesStocks()
 
 const addExpenseStockDatabase = async (el) => {
@@ -66,6 +71,7 @@ export default {
   getExpensesMonth,
   addExpenseDatabase,
   updateExpenseDatabase,
+  rmExpenseDtabase,
   getExpenseStocksDatabase,
   addExpenseStockDatabase,
   rmExpenseStockDatabase,

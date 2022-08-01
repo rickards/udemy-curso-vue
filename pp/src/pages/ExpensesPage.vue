@@ -13,7 +13,7 @@
 
     <br>
     <br>
-    <input class="input" type="month" v-model="month" />
+    <input class="input" type="month" v-model="month" />{{month}}
     <br>
     <br>
     <br>
@@ -21,6 +21,9 @@
     <div class="grid-cards">
       <Line v-for="inv in expensesGroupByName" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="inv[0].name">
         <Line v-for="i in inv" :key="i.id" :value="i.value" :label="i.name">
+          {{i.date}}
+          <button @click="editExpense(i)">Editar</button>
+          <button @click="rmExpense(i)">Excluir</button>
         </Line>
       </Line>
     </div>
@@ -88,7 +91,17 @@ export default {
       });
     }
   },
-  methods: {},
+  methods: {
+    editExpense(expense){
+      console.log(expense)
+      // var a = document.createElement('a')
+      // a.href = `add_item.html?id=${listResult[id].id}&type=${listResult[id].type}&value=${listResult[id].value}&label=${listResult[id].name}&date=${listResult[id].date}`
+      // a.click()
+    },
+    rmExpense(expense){
+      database.rmExpenseDtabase(expense)
+    }
+  },
   computed: {
     top10value(){
       const somatorio = this.expensesGroupByName.map(i => i.reduce(this.lambdaAmount, 0))
