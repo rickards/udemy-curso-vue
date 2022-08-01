@@ -2,15 +2,16 @@
   <div class="grid-columns">
     <div class="account-record">
       <TitleSlideDown title="Registro Contábil"></TitleSlideDown>
+
+      <div>
+        <input class="input" type="date" v-model="date" />
+      </div>
+      <br>
+
       <div class="grid-columns">
         <button :class="{ active: natureCombobox == 'gasto', 'acc-record-button': true, }" @click="natureCombobox = 'gasto'">Gasto</button>
         <button :class="{ active: natureCombobox == 'ganho', 'acc-record-button': true, }" @click="natureCombobox = 'ganho'">Ganho</button>
         <button :class="{ active: natureCombobox == 'investimento', 'acc-record-button': true, }" @click="natureCombobox = 'investimento'">Investimento</button>
-      </div>
-      <br>
-
-      <div>
-        <input class="input" type="date" v-model="date" />
       </div>
 
       <div class="grid-columns-inputs gap">
