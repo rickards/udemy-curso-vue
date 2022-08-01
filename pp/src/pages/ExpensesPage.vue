@@ -21,9 +21,7 @@
     <div class="grid-cards">
       <Line v-for="inv in expensesGroupByName" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="inv[0].name">
         <Line v-for="i in inv" :key="i.id" :value="i.value" :label="i.name">
-          {{i.date}}
-          <button @click="editExpense(i)">Editar</button>
-          <button @click="rmExpense(i)">Excluir</button>
+          <Line :label="i.date" @delete="rmExpense(i)"></Line>
         </Line>
       </Line>
     </div>
@@ -61,6 +59,11 @@ export default {
   watch: {
     // whenever question changes, this function will run
     month(month) {
+      this.updatePage(month)
+    }
+  },
+  methods: {
+    updatePage(month){
       database.getExpensesMonth(month).then((result) => {
         const expenses = utils.filter(result, (i) => i.type === "Despesa");
         console.log(expenses)
@@ -89,9 +92,7 @@ export default {
         // Modifica um data e aciona o updated apenas 1 vez
         this.expensesGroupByName = expensesGroupByName
       });
-    }
-  },
-  methods: {
+    },
     editExpense(expense){
       console.log(expense)
       // var a = document.createElement('a')
@@ -99,7 +100,8 @@ export default {
       // a.click()
     },
     rmExpense(expense){
-      database.rmExpenseDtabase(expense)
+      database.rmExpenseDtabase(expense).then(()=>this.updatePage(this.month))
+      
     }
   },
   computed: {

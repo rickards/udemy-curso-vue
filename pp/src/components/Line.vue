@@ -70,6 +70,8 @@ export default {
 }
 .span-style {
   width: 100%;
+  font-size: 1.3em;
+  padding-left: 0.3em;
 }
 .button-style {
   background: none;
@@ -85,6 +87,8 @@ export default {
 .button-panel {
   text-align: right;
   display: flex;
+  column-gap: 0.5em;
+  font-size: 2em;
 }
 
 .p {
