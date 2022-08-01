@@ -99,24 +99,9 @@ const addExpense = (expense) => db.expenses.add(expense);
 const updateExpenseDatabase = (expense) => db.expenses.put(expense)
 const rmExpense = (expense) => db.expenses.delete(expense.id)
 
-function getExpensesStocks() {
-  return db.expensesStocks.toArray();
-}
-
-function addExpenseStock(expenseStock) {
-  db.expensesStocks.add(JSON.parse(JSON.stringify(expenseStock)))
-}
-
-function rmExpenseStock(expense) {
-  const el = JSON.parse(JSON.stringify(expense))
-  return getExpensesStocks().then((stocks) => {
-    Object.keys(stocks).forEach((key) => {
-      if ( stocks[key].regex === el.regex) {
-        db.expensesStocks.delete(stocks[key].id)
-      }
-    })
-  })
-}
+const getExpensesStocks = () => db.expensesStocks.toArray();
+const addExpenseStock = (expenseStock) => db.expensesStocks.add(expenseStock)
+const rmExpenseStock = (el) => db.expensesStocks.delete(el.id)
 
 function putQuoteAnalysis(setup){
   db.qaAnalysis.put({

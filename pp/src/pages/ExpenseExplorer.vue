@@ -117,7 +117,7 @@ export default {
       const valueLastMonth = this.getValueExpensesLastMonth(regex);
 
       const bill = {
-        id: element.regex,
+        id: element.id,
         name: splited[0],
         value: valueCurrentMonth,
         percent: valueCurrentMonth / valueLastMonth - 1 || 0,
@@ -175,7 +175,7 @@ export default {
       }
     },
     rmStockExpense(el) {
-      database.rmExpenseStockDatabase({ regex: el.id }).then(() => {
+      database.rmExpenseStockDatabase(el).then(() => {
         this.updateStocks();
       });
     },
