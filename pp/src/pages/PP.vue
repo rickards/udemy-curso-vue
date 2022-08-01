@@ -20,7 +20,7 @@
           <h3>Passivos</h3>
           <Line label="Despesas" :value="totalExpenses" />
           <Line label="Depreciação" :value="0" />
-          <Line label="Patrimônio Líquido" :value="totalPL" />
+          <Line label="PL" :value="totalPL" />
         </div>
       </div>
     </Post>

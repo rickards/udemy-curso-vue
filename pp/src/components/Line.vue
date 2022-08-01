@@ -88,7 +88,7 @@ export default {
   text-align: right;
   display: flex;
   column-gap: 0.5em;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 .p {
