@@ -1,13 +1,7 @@
 <template>
-  <div id="chart">
+  <div id="donutchart">
     <div>
-      <apexchart
-        type="donut"
-        height="500"
-        ref="chart"
-        :options="chartOptions"
-        :series="series"
-      ></apexchart>
+      <apexchart type="donut" height="500" ref="donutchart" :options="chartOptions" :series="series"></apexchart>
     </div>
   </div>
 </template>
@@ -17,7 +11,7 @@
 import VueApexCharts from "vue3-apexcharts";
 
 export default {
-  name: "LineChart",
+  name: "DonutChart",
   components: {
     apexchart: VueApexCharts,
   },
@@ -28,7 +22,7 @@ export default {
   data() {
     return {
       chartOptions: {
-        colors:['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#2B908F', '#C7F464', '#6212BD', '#151415', '#A5978B'],
+        colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#2B908F', '#C7F464', '#6212BD', '#151415', '#A5978B'],
         labels: this.labels,
         chart: {
           id: "donut-chart",
@@ -50,6 +44,36 @@ export default {
             opacityTo: 0.7,
           },
         },
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                total: {
+                  show: true,
+                  label: 'Total:',
+                  color: '#fff',
+                  formatter: function (w) {
+                    return w.globals.seriesTotals.reduce((a, b) => {
+                      return parseFloat(a + b).toFixed(2);
+                    }, 0)
+                  }
+                },
+                value: {
+                  show: true,
+                  fontSize: '40px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 400,
+                  color: "#fff",
+                  offsetY: 16,
+                  formatter: function (val) {
+                    return val;
+                  }
+                },
+              }
+            }
+          }
+        }
       },
     };
   },
