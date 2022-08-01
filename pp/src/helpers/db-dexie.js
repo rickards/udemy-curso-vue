@@ -26,13 +26,15 @@ db.on("populate", function() {
     array.forEach((match)=>{
       let expense = match[0].replaceAll(/(\d{4}-\d{2}-\d{2})/ig, "'$1'")
   
-      db.expenses.add({
-        date: expense.match(/(\d{4}-\d{2}-\d{2})/i)[1],
-        type: expense.match(/type=(.*?)[,}]/i)[1],
-        name: expense.match(/name=(.*?)[,}]/i)[1], 
-        value: expense.match(/value=(.*?)[,}]/i)[1],
-        qtde: expense.match(/qtde=(.*?)[,}]/i)[1],
-      });
+      if(!expense.match(/del=1[,}]/i)){
+        db.expenses.add({
+          date: expense.match(/(\d{4}-\d{2}-\d{2})/i)[1],
+          type: expense.match(/type=(.*?)[,}]/i)[1],
+          name: expense.match(/name=(.*?)[,}]/i)[1], 
+          value: expense.match(/value=(.*?)[,}]/i)[1],
+          qtde: expense.match(/qtde=(.*?)[,}]/i)[1],
+        });
+      }
     })
 
     let re_expenseStock_table = new RegExp("expensesStocks={(.*?)}}");
@@ -91,20 +93,14 @@ db.on("populate", function() {
 //   return Math.floor(Math.random() * (max - min)) + min;
 // }
 
-function getExpenses() {
-  return db.expenses.toArray();
-}
-
-function getExpensesMonth(month) {
-  return db.expenses.where("date").startsWithAnyOfIgnoreCase(month).toArray();
-}
+const getExpenses = () => db.expenses.toArray();
+const getExpensesMonth = (month) => db.expenses.where("date").startsWithAnyOfIgnoreCase(month).toArray();
+const addExpense = (expense) => db.expenses.add(expense);
+const updateExpenseDatabase = (expense) => db.expenses.put(expense)
+const rmExpense = (expense) => db.expenses.delete(expense.id)
 
 function getExpensesStocks() {
   return db.expensesStocks.toArray();
-}
-
-function addExpense(expense) {
-  db.expenses.add(JSON.parse(JSON.stringify(expense)))
 }
 
 function addExpenseStock(expenseStock) {
@@ -183,6 +179,8 @@ export default {
   getExpensesStocks,
   addExpense,
   addExpenseStock,
+  updateExpenseDatabase,
+  rmExpense,
   rmExpenseStock,
   putQuoteAnalysis,
   getQuoteAnalysis,

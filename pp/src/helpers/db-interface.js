@@ -23,8 +23,8 @@ const addExpenseDatabase = async (expense) => {
 }
 
 const updateExpenseDatabase = async (expense) => {
-  dexie.updateExpenseDatabase(expense)
   firebase.updateExpense(expense)
+  dexie.updateExpenseDatabase(expense)
 }
 
 const getExpenseStocksDatabase = async () => await dexie.getExpensesStocks()
@@ -36,13 +36,14 @@ const addExpenseStockDatabase = async (el) => {
 }
 
 const rmExpenseStockDatabase = async (el) => {
-  dexie.rmExpenseStock(el)
   firebase.rmExpenseStock(el)
+  dexie.rmExpenseStock(el)
 };
 
 const putQuoteAnalysis = async (el) => {
+  const hash = firebase.putQuoteAnalysis(el)
+  el["id"] = hash
   dexie.putQuoteAnalysis(el)
-  firebase.putQuoteAnalysis(el)
 }
 
 const getQuoteAnalysis = async () => await dexie.getQuoteAnalysis()

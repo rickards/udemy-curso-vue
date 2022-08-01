@@ -60,6 +60,7 @@ export default {
     month(month) {
       database.getExpensesMonth(month).then((result) => {
         const expenses = utils.filter(result, (i) => i.type === "Despesa");
+        console.log(expenses)
 
         let expensesGroupByName = utils.groupBy(expenses, (i) => i.name);
 

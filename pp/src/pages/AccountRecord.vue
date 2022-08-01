@@ -136,7 +136,7 @@ export default {
           value: this.value.trim().replace(/[,.]/g, ''),
           date: this.date,
           type: this.type,
-          qtde: this.numberQuotes,
+          qtde: this.numberQuotes | 0,
         };
         if (this.id) {
           expense.id = this.id;
