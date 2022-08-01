@@ -20,14 +20,14 @@
       <div class="button-card" @click="page = 'ExpenseExplorer'">
         Explorador de Despesas
       </div>
-      <div class="button-card" @click="page = 'ImportData'">
-        ImportData
-      </div>
 
     </div>
     <div class="grid" v-if="androidEnv">
       <div class="button-card" @click="page = 'Investiments'">
         Investimentos
+      </div>
+      <div class="button-card" @click="page = 'ImportData'">
+        ImportData
       </div>
     </div>
     <!-- <div class="menu">

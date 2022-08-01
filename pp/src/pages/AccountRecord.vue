@@ -9,9 +9,11 @@
       </div>
       <br>
 
-      <input class="input" type="date" v-model="date" />
+      <div>
+        <input class="input" type="date" v-model="date" />
+      </div>
 
-      <div class="grid-columns gap">
+      <div class="grid-columns-inputs gap">
         <input
           class="input"
           type="text"
@@ -222,5 +224,10 @@ export default {
 .grid-columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.grid-columns-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 </style>
