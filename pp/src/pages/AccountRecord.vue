@@ -9,7 +9,7 @@
       </div>
       <br>
 
-      <input class="input" type="date" :value="date" />
+      <input class="input" type="date" v-model="date" />
 
       <div class="grid-columns gap">
         <input
@@ -80,6 +80,9 @@ export default {
   created() {
     this.preloadSetup();
   },
+  updated(){
+    console.log("updated!")
+  },
   watch: {
     natureCombobox() {
       this.typeFromSetup();
@@ -87,6 +90,7 @@ export default {
   },
   methods: {
     preloadSetup() {
+      console.log("preloadsetup")
       this.loadParamsURL();
       this.mappingSetupFromLabel();
       this.typeFromSetup();
