@@ -14,9 +14,6 @@
         Despesas
       </div>
       <div class="button-card" @click="page = 'PP'">Patrimônio</div>
-      <div class="button-card" @click="page = 'Analytics'">
-        Análise de Cotações
-      </div>
       <div class="button-card" @click="page = 'ExpenseExplorer'">
         Explorador de Despesas
       </div>
@@ -28,6 +25,9 @@
       </div>
       <div class="button-card" @click="page = 'ImportData'">
         ImportData
+      </div>
+      <div class="button-card" @click="page = 'Analytics'">
+        Análise de Cotações
       </div>
     </div>
     <!-- <div class="menu">

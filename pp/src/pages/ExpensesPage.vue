@@ -13,7 +13,7 @@
 
     <br>
     <br>
-    <input class="input" type="month" v-model="month" />{{month}}
+    <input class="input" type="month" v-model="month" />
     <br>
     <br>
     <br>
