@@ -13,7 +13,7 @@
       <div class="button-card" @click="page = 'ExpensesPage'">
         Despesas
       </div>
-      <div class="button-card" @click="page = 'PP'">PP</div>
+      <div class="button-card" @click="page = 'PP'">Patrimônio</div>
       <div class="button-card" @click="page = 'Analytics'">
         Análise de Cotações
       </div>
