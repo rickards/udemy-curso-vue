@@ -51,7 +51,7 @@ export default {
   },
   created() {
     console.log("created!")
-    this.month = ""
+    this.month = new Date().toISOString().slice(0,7);
   },
   updated() {
     console.log("update")
