@@ -11,7 +11,9 @@ const Table = {
 
 const proxy = async (...args) => {
     if (FIREBASE_ENVIROMENT){
-        return await DB.run(...args)
+        const a = await DB.run(...args)
+        console.log("veio do firebase", a)
+        return a
     } else {
         return undefined
     }
