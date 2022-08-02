@@ -54,9 +54,7 @@ export default {
                   label: 'Total:',
                   color: '#fff',
                   formatter: function (w) {
-                    return w.globals.seriesTotals.reduce((a, b) => {
-                      return parseFloat(a + b).toFixed(2);
-                    }, 0)
+                    return parseFloat(w.globals.seriesTotals.reduce((a, b) => a + b, 0)).toFixed(2);
                   }
                 },
                 value: {
