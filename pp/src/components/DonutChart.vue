@@ -67,7 +67,7 @@ export default {
                   color: "#fff",
                   offsetY: 16,
                   formatter: function (val) {
-                    return val;
+                    return parseFloat(val).toFixed(2);
                   }
                 },
               }

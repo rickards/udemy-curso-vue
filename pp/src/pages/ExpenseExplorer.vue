@@ -121,6 +121,7 @@ export default {
         name: splited[0],
         value: valueCurrentMonth,
         percent: valueCurrentMonth / valueLastMonth - 1 || 0,
+        regex: regex
       };
 
       this.assetsBills.push(bill);
@@ -182,7 +183,7 @@ export default {
     cardClicked(el) {
       this.lineChartShow = this.serieName == el.name ? !this.lineChartShow : true
       this.serieName = el.name;
-      this.serieRegex = el.id.split("=")[1] || el.id.split("=")[0];
+      this.serieRegex = el.regex;
     },
   },
 };
