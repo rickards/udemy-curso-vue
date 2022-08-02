@@ -100,7 +100,10 @@ const updateExpenseDatabase = (expense) => db.expenses.put(expense)
 const rmExpense = (expense) => db.expenses.delete(expense.id)
 
 const getExpensesStocks = () => db.expensesStocks.toArray();
-const addExpenseStock = (expenseStock) => db.expensesStocks.add(expenseStock)
+const addExpenseStock = (expenseStock) => {
+  console.log(JSON.stringify(expenseStock))
+  return db.expensesStocks.add(expenseStock)
+}
 const rmExpenseStock = (el) => db.expensesStocks.delete(el.id)
 
 function putQuoteAnalysis(setup){
