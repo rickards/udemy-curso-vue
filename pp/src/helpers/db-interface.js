@@ -18,8 +18,7 @@ const getExpensesMonth = async (month) => {
 
 const addExpenseDatabase = async (expense) => {
   const hash = await firebase.addExpense(expense)
-  expense["id"] = hash
-  dexie.addExpense(expense)
+  dexie.addExpense({...expense, id: hash})
 }
 
 const updateExpenseDatabase = async (expense) => {
@@ -36,8 +35,7 @@ const getExpenseStocksDatabase = async () => await dexie.getExpensesStocks()
 
 const addExpenseStockDatabase = async (el) => {
   const hash = await firebase.addExpenseStock(el)
-  el["id"] = hash
-  dexie.addExpenseStock(el)
+  dexie.addExpenseStock({...el, id: hash})
 }
 
 const rmExpenseStockDatabase = async (el) => {
