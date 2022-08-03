@@ -86,18 +86,38 @@ export default {
         },
 
         sendRecords() {
-            this.text.split(["\n"]).map((i) => {
-                const line = i.split([","])
-                var expense = {
-                    name: line[2].trim(),
-                    value: line[5]*100,
-                    date: line[0],
-                    type: line[4],
-                    qtde: line[3],
-                };
-                database.addExpenseDatabase(expense);
+            let object = JSON.parse(this.text)
+            Object.keys(object["expense"]).forEach((key) => {
+                const item = object["expense"][key]
+                if (item.del){
+                    console.log(item)
+                }else{
+                    database.addExpenseDatabase(item);
+                }
+            })
+            Object.keys(object["expensesStocks"]).forEach((key) => {
+                const item = object["expensesStocks"][key]
+                if (item.del){
+                    console.log(item)
+                }else{
+                    database.addExpenseStockDatabase(item);
+                }
             })
         }
+
+        // sendRecords() {
+        //     this.text.split(["\n"]).map((i) => {
+        //         const line = i.split([","])
+        //         var expense = {
+        //             name: line[2].trim(),
+        //             value: line[5]*100,
+        //             date: line[0],
+        //             type: line[4],
+        //             qtde: line[3],
+        //         };
+        //         database.addExpenseDatabase(expense);
+        //     })
+        // }
     },
 }
 </script>
