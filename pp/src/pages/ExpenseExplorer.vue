@@ -57,20 +57,25 @@ export default {
           utils.filter(this.expenses, (i) => re.test(i.name)),
           (i) => i.date.slice(0, 7)
         );
+
+        const dates = Object.keys(groupByDate).sort()
+        let initialDate = new Date(dates[0]).getTime()+(3600000*4)
+        const currentDate = new Date(dates[dates.length-1]).getTime()+(3600000*4)
+
         const expensesSerie = [];
-        Object.keys(groupByDate)
-          .sort()
-          .reduce((sum, i) => {
-            const expenses = groupByDate[i].reduce(
-              (amount, j) => amount + j.value,
-              0
-            );
-            expensesSerie.push([
-              new Date(i).getTime(),
-              Math.round((sum += expenses), 2),
-            ]);
-            return sum
-          }, 0);
+        while (initialDate <= currentDate){
+          const initialDateString = new Date(initialDate).toISOString().slice(0, 7)
+          const value = groupByDate[initialDateString] ? groupByDate[initialDateString].reduce((sum, j) => sum + j.value, 0) : 0
+          const amount = expensesSerie.length ? value + expensesSerie[expensesSerie.length-1][1] : value
+          expensesSerie.push([
+            initialDate,
+            Math.round(amount, 2)
+          ]);
+
+          const nd = new Date(initialDate)
+          initialDate = nd.setMonth(nd.getMonth()+1)
+        }
+
         return [
           {
             name: this.serieName,
