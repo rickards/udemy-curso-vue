@@ -8,7 +8,6 @@
       <span v-if="bill.percent >= 0">⇧</span>
       <span v-else>⇩</span>
     </p>
-    <span>{{bill.id}}</span>
   </div>
 </template>
 
