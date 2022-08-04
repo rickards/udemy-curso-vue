@@ -19,6 +19,7 @@
 
 <script>
 import database from "@/helpers/db-interface";
+import utils from "../plugins/utils";
 import Translations from "@/helpers/translations";
 import StockGrid from "../components/StockGrid";
 import PPInput from "../components/PPInput";
@@ -52,8 +53,8 @@ export default {
     serie() {
       const re = new RegExp(`${this.serieRegex}`);
       if (this.expenses) {
-        const groupByDate = this.groupBy(
-          this.filter(this.expenses, (i) => re.test(i.name)),
+        const groupByDate = utils.groupBy(
+          utils.filter(this.expenses, (i) => re.test(i.name)),
           (i) => i.date.slice(0, 7)
         );
         const expensesSerie = [];
@@ -85,7 +86,7 @@ export default {
       this.assetsBills = [];
       this.invalidInput = undefined;
       database.getExpensesDatabase().then((resp) => {
-        this.expenses = this.filter(resp, (i) => i.type === "Despesa");
+        this.expenses = utils.filter(resp, (i) => i.type === "Despesa");
       });
       database.getExpenseStocksDatabase().then((resp) => {
         this.stocks = resp;
@@ -93,22 +94,6 @@ export default {
           this.createAssetBill(element);
         });
       });
-    },
-    groupBy(array, keys) {
-      return array.reduce(function (rv, i) {
-        (rv[keys(i)] = rv[keys(i)] || []).push(i);
-        return rv;
-      }, {});
-    },
-    filter(array, lambda) {
-      let result = [];
-      for (let i = 0; i < array.length; i++) {
-        let item = array[i];
-        if (lambda(item)) {
-          result.push(item);
-        }
-      }
-      return result;
     },
     createAssetBill(element) {
       const splited = element.regex.split("=");
@@ -131,7 +116,7 @@ export default {
       let today = new Date();
       today.setMonth(today.getMonth() - 1);
       const stringToday = today.toISOString();
-      const expensesSelected = this.filter(
+      const expensesSelected = utils.filter(
         this.expenses,
         (i) =>
           re.test(i.name) && this.dateBetweenStartOfMonth(i.date, stringToday)
@@ -141,7 +126,7 @@ export default {
     getValueExpensesCurrentMonth(regex) {
       const re = new RegExp(`${regex}`);
       const today = new Date().toISOString();
-      const expensesSelected = this.filter(
+      const expensesSelected = utils.filter(
         this.expenses,
         (i) => re.test(i.name) && this.dateBetweenStartOfMonth(i.date, today)
       );
