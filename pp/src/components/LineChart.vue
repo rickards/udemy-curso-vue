@@ -174,7 +174,7 @@ export default {
       for (let i = 0; i < array.length; i++) {
         varianceArray.push([
           array[i][0],
-          array[i - 1] ? array[i][1] - array[i - 1][1] : 0,
+          array[i - 1] ? array[i][1] - array[i - 1][1] : array[i][1],
         ]);
       }
       return varianceArray;
