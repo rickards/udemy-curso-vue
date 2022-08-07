@@ -14,12 +14,14 @@
     <br>
     <br>
     <input class="input" type="month" v-model="month" />
+    <button v-if="order=='name'" class="button" @click="order='date'">📅</button>
+    <button v-else-if="order=='date'" class="button" @click="order='name'">✍🏻</button>
     <br>
     <br>
     <br>
 
     <div class="grid-cards">
-      <Line v-for="inv in expensesGroupByName" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="inv[0].name">
+      <Line v-for="inv in expensesGroupByName" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="lambdaOrders[order](inv[0])">
         <Line v-for="i in inv" :key="i.id" :value="i.value" :label="i.name">
           <Line :label="i.date" @delete="rmExpense(i)"></Line>
         </Line>
@@ -46,7 +48,12 @@ export default {
     return {
       expensesGroupByName: [],
       lambdaAmount: (sum, i) => i.value + sum,
-      month: undefined
+      month: undefined,
+      order: "name",
+      lambdaOrders: {
+        "date": (i) => i.date,
+        "name": (i) => i.name
+      }
     };
   },
   created() {
@@ -59,16 +66,18 @@ export default {
   watch: {
     // whenever question changes, this function will run
     month(month) {
-      this.updatePage(month)
+      this.updatePage(month, this.lambdaOrders[this.order])
+    },
+    order(order){
+      this.updatePage(this.month, this.lambdaOrders[order])
     }
   },
   methods: {
-    updatePage(month){
+    updatePage(month, attribute){
       database.getExpensesMonth(month).then((result) => {
         const expenses = utils.filter(result, (i) => i.type === "Despesa");
-        console.log(expenses)
 
-        let expensesGroupByName = utils.groupBy(expenses, (i) => i.name);
+        let expensesGroupByName = utils.groupBy(expenses, attribute);
 
         const names = [];
         const values = Object.keys(expensesGroupByName).map((name, index) => {
@@ -126,4 +135,11 @@ export default {
 </script>
 
 <style>
+.button {
+  border-left: none;
+  background-color: #1664a3;
+  border-radius: 18px;
+  padding: 1em;
+  margin: 1em;
+}
 </style>
