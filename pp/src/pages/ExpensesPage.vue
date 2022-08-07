@@ -95,7 +95,7 @@ export default {
 
         expensesGroupByAttribute.sort(
           (a, b) =>
-            b.reduce(this.lambdaAmount, 0) - a.reduce(this.lambdaAmount, 0)
+            b.reduce((sum, i) => i[this.order] + sum, 0) - a.reduce((sum, i) => i[this.order] + sum, 0)
         );
 
         // Modifica um data e aciona o updated apenas 1 vez
@@ -123,7 +123,7 @@ export default {
       }
     },
     top10label(){
-      const keys = this.expensesGroupByAttribute.map(i => i[0].name)
+      const keys = this.expensesGroupByAttribute.map(i => i[0][this.order])
       if(keys.slice(9).length!=0){
         return keys.slice(0,9).concat(["Outros"])
       }else{
