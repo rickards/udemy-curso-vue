@@ -1,9 +1,9 @@
 <template>
-  <div :key="expensesGroupByName">
+  <div :key="expensesGroupByAttribute">
     <TitleSlideDown title="Despesas"></TitleSlideDown>
 
     <br><br>
-    <div v-if="expensesGroupByName.length != 0">
+    <div v-if="expensesGroupByAttribute.length != 0">
       <donut-chart :series="top10value"
         :labels="top10label" />
     </div>
@@ -21,7 +21,7 @@
     <br>
 
     <div class="grid-cards">
-      <Line v-for="inv in expensesGroupByName" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="lambdaOrders[order](inv[0])">
+      <Line v-for="inv in expensesGroupByAttribute" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="lambdaOrders[order](inv[0])">
         <Line v-for="i in inv" :key="i.id" :value="i.value" :label="i.name">
           <Line :label="i.date" @delete="rmExpense(i)"></Line>
         </Line>
@@ -46,7 +46,7 @@ export default {
   },
   data() {
     return {
-      expensesGroupByName: [],
+      expensesGroupByAttribute: [],
       lambdaAmount: (sum, i) => i.value + sum,
       month: undefined,
       order: "name",
@@ -77,29 +77,29 @@ export default {
       database.getExpensesMonth(month).then((result) => {
         const expenses = utils.filter(result, (i) => i.type === "Despesa");
 
-        let expensesGroupByName = utils.groupBy(expenses, attribute);
+        let expensesGroupByAttribute = utils.groupBy(expenses, attribute);
 
-        const names = [];
-        const values = Object.keys(expensesGroupByName).map((name, index) => {
-          names.push(name);
-          return expensesGroupByName[name].reduce(
+        const keys = [];
+        const values = Object.keys(expensesGroupByAttribute).map((name, index) => {
+          keys.push(name);
+          return expensesGroupByAttribute[name].reduce(
             (sum, inv) => sum + inv.value + 0.00000001 * index,
             0
           );
         });
 
         const indexOrder = values.slice().sort().map((i) => values.indexOf(i));
-        expensesGroupByName = indexOrder.map(
-          (i) => expensesGroupByName[names[i]]
+        expensesGroupByAttribute = indexOrder.map(
+          (i) => expensesGroupByAttribute[keys[i]]
         );
 
-        expensesGroupByName.sort(
+        expensesGroupByAttribute.sort(
           (a, b) =>
             b.reduce(this.lambdaAmount, 0) - a.reduce(this.lambdaAmount, 0)
         );
 
         // Modifica um data e aciona o updated apenas 1 vez
-        this.expensesGroupByName = expensesGroupByName
+        this.expensesGroupByAttribute = expensesGroupByAttribute
       });
     },
     editExpense(expense){
@@ -115,7 +115,7 @@ export default {
   },
   computed: {
     top10value(){
-      const somatorio = this.expensesGroupByName.map(i => i.reduce(this.lambdaAmount, 0))
+      const somatorio = this.expensesGroupByAttribute.map(i => i.reduce(this.lambdaAmount, 0))
       if (somatorio.slice(9).length!=0){
         return somatorio.slice(0,9).concat(somatorio.slice(9).reduce((sum,i)=> i+sum))
       }else{
@@ -123,11 +123,11 @@ export default {
       }
     },
     top10label(){
-      const names = this.expensesGroupByName.map(i => i[0].name)
-      if(names.slice(9).length!=0){
-        return names.slice(0,9).concat(["Outros"])
+      const keys = this.expensesGroupByAttribute.map(i => i[0].name)
+      if(keys.slice(9).length!=0){
+        return keys.slice(0,9).concat(["Outros"])
       }else{
-        return names
+        return keys
       }
     },
   }
