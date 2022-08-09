@@ -24,9 +24,9 @@ const addExpenseStock = async (el) => await proxy('ADD', Table.EXPENSE_STOCKS, J
 const updateExpense = async (expense) => await proxy('PUT', Table.EXPENSE, JSON.stringify(expense));
 const rmExpense = async (expense) => await proxy('DEL', Table.EXPENSE, JSON.stringify(expense));
 const rmExpenseStock = async (el) => await proxy('DEL', Table.EXPENSE_STOCKS, JSON.stringify(el));
-const putQuoteAnalysis = async (el) => await proxy('PUT', Table.QA_ANALYSIS, JSON.stringify({...el, id: 1}));
-const putSlideValue = async (el) => await proxy('PUT', Table.QA_ANALYSIS, JSON.stringify({...el, id: 2}));
-const deleteSetupSlide = async () => await proxy('DEL', Table.QA_ANALYSIS, JSON.stringify({ id: 2 }));
+const putQuoteAnalysis = async (el) => await proxy('PUT', Table.QA_ANALYSIS, JSON.stringify(el));
+// const putSlideValue = async (el) => await proxy('PUT', Table.QA_ANALYSIS, JSON.stringify({...el, id: 2}));
+// const deleteSetupSlide = async () => await proxy('DEL', Table.QA_ANALYSIS, JSON.stringify({ id: 2 }));
 
 export default {
     addExpense,
@@ -35,8 +35,8 @@ export default {
     rmExpenseStock,
     updateExpense,
     putQuoteAnalysis,
-    putSlideValue,
-    deleteSetupSlide,
+    // putSlideValue,
+    // deleteSetupSlide,
     DB,
     FIREBASE_ENVIROMENT
   };

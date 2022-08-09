@@ -17,18 +17,18 @@
       <div class="button-card" @click="page = 'ExpenseExplorer'">
         Explorador de Despesas
       </div>
-      <div class="button-card" @click="page = 'ImportData'">
-        ImportData
-      </div>
-
-    </div>
-    <div class="grid" v-if="androidEnv">
       <div class="button-card" @click="page = 'Investiments'">
         Investimentos
       </div>
       <div class="button-card" @click="page = 'Analytics'">
         Análise de Cotações
       </div>
+      <div class="button-card" @click="page = 'ImportData'">
+        ImportData
+      </div>
+    </div>
+    <div class="grid" v-if="androidEnv">
+      
     </div>
     <!-- <div class="menu">
       <div class="item-menu">></div>

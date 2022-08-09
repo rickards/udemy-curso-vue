@@ -21,7 +21,7 @@
     <br>
 
     <div class="grid-cards">
-      <Line v-for="inv in expensesGroupByAttribute" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="lambdaOrders[order](inv[0])">
+      <Line v-for="inv in expensesGroupByAttribute" :key="inv.id" :value="inv.reduce(lambdaAmount, 0)" :label="inv[0][this.order]">
         <Line v-for="i in inv" :key="i.id" :value="i.value" :label="i.name">
           <Line :label="i.date" @delete="rmExpense(i)"></Line>
         </Line>
@@ -51,8 +51,8 @@ export default {
       month: undefined,
       order: "name",
       lambdaOrders: {
-        "date": (i) => i.date,
-        "name": (i) => i.name
+        "date": (a, b) => b[0].date - a[0].date,
+        "name": (a, b) => b.reduce((sum, i) => i.value + sum, 0) - a.reduce((sum, i) => i.value + sum, 0)
       }
     };
   },
@@ -65,19 +65,19 @@ export default {
   },
   watch: {
     // whenever question changes, this function will run
-    month(month) {
-      this.updatePage(month, this.lambdaOrders[this.order])
+    month() {
+      this.updatePage()
     },
-    order(order){
-      this.updatePage(this.month, this.lambdaOrders[order])
+    order(){
+      this.updatePage()
     }
   },
   methods: {
-    updatePage(month, attribute){
-      database.getExpensesMonth(month).then((result) => {
+    updatePage(){
+      database.getExpensesMonth(this.month).then((result) => {
         const expenses = utils.filter(result, (i) => i.type === "Despesa");
 
-        let expensesGroupByAttribute = utils.groupBy(expenses, attribute);
+        let expensesGroupByAttribute = utils.groupBy(expenses, (i) => i[this.order]);
 
         const keys = [];
         const values = Object.keys(expensesGroupByAttribute).map((name, index) => {
@@ -93,10 +93,7 @@ export default {
           (i) => expensesGroupByAttribute[keys[i]]
         );
 
-        expensesGroupByAttribute.sort(
-          (a, b) =>
-            b.reduce((sum, i) => i[this.order] + sum, 0) - a.reduce((sum, i) => i[this.order] + sum, 0)
-        );
+        expensesGroupByAttribute.sort(this.lambdaOrders[this.order]);
 
         // Modifica um data e aciona o updated apenas 1 vez
         this.expensesGroupByAttribute = expensesGroupByAttribute
