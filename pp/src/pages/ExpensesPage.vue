@@ -51,7 +51,7 @@ export default {
       month: undefined,
       order: "name",
       lambdaOrders: {
-        "date": (a, b) => b[0].date - a[0].date,
+        "date": (a, b) => new Date(b[0].date) - new Date(a[0].date),
         "name": (a, b) => b.reduce((sum, i) => i.value + sum, 0) - a.reduce((sum, i) => i.value + sum, 0)
       }
     };
@@ -94,6 +94,7 @@ export default {
         );
 
         expensesGroupByAttribute.sort(this.lambdaOrders[this.order]);
+        console.log(expensesGroupByAttribute)
 
         // Modifica um data e aciona o updated apenas 1 vez
         this.expensesGroupByAttribute = expensesGroupByAttribute
