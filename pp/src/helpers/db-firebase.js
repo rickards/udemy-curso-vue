@@ -1,4 +1,5 @@
 const FIREBASE_ENVIROMENT = typeof window.firebase !== "undefined" && window.firebase !== null
+const TRUST_ENVIROMENT = localStorage.password == localStorage.database
 
 // DB
 const DB = window.firebase
@@ -10,7 +11,7 @@ const Table = {
 }
 
 const proxy = async (...args) => {
-    if (FIREBASE_ENVIROMENT){
+    if (FIREBASE_ENVIROMENT && TRUST_ENVIROMENT){
         const a = await DB.run(...args)
         console.log("veio do firebase", a)
         return a

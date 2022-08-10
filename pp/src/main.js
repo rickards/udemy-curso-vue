@@ -1,5 +1,6 @@
 import { createApp, h } from 'vue'
 import App from './App.vue'
+import Password from './Password.vue'
 
 //createApp(App).mount('#app')
 
@@ -7,8 +8,9 @@ const NotFoundComponent = { template: '<p>Page not found</p>' }
 const AboutComponent = { template: '<p>About page</p>' }
 
 const routes = {
-  '/': App,
-  '/about': AboutComponent
+  '/': Password,
+  '/about': AboutComponent,
+  '/logado': App
 }
 
 const SimpleRouter = {
