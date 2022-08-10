@@ -42,9 +42,10 @@ export default {
       }else{
         localStorage.database = "x0rj9d8XChh0Hzhe3cXjmBbM7hC2"
       }
+      console.log("foi")
       // this.$root.currentRoute = "/logado"
-      window.location += "logado";
-      // window.location.reload();
+      // window.location += "logado";
+      window.location.reload();
     }
   },
 };

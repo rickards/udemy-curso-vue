@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.static(__dirname + '/dist'));
 
-app.get(/.*/,(req,res)=>res.sendFile(path.resolve(__dirname,'dist/index.html')))
+// app.get(/.*/,(req,res)=>res.sendFile(path.resolve(__dirname,'dist/index.html')))
 
 var server_port = process.env.PORT || 5000;
 var server_host = process.env.PORT ? '0.0.0.0' : undefined;

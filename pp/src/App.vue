@@ -6,7 +6,7 @@
       <component :is="page" />
     </keep-alive>
     <br /><br /><br />
-    <div class="grid">
+    <div class="grid" v-if="page != 'Password'">
       <div class="button-card" @click="page = 'AccountRecord'">
         Registro Contábil
       </div>
@@ -50,6 +50,7 @@ import Investiments from "./pages/Investiments.vue";
 import Analytics from "./pages/QuotesAnalysis.vue";
 import ExpensesPage from "./pages/ExpensesPage.vue";
 import ImportData from "./pages/ImportData.vue";
+import Password from "./pages/Password.vue";
 
 export default {
   name: "App",
@@ -60,14 +61,21 @@ export default {
     Investiments,
     Analytics,
     ExpensesPage,
-    ImportData
+    ImportData,
+    Password
   },
   data() {
     return {
-      page: "ExpensesPage",
+      page: localStorage.database == "" ? "Password" : "ExpensesPage",
       androidEnv: firebase.FIREBASE_ENVIROMENT,
     };
   },
+  created(){
+    localStorage.database = localStorage.database || ""
+  },
+  mounted(){
+    localStorage.database = ""
+  }
 };
 </script>
 
