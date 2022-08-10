@@ -1,5 +1,5 @@
 const FIREBASE_ENVIROMENT = typeof window.firebase !== "undefined" && window.firebase !== null
-const TRUST_ENVIROMENT = localStorage.password == localStorage.database
+const TRUST_ENVIROMENT = localStorage.database == 'pp' 
 
 // DB
 const DB = window.firebase
