@@ -1,5 +1,6 @@
-const FIREBASE_ENVIROMENT = typeof window.firebase !== "undefined" && window.firebase !== null
-const TRUST_ENVIROMENT = localStorage.database == 'pp' 
+const FIREBASE_ENVIROMENT = typeof window.firebase !== "undefined" && 
+                                    window.firebase !== null &&
+                                    localStorage.database == 'pp' 
 
 // DB
 const DB = window.firebase
@@ -11,7 +12,7 @@ const Table = {
 }
 
 const proxy = async (...args) => {
-    if (FIREBASE_ENVIROMENT && TRUST_ENVIROMENT){
+    if (FIREBASE_ENVIROMENT){
         const a = await DB.run(...args)
         console.log("veio do firebase", a)
         return a
@@ -19,6 +20,8 @@ const proxy = async (...args) => {
         return undefined
     }
 }
+
+const getData = () => FIREBASE_ENVIROMENT ? DB.data() : undefined
 
 const addExpense = async (expense) => await proxy('ADD', Table.EXPENSE, JSON.stringify(expense));
 const addExpenseStock = async (el) => await proxy('ADD', Table.EXPENSE_STOCKS, JSON.stringify(el));
@@ -39,5 +42,6 @@ export default {
     // putSlideValue,
     // deleteSetupSlide,
     DB,
-    FIREBASE_ENVIROMENT
+    FIREBASE_ENVIROMENT,
+    getData
   };
