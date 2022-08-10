@@ -38,7 +38,7 @@ export default {
     addPassword(){
       localStorage.password = localStorage.password || this.password
       if (localStorage.password == this.password){
-        localStorage.database = localStorage.password
+        localStorage.database = "pp"
       }else{
         localStorage.database = "x0rj9d8XChh0Hzhe3cXjmBbM7hC2"
       }
