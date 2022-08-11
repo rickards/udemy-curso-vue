@@ -1,6 +1,6 @@
 const FIREBASE_ENVIROMENT = typeof window.firebase !== "undefined" && 
                                     window.firebase !== null &&
-                                    localStorage.database == 'pp' 
+                                    (localStorage.database == 'pp' || !localStorage.database) 
 
 // DB
 const DB = window.firebase
