@@ -2,7 +2,7 @@ import Dexie from "dexie";
 import firebase from "./db-firebase"
 
 
-const db = new Dexie(localStorage.database);
+const db = new Dexie(localStorage.database || 'pp');
 
 db.version(0.1).stores({
   expenses: "++id, date",

@@ -71,7 +71,6 @@ export default {
     };
   },
   created(){
-    localStorage.database = localStorage.database || ""
   },
   mounted(){
     localStorage.database = ""
