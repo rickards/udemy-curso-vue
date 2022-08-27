@@ -77,7 +77,7 @@ export default {
       database.getExpensesMonth(this.month).then((result) => {
         const expenses = utils.filter(result, (i) => i.type === "Despesa");
 
-        let expensesGroupByAttribute = utils.groupBy(expenses, (i) => i[this.order]);
+        let expensesGroupByAttribute = utils.groupBy(expenses, (i) => i[this.order].trim());
 
         const keys = [];
         const values = Object.keys(expensesGroupByAttribute).map((name, index) => {
@@ -107,7 +107,7 @@ export default {
       // a.click()
     },
     rmExpense(expense){
-      database.rmExpenseDtabase(expense).then(()=>this.updatePage(this.month))
+      database.rmExpenseDatabase(expense).then(()=>this.updatePage(this.month))
       
     }
   },

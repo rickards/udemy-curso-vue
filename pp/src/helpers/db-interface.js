@@ -26,7 +26,7 @@ const updateExpenseDatabase = async (expense) => {
   dexie.updateExpenseDatabase(expense)
 }
 
-const rmExpenseDtabase = async (expense) => {
+const rmExpenseDatabase = async (expense) => {
   firebase.rmExpense(expense)
   dexie.rmExpense(expense)
 }
@@ -69,7 +69,7 @@ export default {
   getExpensesMonth,
   addExpenseDatabase,
   updateExpenseDatabase,
-  rmExpenseDtabase,
+  rmExpenseDatabase,
   getExpenseStocksDatabase,
   addExpenseStockDatabase,
   rmExpenseStockDatabase,
