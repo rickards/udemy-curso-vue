@@ -9,7 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "apexcharts": "^3.27.1",
+    "apexcharts": "^3.35.5",
     "axios": "0.21.1",
     "core-js": "^3.6.5",
     "dexie": "^3.0.3",

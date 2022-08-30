@@ -55,7 +55,7 @@ export default {
 .stock-labels {
   text-align: left;
   padding-left: 8%;
-  font-size: 1.3em;
+  font-size: 1em;
 }
 
 .red {
