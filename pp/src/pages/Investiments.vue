@@ -212,7 +212,7 @@ export default {
       }, 0);
     },
     toStringInvestiment(invArray) {
-      return invArray.reduce((sum, inv)=> inv.qtde + sum, 0) + " x " + invArray[0].name;
+      return invArray.reduce((sum, inv)=> parseInt(inv.qtde) + sum, 0) + " x " + invArray[0].name;
     },
   },
 };
