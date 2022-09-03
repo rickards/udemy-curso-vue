@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <keep-alive>
-      <component :is="page" />
+      <component :is="page" @runPage="updatePage" :item="item"/>
     </keep-alive>
     <br /><br /><br />
     <div class="grid" v-if="page != 'Password'">
@@ -68,12 +68,19 @@ export default {
     return {
       page: localStorage.database == "" ? "Password" : "ExpensesPage",
       androidEnv: firebase.FIREBASE_ENVIROMENT,
+      item: "Despesa"
     };
   },
   created(){
   },
   mounted(){
     localStorage.database = ""
+  },
+  methods: {
+    updatePage(arg){
+      this.item = arg
+      this.page = 'ExpensesPage'
+    }
   }
 };
 </script>

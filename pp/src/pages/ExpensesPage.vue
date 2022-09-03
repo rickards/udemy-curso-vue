@@ -44,6 +44,9 @@ export default {
     DonutChart,
     TitleSlideDown
   },
+  props: {
+    item: String
+  },
   data() {
     return {
       expensesGroupByAttribute: [],
@@ -75,7 +78,7 @@ export default {
   methods: {
     updatePage(){
       database.getExpensesMonth(this.month).then((result) => {
-        const expenses = utils.filter(result, (i) => i.type === "Despesa");
+        const expenses = utils.filter(result, (i) => i.type === this.item);
 
         let expensesGroupByAttribute = utils.groupBy(expenses, (i) => i[this.order].trim());
 

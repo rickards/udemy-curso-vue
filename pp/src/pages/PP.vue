@@ -12,13 +12,13 @@
       <div class="grid-column">
         <div class="column">
           <h3>Ativos</h3>
-          <Line label="Caixa" :value="totalCash" />
-          <Line label="Bens" :value="totalPhysicalGoods" />
-          <Line label="Investimentos" :value="totalInvestiments" />
+          <Line label="Caixa" :value="totalCash" @click="$emit('runPage', 'Receita')"/>
+          <Line label="Bens" :value="totalPhysicalGoods" @click="$emit('runPage', 'Bem_gasto')"/>
+          <Line label="Investimentos" :value="totalInvestiments" @click="$emit('runPage', 'Investimentos')"/>
         </div>
         <div class="column">
           <h3>Passivos</h3>
-          <Line label="Despesas" :value="totalExpenses" />
+          <Line label="Despesas" :value="totalExpenses" @click="$emit('runPage', 'Despesa')"/>
           <Line label="Depreciação" :value="0" />
           <Line label="PL" :value="totalPL" />
         </div>
