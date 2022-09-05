@@ -180,7 +180,7 @@ export default {
     getQtdeQuotes(quote, date) {
       const weigth = this.investiments.reduce((qtdeQuotes, inv) => {
         if (new Date(inv.date) <= new Date(date) && inv.name + ".SA" === quote)
-          qtdeQuotes += inv.qtde;
+          qtdeQuotes += parseInt(inv.qtde);
         return qtdeQuotes;
       }, 0);
       return weigth;
