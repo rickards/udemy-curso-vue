@@ -73,6 +73,9 @@ export default {
     },
     order(){
       this.updatePage()
+    },
+    item(){
+      this.updatePage()
     }
   },
   methods: {

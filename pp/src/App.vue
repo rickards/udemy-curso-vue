@@ -95,11 +95,11 @@ body {
   animation: gradient 10s ease alternate infinite;
   background: linear-gradient(-45deg, #202020, #202020, #202020, #202020)
     no-repeat;
-  background-size: 300% 300%;
+  background-size: 500% 500%;
   padding: 1%;
 }
 
-@keyframes gradient {
+/* @keyframes gradient {
   0% {
     background-position: 0 50%;
   }
@@ -107,7 +107,7 @@ body {
   100% {
     background-position: 100% 50%;
   }
-}
+} */
 
 .grid {
   display: grid;

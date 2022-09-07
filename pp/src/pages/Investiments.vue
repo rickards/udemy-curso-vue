@@ -1,23 +1,26 @@
 <template>
   <div>
     <h1>Investimentos</h1>
-    <line-chart :series="getSeries" />
-    <h3>Cotações</h3>
-    <div class="grid-cards">
-      <Line
-        v-for="inv in investimentsGroupByName"
-        :key="inv.id"
-        :value="inv.reduce((sum, i) => i.value + sum, 0)"
-        :label="toStringInvestiment(inv)"
-      >
+    <Loading v-if="!series.variance.length" />
+    <div v-else>
+      <line-chart :series="getSeries" />
+      <h3>Cotações</h3>
+      <div class="grid-cards">
         <Line
-          v-for="i in inv"
-          :key="i.id"
-          :value="i.value"
-          :label="i.qtde + ' x ' + i.name"
+          v-for="inv in investimentsGroupByName"
+          :key="inv.id"
+          :value="inv.reduce((sum, i) => i.value + sum, 0)"
+          :label="toStringInvestiment(inv)"
         >
+          <Line
+            v-for="i in inv"
+            :key="i.id"
+            :value="i.value"
+            :label="i.qtde + ' x ' + i.name"
+          >
+          </Line>
         </Line>
-      </Line>
+      </div>
     </div>
   </div>
 </template>
@@ -28,11 +31,13 @@ import database from "@/helpers/db-interface";
 import LineChart from "../components/LineChart.vue";
 import Line from "../components/Line.vue";
 import utils from "../plugins/utils";
+import Loading from "../components/Loading.vue";
 
 export default {
   components: {
     LineChart,
     Line,
+    Loading
   },
   data() {
     return {
