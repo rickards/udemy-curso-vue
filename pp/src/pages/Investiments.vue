@@ -6,18 +6,9 @@
       <line-chart :series="getSeries" />
       <h3>Cotações</h3>
       <div class="grid-cards">
-        <Line
-          v-for="inv in investimentsGroupByName"
-          :key="inv.id"
-          :value="inv.reduce((sum, i) => i.value + sum, 0)"
-          :label="toStringInvestiment(inv)"
-        >
-          <Line
-            v-for="i in inv"
-            :key="i.id"
-            :value="i.value"
-            :label="i.qtde + ' x ' + i.name"
-          >
+        <Line v-for="inv in investimentsGroupByName" :key="inv.id" :value="inv.reduce((sum, i) => i.value + sum, 0)"
+          :label="toStringInvestiment(inv)">
+          <Line v-for="i in inv" :key="i.id" :value="i.value" :label="i.qtde + ' x ' + i.name">
           </Line>
         </Line>
       </div>
@@ -58,13 +49,13 @@ export default {
         (i) => i.name
       );
       const names = [];
-      const values = Object.keys(investimentsGroupByName).map((name)=>{
+      const values = Object.keys(investimentsGroupByName).map((name) => {
         names.push(name);
         return investimentsGroupByName[name].reduce((sum, inv) => sum + inv.value, 0);
       });
 
       const indexOrder = values.sort().map((i) => values.indexOf(i));
-      this.investimentsGroupByName = indexOrder.map((i)=>investimentsGroupByName[names[i]])
+      this.investimentsGroupByName = indexOrder.map((i) => investimentsGroupByName[names[i]])
       this.createSeries();
     });
   },
@@ -138,9 +129,9 @@ export default {
         dates.forEach((date) => {
           const intraDay = this.getVarianceInDay(date, quotes, historical);
 
-          if (minValue||intraDay >= intraDay) minDate = date;
-          if (maxValue||intraDay <= intraDay) maxDate = date;
-          
+          if (minValue || intraDay >= intraDay) minDate = date;
+          if (maxValue || intraDay <= intraDay) maxDate = date;
+
         })
 
         datesSelected.push(minDate)
@@ -153,7 +144,7 @@ export default {
       })
 
       datesSelected.push(...aportDates)
-      
+
       Array.from(new Set(datesSelected)).sort().forEach((date) => {
         this.series.variance.push([
           new Date(date).getTime(),
@@ -190,11 +181,11 @@ export default {
       }, 0);
       return weigth;
     },
-    getAmountDividendsInDay(date, quotes, dividends){
-      const filtered = this.investiments.filter((inv) => date>=inv.date && quotes.indexOf(inv.name + ".SA")!==-1);
+    getAmountDividendsInDay(date, quotes, dividends) {
+      const filtered = this.investiments.filter((inv) => date >= inv.date && quotes.indexOf(inv.name + ".SA") !== -1);
       return filtered.reduce((sum, inv) => (sum += this.getDividendsFromAport(inv, date, dividends)), 0)
     },
-    getDividendsFromAport({name, date, qtde}, dateConsulted, dividends){
+    getDividendsFromAport({ name, date, qtde }, dateConsulted, dividends) {
       let value = 0;
       const quote = name + ".SA";
       dividends[quote].date.forEach((day) => {
@@ -204,11 +195,11 @@ export default {
       })
       return value
     },
-    getAportsInDay(date, quotes){
-      const filtered = this.investiments.filter((inv) => inv.date<=date && quotes.indexOf(inv.name + ".SA")!==-1)
+    getAportsInDay(date, quotes) {
+      const filtered = this.investiments.filter((inv) => inv.date <= date && quotes.indexOf(inv.name + ".SA") !== -1)
       return filtered.reduce((acc, i) => acc + i.value, 0);
     },
-    getVarianceInDay(date, quotes, response){
+    getVarianceInDay(date, quotes, response) {
       return quotes.reduce((sum, quote) => {
         let index = response.date.indexOf(date);
 
@@ -217,7 +208,7 @@ export default {
       }, 0);
     },
     toStringInvestiment(invArray) {
-      return invArray.reduce((sum, inv)=> parseInt(inv.qtde) + sum, 0) + " x " + invArray[0].name;
+      return invArray.reduce((sum, inv) => parseInt(inv.qtde) + sum, 0) + " x " + invArray[0].name;
     },
   },
 };
