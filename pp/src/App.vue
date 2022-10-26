@@ -2,9 +2,9 @@
   <div>
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <keep-alive>
-      <component :is="page" @runPage="updatePage" :item="item"/>
-    </keep-alive>
+    <!-- <keep-alive> -->
+      <component :is="page" @runPage="updatePage" :item="item" />
+    <!-- </keep-alive> -->
     <br /><br /><br />
     <div class="grid" v-if="page != 'Password'">
       <div class="button-card" @click="page = 'AccountRecord'">

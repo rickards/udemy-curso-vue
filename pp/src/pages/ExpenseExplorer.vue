@@ -49,6 +49,9 @@ export default {
   created() {
     this.updateStocks();
   },
+  activated(){
+    console.log("activated!")
+  },
   computed: {
     serie() {
       const re = new RegExp(`${this.serieRegex}`);
