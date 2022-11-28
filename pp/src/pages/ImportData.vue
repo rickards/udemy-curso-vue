@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="large-12 medium-12 small-12 cell">
-            <h1>Vue JS Axios - Image Upload using PHP API - ItSolutionStuff.com</h1>
+            <h1>Import Export Data</h1>
             <label>File
                 <input type="file" id="file" ref="file" v-on:change="onChangeFileUpload()" />
             </label>
@@ -9,9 +9,16 @@
             <pre :key="text">{{ text }}</pre>
             <button class="acc-record-button" @click="sendRecords">SEND</button>
         </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <button class="acc-record-button" @click="downloadRecords">DOWNLOAD DATA</button>
     </div>
 </template>
 <script>
+
 import database from "@/helpers/db-interface";
 
 export default {
@@ -103,6 +110,16 @@ export default {
                     database.addExpenseStockDatabase(item);
                 }
             })
+        },
+
+        async downloadRecords(){
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(await database.getExpensesDatabase()));
+            var downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href",     dataStr);
+            downloadAnchorNode.setAttribute("download", "data" + ".json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
         }
 
         // sendRecords() {
