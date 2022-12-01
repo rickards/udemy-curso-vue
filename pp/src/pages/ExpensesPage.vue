@@ -113,7 +113,7 @@ export default {
       // a.click()
     },
     rmExpense(expense){
-      database.rmExpenseDatabase(expense).then(()=>this.updatePage(this.month))
+      database.rmExpense(expense).then(()=>this.updatePage(this.month))
       
     }
   },

@@ -99,7 +99,7 @@ export default {
                 if (item.del){
                     console.log(item)
                 }else{
-                    database.addExpenseDatabase(item);
+                    database.addExpense(item);
                 }
             })
             Object.keys(object["expensesStocks"]).forEach((key) => {
@@ -107,13 +107,13 @@ export default {
                 if (item.del){
                     console.log(item)
                 }else{
-                    database.addExpenseStockDatabase(item);
+                    database.addExpenseStock(item);
                 }
             })
         },
 
         async downloadRecords(){
-            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(await database.getExpensesDatabase()));
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(await database.getExpenses()));
             var downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href",     dataStr);
             downloadAnchorNode.setAttribute("download", "data" + ".json");

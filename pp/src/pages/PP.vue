@@ -65,7 +65,7 @@ export default {
     };
   },
   created() {
-    database.getExpensesDatabase().then((listResult) => {
+    database.getExpenses().then((listResult) => {
       this.expenses = this.filter(listResult, (i) => i.type === "Despesa");
       this.physicalGoods = this.filter(
         listResult,

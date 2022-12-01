@@ -41,7 +41,7 @@ export default {
     };
   },
   created() {
-    database.getExpensesDatabase().then((result) => {
+    database.getExpenses().then((result) => {
       this.investiments = utils.filter(result, (i) => i.type === "Investimento");
 
       const investimentsGroupByName = utils.groupBy(

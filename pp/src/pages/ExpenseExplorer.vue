@@ -93,10 +93,10 @@ export default {
     updateStocks() {
       this.assetsBills = [];
       this.invalidInput = undefined;
-      database.getExpensesDatabase().then((resp) => {
+      database.getExpenses().then((resp) => {
         this.expenses = utils.filter(resp, (i) => i.type === "Despesa");
       });
-      database.getExpenseStocksDatabase().then((resp) => {
+      database.getExpensesStocks().then((resp) => {
         this.stocks = resp;
         this.stocks.forEach((element) => {
           this.createAssetBill(element);

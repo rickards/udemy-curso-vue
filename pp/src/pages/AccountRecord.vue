@@ -147,9 +147,9 @@ export default {
         };
         if (this.id) {
           expense.id = this.id;
-          database.updateExpenseDatabase(expense);
+          database.updateExpense(expense);
         } else {
-          database.addExpenseDatabase(expense);
+          database.addExpense(expense);
         }
         this.clearForm();
       } else {

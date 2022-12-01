@@ -1,5 +1,5 @@
 import Dexie from "dexie";
-import firebase from "./db-firebase"
+// import firebase from "./db-firebase"
 
 
 const db = new Dexie(localStorage.database || 'pp');
@@ -14,49 +14,7 @@ db.version(0.2).stores({
 });
 
 db.on("populate", function() {
-  if(firebase.FIREBASE_ENVIROMENT){
-    let stringDatabase = firebase.getData()
-    // stringDatabase = "{expense={-NFZ7y6zi1K9_VG9KMNc={date=2022-10-29, qtde=0, name=Teste2, type=Despesa, value=8990}, -NFZ7jw7c-CKhFFkQhFw={date=2022-10-29, qtde=0, name=Teste, type=Despesa, value=6700}}}"
-
-    let re_expense_table = new RegExp("expense={(.*?)}}");
-    const data_expenses = re_expense_table.exec(stringDatabase)
-    let stringExpenses = data_expenses.length ? data_expenses[1] + "}" : ""
-
-    const array = [...stringExpenses.matchAll(/\S+={.*?}/g)];
-    array.forEach((match)=>{
-      let expense = match[0]
-      //.replaceAll(/(\d{4}-\d{2}-\d{2})/ig, "'$1'")
-  
-      if(!expense.match(/del=1[,}]/i)){
-        db.expenses.add({
-          id: match[1],
-          date: expense.match(/date=(.*?)[,}]/i)[1],
-          type: expense.match(/type=(.*?)[,}]/i)[1],
-          name: expense.match(/name=(.*?)[,}]/i)[1],
-          value: expense.match(/value=(.*?)[,}]/i)[1],
-          qtde: expense.match(/qtde=(.*?)[,}]/i)[1],
-        });
-      }
-    })
-
-    let re_expenseStock_table = new RegExp("expensesStocks={(.*?)}}");
-    const data_expensesStocks = re_expenseStock_table.exec(stringDatabase)
-    let stringExpenseStock = data_expensesStocks ? data_expensesStocks[1] + "}" : ""
-        
-    const arrayExpenseStock = [...stringExpenseStock.matchAll(/\S+={.*?}/g)];
-    arrayExpenseStock.forEach((match)=>{
-      let expenseStock = match[0]
-  
-      if(!expenseStock.match(/del=1[,}]/i)){
-        db.expensesStocks.add({
-          id: match[1],
-          regex: expenseStock.match(/regex=(.*?)[,}]/i)[1]
-        });
-      }
-      
-    })
-
-  }
+  //Execulta apenas quando o banco de dados é criado.
 });
 
 // db.on("populate", function() {
@@ -104,7 +62,7 @@ db.on("populate", function() {
 const getExpenses = () => db.expenses.toArray();
 const getExpensesMonth = (month) => db.expenses.where("date").startsWithAnyOfIgnoreCase(month).toArray();
 const addExpense = (expense) => db.expenses.add(expense);
-const updateExpenseDatabase = (expense) => db.expenses.put(expense)
+const updateExpense = (expense) => db.expenses.put(expense)
 const rmExpense = (expense) => db.expenses.delete(expense.id)
 
 const getExpensesStocks = () => db.expensesStocks.toArray();
@@ -175,7 +133,7 @@ export default {
   getExpensesStocks,
   addExpense,
   addExpenseStock,
-  updateExpenseDatabase,
+  updateExpense,
   rmExpense,
   rmExpenseStock,
   putQuoteAnalysis,
