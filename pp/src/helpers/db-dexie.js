@@ -79,7 +79,7 @@ function putQuoteAnalysis(setup){
   })
 }
 
-const getQuoteAnalysis = () => getSetup(1);
+const getQuoteAnalysis = async () => getSetup(1);
 
 function putSlideValue(setup){
   updateSlideValue(setup).then((updated) => {
@@ -99,10 +99,10 @@ function updateSlideValue(setup){
   })
 }
 
-const getSlideValues = () => getSetup(2);
+const getSlideValues = async () => getSetup(2);
 
-function getSetup(id){
-  const array = db.qaAnalysis.toArray();
+async function getSetup(id){
+  const array = await db.qaAnalysis.toArray();
   for (let index = 0; index < array.length; index++) {
     const element = array[index];
     if (element.id == id){
@@ -113,9 +113,9 @@ function getSetup(id){
   return {}
 }
 
-function deleteSetupSlide() {
-  const categories = Object.keys(getQuoteAnalysis());
-  const sliders = getSlideValues();
+async function deleteSetupSlide() {
+  const categories = Object.keys(await getQuoteAnalysis());
+  const sliders = await getSlideValues();
   for (const groupName of Object.keys(sliders)) {
     if (categories.indexOf(groupName) == -1){
       delete sliders[groupName]
