@@ -15,7 +15,7 @@ const Table = {
 }
 
 var RAM = {};
-Object.keys(Table).map((i) => RAM[i] = [])
+Object.values(Table).map((i) => RAM[i] = [])
 
 if (FIREBASE_ENVIROMENT) {
     // Abastecer a memória com os dados.
