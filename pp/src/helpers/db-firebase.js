@@ -74,7 +74,7 @@ const proxy = async (...args) => {
 const getExpenses = () => RAM[Table.EXPENSE]
 const getExpensesMonth = (month) => {
     const groupByDate = utils.groupBy(
-        this.expenses,
+        RAM[Table.EXPENSE],
         (i) => i.date.slice(0, 7)
     );
     return groupByDate[month]
