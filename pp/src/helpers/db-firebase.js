@@ -77,7 +77,7 @@ const getExpensesMonth = (month) => {
         getExpenses(),
         (i) => i.date.slice(0, 7)
     );
-    return groupByDate[month]
+    return groupByDate[month] || []
 }
 const getExpensesStocks = () => RAM[Table.EXPENSE_STOCKS]
 const addExpense = async (expense) => await proxy('ADD', Table.EXPENSE, JSON.stringify(expense));
