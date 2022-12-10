@@ -151,7 +151,7 @@ export default {
     },
     addExpense(el) {
       if (this.inputRegexValidateData(el)) {
-        database.addExpenseStockDatabase(el).then(() => {
+        database.addExpenseStock(el).then(() => {
           this.updateStocks();
         });
       } else {
@@ -169,7 +169,7 @@ export default {
       }
     },
     rmStockExpense(el) {
-      database.rmExpenseStockDatabase(el).then(() => {
+      database.rmExpenseStock(el).then(() => {
         this.updateStocks();
       });
     },
