@@ -76,7 +76,7 @@ const proxy = async (...args) => {
 const proxyGets = async (ret) => {
     const data = await DB.data()
     if (data == ""){
-        console.log("veio do vazio firebase", String(data))
+        console.log("veio do vazio firebase retornando:", String(RAM[ret]))
         return RAM[ret]
     } else {
         console.log("veio do firebase", data)
@@ -85,22 +85,22 @@ const proxyGets = async (ret) => {
     }
 }
 
-const getExpenses = () => proxyGets(Table.EXPENSE)
-const getExpensesMonth = (month) => {
+const getExpenses = async () => await proxyGets(Table.EXPENSE)
+const getExpensesMonth = async (month) => {
     const groupByDate = utils.groupBy(
-        getExpenses(),
+        await getExpenses(),
         (i) => i.date.slice(0, 7)
     );
     return groupByDate[month] || []
 }
-const getExpensesStocks = () => proxyGets(Table.EXPENSE_STOCKS)
+const getExpensesStocks = async () => await proxyGets(Table.EXPENSE_STOCKS)
 const addExpense = async (expense) => await proxy('ADD', Table.EXPENSE, JSON.stringify(expense));
 const addExpenseStock = async (el) => await proxy('ADD', Table.EXPENSE_STOCKS, JSON.stringify(el));
 const updateExpense = async (expense) => await proxy('PUT', Table.EXPENSE, JSON.stringify(expense));
 const rmExpense = async (expense) => await proxy('DEL', Table.EXPENSE, JSON.stringify(expense));
 const rmExpenseStock = async (el) => await proxy('DEL', Table.EXPENSE_STOCKS, JSON.stringify(el));
 const putQuoteAnalysis = async (el) => await proxy('PUT', Table.QA_ANALYSIS, JSON.stringify(el));
-const getQuoteAnalysis = () => proxyGets(Table.QA_ANALYSIS)
+const getQuoteAnalysis = async () => await proxyGets(Table.QA_ANALYSIS)
 // const putSlideValue = async (el) => await proxy('PUT', Table.QA_ANALYSIS, JSON.stringify({...el, id: 2}));
 // const deleteSetupSlide = async () => await proxy('DEL', Table.QA_ANALYSIS, JSON.stringify({ id: 2 }));
 
