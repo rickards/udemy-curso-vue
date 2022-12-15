@@ -65,9 +65,7 @@ const updateDatabase = async (stringDatabase) => {
 
 const proxy = async (...args) => {
     if (FIREBASE_ENVIROMENT) {
-        const a = await DB.run(...args)
-        console.log("veio do firebase", a)
-        return a
+        return await DB.run(...args)
     } else {
         return undefined
     }
@@ -76,10 +74,8 @@ const proxy = async (...args) => {
 const proxyGets = async (ret) => {
     const data = await DB.data()
     if (data == ""){
-        console.log("veio do vazio firebase retornando:", String(RAM[ret]))
         return RAM[ret]
     } else {
-        console.log("veio do firebase", data)
         await updateDatabase(data)
         return RAM[ret]
     }
@@ -87,6 +83,7 @@ const proxyGets = async (ret) => {
 
 const getExpenses = async () => await proxyGets(Table.EXPENSE)
 const getExpensesMonth = async (month) => {
+    console.log("mês:"+month)
     const groupByDate = utils.groupBy(
         await getExpenses(),
         (i) => i.date.slice(0, 7)
