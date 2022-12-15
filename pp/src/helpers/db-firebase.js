@@ -94,10 +94,10 @@ const getExpensesMonth = async (month) => {
     return groupByDate[month] || []
 }
 const getExpensesStocks = async () => await proxyGets(Table.EXPENSE_STOCKS)
-const addExpense = async (expense) => await proxy('ADD', Table.EXPENSE, JSON.stringify(expense));
+const addExpense = async (el) => await proxy('ADD', Table.EXPENSE, JSON.stringify(el));
 const addExpenseStock = async (el) => await proxy('ADD', Table.EXPENSE_STOCKS, JSON.stringify(el));
-const updateExpense = async (expense) => await proxy('PUT', Table.EXPENSE, JSON.stringify(expense));
-const rmExpense = async (expense) => await proxy('DEL', Table.EXPENSE, JSON.stringify(expense));
+const updateExpense = async (el) => await proxy('PUT', Table.EXPENSE, JSON.stringify(el));
+const rmExpense = async (el) => await proxy('DEL', Table.EXPENSE, JSON.stringify(el));
 const rmExpenseStock = async (el) => await proxy('DEL', Table.EXPENSE_STOCKS, JSON.stringify(el));
 const putQuoteAnalysis = async (el) => await proxy('PUT', Table.QA_ANALYSIS, JSON.stringify(el));
 const getQuoteAnalysis = async () => await proxyGets(Table.QA_ANALYSIS)
