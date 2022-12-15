@@ -16,7 +16,7 @@ const Table = {
 
 var RAM = {};
 
-const updateDatabase = (stringDatabase) => {
+const updateDatabase = async (stringDatabase) => {
     Object.values(Table).map((i) => RAM[i] = [])
 
     if (FIREBASE_ENVIROMENT) {
@@ -73,13 +73,14 @@ const proxy = async (...args) => {
     }
 }
 
-const proxyGets = (ret) => {
-    const data = DB.data()
-    console.log("veio do firebase", data)
+const proxyGets = async (ret) => {
+    const data = await DB.data()
     if (data == ""){
+        console.log("veio do vazio firebase", str(data))
         return ret
     } else {
-        updateDatabase(data)
+        console.log("veio do firebase", data)
+        await updateDatabase(data)
         return ret
     }
 }
