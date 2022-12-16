@@ -83,7 +83,7 @@ const proxyGets = async (ret) => {
 
 const getExpenses = async () => await proxyGets(Table.EXPENSE)
 const getExpensesMonth = async (month) => {
-    console.log("mês:"+month)
+    if (month=="") return await getExpenses()
     const groupByDate = utils.groupBy(
         await getExpenses(),
         (i) => i.date.slice(0, 7)
