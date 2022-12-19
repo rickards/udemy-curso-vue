@@ -18,7 +18,7 @@
         Explorador de Despesas
       </div>
     </div>
-    <div class="grid" v-if="androidEnv">
+    <div class="grid" v-else-if="androidEnv">
       <div class="button-card" @click="page = 'Investiments'">
         Investimentos
       </div>

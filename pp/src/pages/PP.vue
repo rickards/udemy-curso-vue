@@ -258,8 +258,8 @@ export default {
 <style>
 .grid-column {
   display: grid;
-  padding: 2%;
-  width: 98%;
+  /* padding: 2%;
+  width: 98%; */
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
