@@ -19,7 +19,7 @@
         <div class="column">
           <h3>Passivos</h3>
           <Line label="Despesas" :value="totalExpenses" @click="$emit('runPage', 'Despesa')"/>
-          <Line label="Depreciação" :value="0" />
+          <!-- <Line label="Depreciação" :value="0" /> -->
           <Line label="PL" :value="totalPL" />
         </div>
       </div>
