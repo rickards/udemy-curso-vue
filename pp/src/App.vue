@@ -17,6 +17,8 @@
       <div class="button-card" @click="page = 'ExpenseExplorer'">
         Explorador de Despesas
       </div>
+    </div>
+    <div class="grid" v-if="androidEnv">
       <div class="button-card" @click="page = 'Investiments'">
         Investimentos
       </div>
@@ -26,9 +28,6 @@
       <div class="button-card" @click="page = 'ImportData'">
         ImportData
       </div>
-    </div>
-    <div class="grid" v-if="androidEnv">
-      
     </div>
     <!-- <div class="menu">
       <div class="item-menu">></div>
@@ -96,7 +95,7 @@ body {
   background: linear-gradient(-45deg, #202020, #202020, #202020, #202020)
     no-repeat;
   background-size: 500% 500%;
-  padding: 1%;
+  /* padding: 1%; */
 }
 
 /* @keyframes gradient {
