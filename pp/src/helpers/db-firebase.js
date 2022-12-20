@@ -32,7 +32,7 @@ const updateDatabase = async (stringDatabase) => {
             let expense = match[0]
             //.replaceAll(/(\d{4}-\d{2}-\d{2})/ig, "'$1'")
 
-            if (!expense.match(/del=1[,}]/i)) {
+            if (!expense.match(/.*?del=1[,}].*?/i)) {
                 RAM[Table.EXPENSE].push({
                     id: match[1],
                     date: expense.match(/date=(.*?)[,}]/i)[1],
@@ -52,7 +52,7 @@ const updateDatabase = async (stringDatabase) => {
         arrayExpenseStock.forEach((match) => {
             let expenseStock = match[0]
 
-            if (!expenseStock.match(/del=1[,}]/i)) {
+            if (!expenseStock.match(/.*?del=1[,}].*?/i)) {
                 RAM[Table.EXPENSE_STOCKS].push({
                     id: match[1],
                     regex: expenseStock.match(/regex=(.*?)[,}]/i)[1]
