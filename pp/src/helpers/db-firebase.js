@@ -27,14 +27,14 @@ const updateDatabase = async (stringDatabase) => {
         const data_expenses = re_expense_table.exec(stringDatabase)
         let stringExpenses = data_expenses.length ? data_expenses[1] + "}" : ""
 
-        const array = [...stringExpenses.matchAll(/\S+={.*?}/g)];
+        const array = [...stringExpenses.matchAll(/\S{20}={.*?}/g)];
         array.forEach((match) => {
             let expense = match[0]
             //.replaceAll(/(\d{4}-\d{2}-\d{2})/ig, "'$1'")
 
-            if (!expense.match(/.*?del=1[,}].*?/i)) {
+            if (!expense.match(/del=1[,}]/i)) {
                 RAM[Table.EXPENSE].push({
-                    id: match[1],
+                    id: expense.match(/(\S{20})={.*?}/i)[1],
                     date: expense.match(/date=(.*?)[,}]/i)[1],
                     type: expense.match(/type=(.*?)[,}]/i)[1],
                     name: expense.match(/name=(.*?)[,}]/i)[1],
@@ -48,13 +48,13 @@ const updateDatabase = async (stringDatabase) => {
         const data_expensesStocks = re_expenseStock_table.exec(stringDatabase)
         let stringExpenseStock = data_expensesStocks ? data_expensesStocks[1] + "}" : ""
 
-        const arrayExpenseStock = [...stringExpenseStock.matchAll(/\S+={.*?}/g)];
+        const arrayExpenseStock = [...stringExpenseStock.matchAll(/\S{20}={.*?}/g)];
         arrayExpenseStock.forEach((match) => {
             let expenseStock = match[0]
 
-            if (!expenseStock.match(/.*?del=1[,}].*?/i)) {
+            if (!expenseStock.match(/del=1[,}]/i)) {
                 RAM[Table.EXPENSE_STOCKS].push({
-                    id: match[1],
+                    id: expenseStock.match(/(\S{20})={.*?}/i)[1],
                     regex: expenseStock.match(/regex=(.*?)[,}]/i)[1]
                 });
             }
