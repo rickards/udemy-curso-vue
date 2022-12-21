@@ -18,16 +18,16 @@ const getExpensesMonth = async (month) => {
 };
 
 const getExpensesStocks = async () => await database.getExpensesStocks()
-const addExpense = (el) => database.addExpense(el)
-const addExpenseStock = (el) => database.addExpenseStock(el)
-const updateExpense = (el) => database.updateExpense(el)
-const rmExpense = (el) => database.rmExpense(el)
-const rmExpenseStock = (el) => database.rmExpenseStock(el)
-const putQuoteAnalysis = (el) => dexie.putQuoteAnalysis(el)
+const addExpense = async (el) => await database.addExpense(el)
+const addExpenseStock = async (el) => await database.addExpenseStock(el)
+const updateExpense = async (el) => await database.updateExpense(el)
+const rmExpense = async (el) => await database.rmExpense(el)
+const rmExpenseStock = async (el) => await database.rmExpenseStock(el)
+const putQuoteAnalysis = async (el) => await dexie.putQuoteAnalysis(el)
 const getQuoteAnalysis = async () => await dexie.getQuoteAnalysis()
-const putSlideValue = (el) => dexie.putSlideValue(el)
+const putSlideValue = async (el) => await dexie.putSlideValue(el)
 const getSlideValues = async () => await dexie.getSlideValues()
-const deleteSetupSlide = () => dexie.deleteSetupSlide()
+const deleteSetupSlide = async () => await dexie.deleteSetupSlide()
 
 export default {
   getExpenses,
